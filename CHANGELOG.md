@@ -9,6 +9,23 @@ Versions prior to 1.1.0 predate this changelog and are tracked in the git histor
 
 ## [Unreleased]
 
+## [1.1.3] - 2026-08-31
+
+### Maintenance & Stabilization
+
+- **Dependencies** — bumped `go_router` from `17.5.0` to `18.0.0` (compatible,
+  verified by the full required-check matrix) and the GitHub Actions group
+  (4 SHA-pinned actions: `codecov-action`, `upload-pages-artifact`,
+  `configure-pages`, `deploy-pages`).
+- **i18n** — translated the remaining Spanish content (documentation, test
+  descriptions/reasons, and BDD/integration fixtures) to English, normalizing
+  the codebase to a single language.
+- **Dependency policy** — exact-pinned `intl` to `0.20.2` and documented that
+  Dependabot does not honor `ignore` rules inside grouped updates
+  (dependabot-core #10122/#13213); a stored `@dependabot ignore` was applied
+  on PR #113 to stop broken grouped proposals. This is the first release that
+  tags the actual `main` HEAD, correcting the v1.1.2 tag-lineage anomaly.
+
 ## [1.1.2] - 2026-08-19
 
 ### Fixed
@@ -39,6 +56,7 @@ Versions prior to 1.1.0 predate this changelog and are tracked in the git histor
 - README Live Demo section, check-count alignment, repo rename references and
   web demo documentation.
 
+[1.1.3]: https://github.com/Andresit0/flutter-clean-architecture-sdd/compare/v1.1.2...v1.1.3
 [1.1.2]: https://github.com/Andresit0/flutter-clean-architecture-sdd/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/Andresit0/flutter-clean-architecture-sdd/compare/v1.1.0...v1.1.1
 
