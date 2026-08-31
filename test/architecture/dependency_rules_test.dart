@@ -183,8 +183,7 @@ void main() {
               expect(
                 import.contains(pkg),
                 isFalse,
-                reason:
-                    '${file.path} imports $pkg directly. Must use wrapper.',
+                reason: '${file.path} imports $pkg directly. Must use wrapper.',
               );
             }
           }
@@ -512,53 +511,56 @@ void main() {
       }
     });
 
-    test('Rule 19a: every interface in domain/repositories and domain/datasources '
-        'has exactly 1 concrete implementation in infrastructure/ '
-        '(1 contrato = 1 impl)', () {
-      for (final feature in _featureDirs()) {
-        final featureName = feature.path.split('/').last;
-        final infraDir = Directory('${feature.path}/infrastructure');
-        if (!infraDir.existsSync()) continue;
-        final infraFiles = _dartFilesIn(infraDir);
+    test(
+      'Rule 19a: every interface in domain/repositories and domain/datasources '
+      'has exactly 1 concrete implementation in infrastructure/ '
+      '(1 contrato = 1 impl)',
+      () {
+        for (final feature in _featureDirs()) {
+          final featureName = feature.path.split('/').last;
+          final infraDir = Directory('${feature.path}/infrastructure');
+          if (!infraDir.existsSync()) continue;
+          final infraFiles = _dartFilesIn(infraDir);
 
-        for (final contractsDir in ['repositories', 'datasources']) {
-          final contractsPath = '${feature.path}/domain/$contractsDir';
-          final contractsDirObj = Directory(contractsPath);
-          if (!contractsDirObj.existsSync()) continue;
+          for (final contractsDir in ['repositories', 'datasources']) {
+            final contractsPath = '${feature.path}/domain/$contractsDir';
+            final contractsDirObj = Directory(contractsPath);
+            if (!contractsDirObj.existsSync()) continue;
 
-          for (final file in _dartFilesIn(contractsDirObj)) {
-            final interfaceRegex = RegExp(
-              r'(?:abstract\s+)?(?:interface\s+)?class\s+(I\w+)',
-            );
-            for (final match in interfaceRegex.allMatches(
-              file.readAsStringSync(),
-            )) {
-              final iface = match.group(1)!;
-              final implRegex = RegExp(
-                'class\\s+(\\w+)(?:\\s+extends\\s+[A-Za-z0-9_<>, ]+)?'
-                '\\s+implements\\s+[^{]*\\b$iface\\b',
+            for (final file in _dartFilesIn(contractsDirObj)) {
+              final interfaceRegex = RegExp(
+                r'(?:abstract\s+)?(?:interface\s+)?class\s+(I\w+)',
               );
-              final impls = <String>{};
-              for (final infraFile in infraFiles) {
-                for (final implMatch in implRegex.allMatches(
-                  infraFile.readAsStringSync(),
-                )) {
-                  impls.add(implMatch.group(1)!);
+              for (final match in interfaceRegex.allMatches(
+                file.readAsStringSync(),
+              )) {
+                final iface = match.group(1)!;
+                final implRegex = RegExp(
+                  'class\\s+(\\w+)(?:\\s+extends\\s+[A-Za-z0-9_<>, ]+)?'
+                  '\\s+implements\\s+[^{]*\\b$iface\\b',
+                );
+                final impls = <String>{};
+                for (final infraFile in infraFiles) {
+                  for (final implMatch in implRegex.allMatches(
+                    infraFile.readAsStringSync(),
+                  )) {
+                    impls.add(implMatch.group(1)!);
+                  }
                 }
+                expect(
+                  impls.length,
+                  1,
+                  reason:
+                      '$iface ($contractsDir of feature $featureName) must '
+                      'have exactly 1 concrete implementation in '
+                      'infrastructure/ (Rule 19a). Encontradas: $impls',
+                );
               }
-              expect(
-                impls.length,
-                1,
-                reason:
-                    '$iface ($contractsDir of feature $featureName) must '
-                    'have exactly 1 concrete implementation in '
-                    'infrastructure/ (Rule 19a). Encontradas: $impls',
-              );
             }
           }
         }
-      }
-    });
+      },
+    );
 
     test('Rule 19b: no concrete class in infrastructure/ implements >1 '
         'contrato de dominio (1 clase = 1 contrato)', () {
@@ -590,30 +592,33 @@ void main() {
       }
     });
 
-    test('Rule 20: core/database/tables/ separates DI from implementation — only '
-        'the *_providers.dart files declare Riverpod providers', () {
-      final tablesDir = Directory('lib/core/database/tables');
-      if (!tablesDir.existsSync()) return;
-      for (final file in _dartFilesIn(tablesDir)) {
-        if (file.path.endsWith('_providers.dart')) continue;
-        final content = file.readAsStringSync();
-        expect(
-          content.contains('Provider<'),
-          isFalse,
-          reason:
-              '${file.path} declares a provider — providers live in '
-              '*_providers.dart files (DI separate from the '
-              'implementation, Rule 20)',
-        );
-        expect(
-          content.contains('package:flutter_riverpod/'),
-          isFalse,
-          reason:
-              '${file.path} imports riverpod — providers live in '
-              '*_providers.dart files (Rule 20)',
-        );
-      }
-    });
+    test(
+      'Rule 20: core/database/tables/ separates DI from implementation — only '
+      'the *_providers.dart files declare Riverpod providers',
+      () {
+        final tablesDir = Directory('lib/core/database/tables');
+        if (!tablesDir.existsSync()) return;
+        for (final file in _dartFilesIn(tablesDir)) {
+          if (file.path.endsWith('_providers.dart')) continue;
+          final content = file.readAsStringSync();
+          expect(
+            content.contains('Provider<'),
+            isFalse,
+            reason:
+                '${file.path} declares a provider — providers live in '
+                '*_providers.dart files (DI separate from the '
+                'implementation, Rule 20)',
+          );
+          expect(
+            content.contains('package:flutter_riverpod/'),
+            isFalse,
+            reason:
+                '${file.path} imports riverpod — providers live in '
+                '*_providers.dart files (Rule 20)',
+          );
+        }
+      },
+    );
 
     test('Rule 21: go_router is confined to lib/app/ (composition root) — '
         'features use IAppNavigator, never the package', () {
@@ -843,22 +848,25 @@ void main() {
       },
     );
 
-    test('Rule 27: app/ does NOT re-export symbols from features/ (the composition '
-        'root imports features explicitly, without hidden re-exports)', () {
-      for (final file in _dartFilesIn(Directory('lib/app'))) {
-        for (final line in file.readAsStringSync().split('\n')) {
-          final trimmed = line.trimLeft();
-          if (trimmed.startsWith('export') && trimmed.contains('features/')) {
-            fail(
-              '${file.path} re-exports features/ — the composition root '
-              'must import feature symbols explicitly; hidden '
-              're-exports crean dependencias ocultas/transitivas. '
-              'Line: $trimmed',
-            );
+    test(
+      'Rule 27: app/ does NOT re-export symbols from features/ (the composition '
+      'root imports features explicitly, without hidden re-exports)',
+      () {
+        for (final file in _dartFilesIn(Directory('lib/app'))) {
+          for (final line in file.readAsStringSync().split('\n')) {
+            final trimmed = line.trimLeft();
+            if (trimmed.startsWith('export') && trimmed.contains('features/')) {
+              fail(
+                '${file.path} re-exports features/ — the composition root '
+                'must import feature symbols explicitly; hidden '
+                're-exports crean dependencias ocultas/transitivas. '
+                'Line: $trimmed',
+              );
+            }
           }
         }
-      }
-    });
+      },
+    );
 
     test('Rule 28: constructor-injected dependencies (I*, VoidCallback, '
         'Function()) must be private fields (_field)', () {
