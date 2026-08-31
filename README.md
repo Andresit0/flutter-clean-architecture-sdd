@@ -84,7 +84,7 @@ Dependency rules (enforced by `test/architecture/dependency_rules_test.dart`):
 - `core/` is pure infrastructure; domain never depends on it.
 - Features never import external packages directly — only wrappers from `core/services/`.
 - No orphaned generated files — every `*.freezed.dart`/`*.g.dart` must have its sibling source (Rule 29).
-- **Dependency policy** — the Flutter SDK (3.44.0) pins `intl` (0.20.2), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to exact versions; never force-bump them (breaks `flutter pub get`). Dependabot ignores `intl`/`test`/`freezed-major` (see `.github/dependabot.yml`). Never adopt prerelease-major codegen in production (freezed 4.0.0-dev.x is deferred until stable — issue #62). See `MD/APP_COMMANDS.md` and `.github/REQUIRED_CHECKS.md`.
+- **Dependency policy** — the Flutter SDK (3.44.0) pins `intl` (**0.20.2, exact-pinned in `pubspec.yaml`**), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to exact versions; never force-bump them (breaks `flutter pub get`). Dependabot ignores `intl`/`test`/`freezed-major` (see `.github/dependabot.yml`). Never adopt prerelease-major codegen in production (freezed 4.0.0-dev.x is deferred until stable — issue #62). See `MD/APP_COMMANDS.md` and `.github/REQUIRED_CHECKS.md`.
 
 Full details: [MD/APP_ARCHITECTURE.md](MD/APP_ARCHITECTURE.md)
 
