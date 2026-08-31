@@ -31,7 +31,7 @@ Dependencies always point inward:
 shared/  ←  core/  ←  features/*/infrastructure/  ←  features/*/di/  ←  features/*/presentation/  ←  app/ (composition root)
 (most inner)                                                               (most outer)
 ```
-`features/*/domain/` importa solo `shared/` + `freezed_annotation` (Rule 1) — no depende de `core/`. Las features importan providers de `core/` desde su `di/`.
+`features/*/domain/` imports only `shared/` + `freezed_annotation` (Rule 1) — it does NOT depend on `core/`. Features import providers from `core/` via their `di/`.
 
 ### What is a Composition Root?
 
@@ -45,7 +45,7 @@ Clean Architecture says: **the direction of the dependencies** must go from the 
 
 ```
 Inner layer (domain/)  →  does NOT mention outer layers  ✅
-Outer layer (app/)  →  DOES mention inner layers  ✅ (core/ NO importa features/app — Rule 14)
+Outer layer (app/)  →  DOES mention inner layers  ✅ (core/ NEVER imports features/app — Rule 14)
 ```
 
 `app/` is the **most outer layer** — it may mention anything because there is nothing further out that could depend on it incorrectly. `core/` is **shared infrastructure**: it imports only `shared/` and must NEVER import `features/` or `app/` (Rule 14).
@@ -128,7 +128,7 @@ Each feature is an **autonomous module** with its own sub-layers:
 // core/database/tables/*_providers.dart                  → clinicalHistoryStoreProvider, patientInfoStoreProvider
 // core/services/logging/logging_providers.dart           → loggerProvider
 // core/services/device/                                  → pathProviderProvider, flutterJailbreakDetectionProvider
-// (goRouterProvider vive en app/ — las features nunca lo importan; usan el seam IAppNavigator)
+// (goRouterProvider lives in app/ — features never import it; they use the IAppNavigator seam)
 ```
 
 | Provider | Type | Provider location |
@@ -301,7 +301,7 @@ lib/features/auth/
 │   └── auth_provider.dart
 │         │
 │         ├──▶ core/ source files            (global providers: authDioProvider,
-│         │                                      appUriesProvider, tokenStoreProvider, ...)
+│         │                                      tokenStoreProvider, credentialStoreProvider, ...)
 │         ├──▶ ../domain/datasources/i_auth_remote_datasource.dart
 │         ├──▶ ../domain/datasources/i_local_auth_datasource.dart
 │         ├──▶ ../domain/repositories/i_auth_repository.dart
@@ -315,7 +315,7 @@ lib/features/auth/
     └── notifiers/
         └── auth_notifier.dart
               │
-              └──▶ imports ../../di/auth_provider.dart   ← ÚNICA flecha hacia di/
+              └──▶ imports ../../di/auth_provider.dart   ← ONLY arrow toward di/
 ```
 
 `auth_provider.dart` in `di/` imports from `core/` source files (global providers), `../domain/` and `../infrastructure/`, but **never** from `../presentation/`. In contrast, `auth_notifier.dart` in `presentation/` imports from `../../di/auth_provider.dart` — the direction is `presentation → di`, not the other way around.
@@ -360,7 +360,7 @@ lib/
 │   │   │   ├── auth_interceptor_impl.dart
 │   │   │   └── dio_overrides.dart           ← binds authInterceptorProvider seam (merged in main.dart)
 │   │   └── router/
-│   │       ├── go_router_navigator.dart ← GoRouterNavigator (única impl de IAppNavigator)
+│   │       ├── go_router_navigator.dart ← GoRouterNavigator (only impl of IAppNavigator)
 │   │       ├── router_overrides.dart    ← routerOverrides(): binds appNavigatorProvider seam
 │   │       └── router_provider.dart     ← goRouterProvider
 │   └── router/
@@ -678,7 +678,7 @@ final authRepositoryProvider = Provider<IAuthRepository>((ref) =>
 ```
 app/ (composition root) ◄── imports anything
    ├──▶ features/*  core/  shared/  l10n/  design_system/
-   └──▶ go_router confinado aquí (Rule 21); seams: dioOverrides() + routerOverrides()
+   └──▶ go_router confined here (Rule 21); seams: dioOverrides() + routerOverrides()
 
 features/<f>/
    di/            ▶ core/ + shared/ + (own domain/ + infrastructure/)   [NO app/ — R11]
@@ -688,31 +688,31 @@ features/<f>/
 core/            ▶ shared/                                               [NO features/app — R14]
 design_system/   ▶ flutter + intl
 l10n/            ▶ flutter
-shared/          ▶ — (pure Dart; NO flutter/l10n — R10; barriles R22/23/26)
+shared/          ▶ — (pure Dart; NO flutter/l10n — R10; barrels R22/23/26)
 ```
 
 #### Per-layer rules (who can import / who must NOT)
 
-| Layer | Puede importar | Prohibido |
+| Layer | Allowed | Forbidden |
 |---|---|---|
-| `shared/` | solo `dart:` de la SDK | flutter, l10n, core, app, features (R10) |
+| `shared/` | only `dart:` SDK | flutter, l10n, core, app, features (R10) |
 | `core/` | `shared/` | features/, app/ (R14) |
 | `features/*/domain/` | `shared/` | core, flutter, app (R1) |
-| `features/*/infrastructure/` | domain/, `shared/`, `core/` | app/, otras features (R5) |
+| `features/*/infrastructure/` | domain/, `shared/`, `core/` | app/, other features (R5) |
 | `features/*/presentation/` | di/, domain/, `shared/`, `design_system/`, `l10n/` | infrastructure/, core/, app/ (R15) |
-| `features/*/di/` | `core/` (providers), `shared/`, internos del feature | app/ (R11), otras features (R5) |
-| `app/` | todo | — |
+| `features/*/di/` | `core/` (providers), `shared/`, internal to feature | app/ (R11), other features (R5) |
+| `app/` | everything | — |
 | `design_system/` | flutter, intl | — |
 | `l10n/` | flutter | — |
-| paquetes externos | solo vía wrappers en `core/` (R6) | directo desde features |
+| external packages | only via wrappers in `core/` (R6) | directly from features |
 
 #### The seams that break the dependency cycles
 
-- **`core/` ↔ `features/auth` (ciclo del interceptor):** `core/network/dio/dio_providers.dart` define `authInterceptorProvider` (seam `IAuthInterceptorProvider`, fail-fast) y `httpServiceProvider` lo aplica (`setupAuthInterceptor`). El binding real vive en la composition root: `app/di/network/dio_overrides.dart` → `dioOverrides()` ata el seam a `AuthInterceptorImpl` (que consume `handle401UseCaseProvider`, `authProvider`, `tokenStoreProvider`). Así `core/` nunca importa features (R14).
+- **`core/` ↔ `features/auth` (interceptor cycle):** `core/network/dio/dio_providers.dart` defines `authInterceptorProvider` (seam `IAuthInterceptorProvider`, fail-fast) and `httpServiceProvider` applies it (`setupAuthInterceptor`). The actual binding lives in the composition root: `app/di/network/dio_overrides.dart` → `dioOverrides()` binds the seam to `AuthInterceptorImpl` (which consumes `handle401UseCaseProvider`, `authProvider`, `tokenStoreProvider`). This way `core/` never imports features (R14).
 
-- **features → navegación (Rules 11/21):** las features nunca importan `go_router` ni `app/`. `IAppNavigator` (shared/interfaces) + `appNavigatorProvider` (core/router, fail-fast) son el seam; `app/di/router/router_overrides.dart` → `routerOverrides()` lo ata a `GoRouterNavigator` (única impl de go_router). Una feature que navega imperativamente re-exporta `appNavigatorProvider` desde su `di/` y usa `ref.read(appNavigatorProvider).go/push(AppRoute.x)`.
+- **features → navigation (Rules 11/21):** features never import `go_router` nor `app/`. `IAppNavigator` (shared/interfaces) + `appNavigatorProvider` (core/router, fail-fast) are the seam; `app/di/router/router_overrides.dart` → `routerOverrides()` binds it to `GoRouterNavigator` (only impl of go_router). A feature that navigates imperatively re-exports `appNavigatorProvider` from its `di/` and uses `ref.read(appNavigatorProvider).go/push(AppRoute.x)`.
 
-- **Boot validation:** ambos seams (`authInterceptorProvider`, `appNavigatorProvider`) se verifican en el boot de `main.dart` (`_assertDiSeamsBound`) — un binding faltante aborta el arranque (fail-fast).
+- **Boot validation:** both seams (`authInterceptorProvider`, `appNavigatorProvider`) are verified at boot in `main.dart` (`_assertDiSeamsBound`) — a missing binding aborts startup (fail-fast).
 
 #### What must NEVER happen
 
@@ -730,7 +730,7 @@ shared/          ▶ — (pure Dart; NO flutter/l10n — R10; barriles R22/23/26
 #### 1. Synchronous Simple (Result\<T\>) — ✅ The main pattern
 
 ```bash
-Presentation            Domain                Infrastructure          Externo
+Presentation            Domain                Infrastructure          External
 ────────────            ──────                ──────────────          ───────
                   UseCase → IRepository → DatasourceImpl → HTTP/DB
                       ↕                         ↕
@@ -1608,7 +1608,7 @@ Model classes in Dart require: `==` operator, `hashCode`, `copyWith`, `toString`
 | :--- | :--- | :--- |
 | **DTO (Data Transfer Object)** | `features/*/infrastructure/dtos/` | API JSON contract — `@freezed` with `fromJson`/`toJson` (`json_serializable`). |
 | **Domain Entity** | `features/*/domain/entities/` + `shared/models/` | Pure business object — `@freezed` ONLY, NO `fromJson`/`toJson`. |
-| **Value Object** | `features/*/domain/value_objects/` | Validated value objects (`Email`, `Password`, `PasswordHash`) — `@freezed`; también enums de dominio puros con función derivada co-locada (`Period` + `filterByPeriod`, patrón `deriveLabResultStatus`). |
+| **Value Object** | `features/*/domain/value_objects/` | Validated value objects (`Email`, `Password`, `PasswordHash`) — `@freezed`; also pure domain enums with co-located derived functions (`Period` + `filterByPeriod`, pattern `deriveLabResultStatus`). |
 | **State Classes** | `features/*/presentation/notifiers/*_state.dart` | UI state as `@freezed sealed class`. |
 | **Mapper** | `features/*/infrastructure/mappers/` | Converts DTO → Entity via constructors. |
 
@@ -2268,7 +2268,7 @@ Both are built by the same internal factory in `lib/core/network/dio/dio_provide
 The `AuthInterceptor` is added once to `httpServiceProvider` and from then on intercepts all authenticated HTTP requests from any feature.
 
 ```dart
-// lib/core/network/dio/dio_providers.dart — el seam (core no conoce el feature auth)
+// lib/core/network/dio/dio_providers.dart — the seam (core does not know the auth feature)
 final authInterceptorProvider = Provider<IAuthInterceptorProvider>(
   (ref) => throw UnimplementedError(
     'authInterceptorProvider must be overridden in the composition root '
@@ -2283,7 +2283,7 @@ final httpServiceProvider = Provider<IDioWrapper>((ref) {
 });
 ```
 ```
-// lib/app/di/network/dio_overrides.dart — el binding concreto (composition root)
+// lib/app/di/network/dio_overrides.dart — the concrete binding (composition root)
 List<Override> dioOverrides() => [
       authInterceptorProvider.overrideWith(
         (ref) => AuthInterceptorImpl(
@@ -2664,7 +2664,7 @@ final tokenStoreProvider = Provider<ITokenStore>(
 
 The solution was to create a separate `authDioProvider` (Dio without an auth interceptor) for the auth datasource, breaking the cycle. Now `Handle401UseCase` composes the `IUseCase` seams (`RefreshTokenUseCase` + `CredentialLoginUseCase`, Rule 18) and reaches the repository only transitively, following the standard `UseCase → Repository → guard() → Datasource` flow.
 
-This eliminated the intermediate services and the inline creation in `AuthInterceptorImpl`. `AuthInterceptorImpl` now receives its dependencies by constructor (3 parameters instead of 6: `handle401UseCase`, `onForceLogout` y `getToken`).
+This eliminated the intermediate services and the inline creation in `AuthInterceptorImpl`. `AuthInterceptorImpl` now receives its dependencies by constructor (3 parameters instead of 6: `handle401UseCase`, `onForceLogout`, and `getToken`).
 
 #### Unified with `Result<T>` — `Handle401UseCase` returns `Result<RetryResult>`
 

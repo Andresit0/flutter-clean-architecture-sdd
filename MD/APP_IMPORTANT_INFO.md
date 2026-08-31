@@ -45,7 +45,7 @@ Every file that contains a `@riverpod` annotation also declares `part '<filename
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-Todo `*.freezed.dart` / `*.g.dart` debe tener su fuente `*.dart` hermana en el mismo directorio que lo declare como `part`. Un archivo generado huérfano (sin fuente) hace fallar el CI (architecture Rule 29) — al mover un DTO/entidad entre carpetas, borra los generados de la carpeta de origen.
+Every `*.freezed.dart` / `*.g.dart` must have its sibling `*.dart` source in the same directory that declares it as `part`. An orphaned generated file (without source) causes CI to fail (architecture Rule 29) — when moving a DTO/entity between folders, delete the generated files from the source folder.
 
 ### Localization files
 
@@ -95,7 +95,7 @@ flutter gen-l10n
 6. **`.g.dart` and `.freezed.dart` files are never edited manually.** Always regenerate with `dart run build_runner build --delete-conflicting-outputs`.
 7. **`GoRouter` is accessed via `goRouterProvider` from `app/di/router/router_provider.dart`.** In `main.dart`, use `ref.watch(goRouterProvider)` to get the instance. In features, navigate via the `IAppNavigator` seam — `ref.read(appNavigatorProvider).go/push(AppRoute.x)` — never `go_router` nor `app/` (Rules 6/11).
 8. **New routes** are added in `app_router.dart` (`appRoutes()`) with the route name added to `AppRoute` enum in `shared/router/app_route.dart`.
-9. **Use `@freezed` for all entities and states.** Do not create mutable data classes in the domain. **All DTOs are also `@freezed`** (wire transport + list envelopes, incluidos los 4 de `lab_results`): `@JsonKey(name: ...)` mapea el nombre de cable exacto (p. ej. `test_code`, `reference_range`, `lab_results`) y `value` se declara `dynamic` para soportar `num | String`.
+9. **Use `@freezed` for all entities and states.** Do not create mutable data classes in the domain. **All DTOs are also `@freezed`** (wire transport + list envelopes, including the 4 from `lab_results`): `@JsonKey(name: ...)` maps the exact wire name (e.g. `test_code`, `reference_range`, `lab_results`) and `value` is declared `dynamic` to support `num | String`.
 10. **Apply the `class_to_solid`** skill (in features) or **`class_to_solid_min`** (in `core/services/`) when creating any new class. The skills document the mandatory correct pattern.
 
 ### 2.2 Configuration and environment rules
@@ -117,7 +117,7 @@ flutter gen-l10n
 ### 2.4 Git rules
 
 18. **Before any git command**, write the exact command and ask for confirmation from user/tech lead. (See `AGENTS.md`.)
-19. **Do not commit `.g.dart` files if they don't match source code.** Always regenerate before commit with `build_runner`. Todo `.freezed.dart`/`.g.dart` debe tener su fuente hermana en el mismo directorio que lo declare como `part` (architecture Rule 29); un generado huérfano hace fallar el CI.
+19. **Do not commit `.g.dart` files if they don't match source code.** Always regenerate before commit with `build_runner`. Every `.freezed.dart`/`.g.dart` must have its sibling source in the same directory that declares it as `part` (architecture Rule 29); an orphaned generated file causes CI to fail.
 20. **`.env` or configuration files with secrets never go to the repository.** Use `.gitignore` and CI/CD server variables.
 21. **PR titles and commits follow Conventional Commits (`type(scope): subject`) in English, imperative mood.** The repo squash-merges with `squash_merge_commit_title: PR_TITLE`, so **the PR title becomes the commit on `develop`/`main`** — never use a `PR {N}:` prefix or stack numbering (see `super-pull-request.md`, Step 3.6.5).
 22. **Branches are type-prefixed (git-flow compatible), without stack numbers:** `feature/*`, `fix/*`, `chore/*`, `docs/*`, `ci/*`, `test/*`, `build/*`, `refactor/*` toward `develop`; `release/*` and `hotfix/*` merge only to `main` (enforced by the CI `branch-source-gate`). Stacked PRs are linked via a tracked branch list, not by numbered branch names.

@@ -259,7 +259,7 @@ final _tSedimento = LabResultEntity(
   values: [
     LabResultValueEntity(
       date: DateTime(2026, 8, 10),
-      textValue: 'No se observan cristales',
+      textValue: 'No crystals observed',
     ),
     LabResultValueEntity(
       date: DateTime(2026, 6, 14),
@@ -389,7 +389,7 @@ Future<void> main() async {
       await tester.pump();
       expect(find.byType(LabResultsNonNumericList), findsOneWidget);
       expect(find.text('A Positivo (A+)'), findsOneWidget);
-      expect(find.text('No se observan cristales'), findsOneWidget);
+      expect(find.text('No crystals observed'), findsOneWidget);
     },
 
     'the data is written through to the local cache'
@@ -459,7 +459,7 @@ Future<void> main() async {
       await tester.pump();
       expect(find.byType(LabResultsNonNumericList), findsOneWidget);
       expect(find.text('A Positivo (A+)'), findsOneWidget);
-      expect(find.text('No se observan cristales'), findsOneWidget);
+      expect(find.text('No crystals observed'), findsOneWidget);
     },
 
     'the server responds with an empty lab results list'

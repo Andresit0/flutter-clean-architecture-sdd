@@ -9,7 +9,7 @@ import 'package:clean_architecture_sdd_harness/features/auth/infrastructure/mapp
 void main() {
   group('AuthMapper', () {
     group('loginResponseFromDto', () {
-      test('mapea todos los campos', () {
+      test('maps all fields', () {
         final dto = LoginResponseDto(
           patient: PatientDto(id: '1', name: 'John'),
           token: TokenDto(key: 'token'),
@@ -24,7 +24,7 @@ void main() {
     });
 
     group('tokenFromDto', () {
-      test('mapea correctamente', () {
+      test('maps correctly', () {
         final dto = TokenDto(key: 'jwt');
         final entity = AuthMapper.tokenFromDto(dto);
         expect(entity.key, 'jwt');
@@ -32,7 +32,7 @@ void main() {
     });
 
     group('patientFromDto', () {
-      test('mapea correctamente', () {
+      test('maps correctly', () {
         final dto = PatientDto(id: 'p1', name: 'John Doe');
         final entity = AuthMapper.patientFromDto(dto);
         expect(entity.id, 'p1');
@@ -41,7 +41,7 @@ void main() {
     });
 
     group('VGV compliance', () {
-      test('NO usa Entity.fromJson en ninguna parte', () {
+      test('does NOT use Entity.fromJson anywhere', () {
         final sourceFile = File(
           'lib/features/auth/infrastructure/mappers/auth_mapper.dart',
         );
@@ -49,7 +49,7 @@ void main() {
         expect(
           source.contains('.fromJson'),
           isFalse,
-          reason: 'El mapper no debe contener ninguna llamada a .fromJson',
+          reason: 'The mapper must not contain any .fromJson call',
         );
       });
     });

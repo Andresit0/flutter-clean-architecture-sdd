@@ -2,9 +2,9 @@
 ├── app
 │   ├── app_initializer.dart
 │   ├── widgets
-│   │   ├── app_error_screen.dart ← 404 / navigation error (GoRouter.errorBuilder, error detail en debug, "go home" vía appNavigatorProvider)
-│   │   ├── connectivity_banner.dart ← offline banner (Sin conexión), watches internetStatusProvider
-│   │   └── device_security_blocked_screen.dart ← hard-stop en startup (jailbreak/root), sin navegación
+│   │   ├── app_error_screen.dart ← 404 / navigation error (GoRouter.errorBuilder, error detail in debug, "go home" via appNavigatorProvider)
+│   │   ├── connectivity_banner.dart ← offline banner (No connection), watches internetStatusProvider
+│   │   └── device_security_blocked_screen.dart ← hard-stop on startup (jailbreak/root), no navigation
 │   ├── di
 │   │   ├── auth
 │   │   │   └── auth_observer_provider.dart ← authenticationObserverProvider (app-level)
@@ -12,35 +12,35 @@
 │   │   │   ├── auth_interceptor_impl.dart ← IAuthInterceptorProvider bridge → Handle401UseCase + onForceLogout + getToken
 │   │   │   └── dio_overrides.dart ← dioOverrides(): binds authInterceptorProvider seam (merged in main.dart)
 │   │   └── router
-│   │       ├── go_router_navigator.dart ← GoRouterNavigator (única impl de IAppNavigator)
+│   │       ├── go_router_navigator.dart ← GoRouterNavigator (only impl of IAppNavigator)
 │   │       ├── router_overrides.dart ← routerOverrides(): binds appNavigatorProvider seam (merged in main.dart)
 │   │       └── router_provider.dart ← goRouterProvider
 │   └── router
 │       ├── app_router.dart         ← appRoutes(): login, clinical-history (+ child lab-results GoRoute)
 │       └── guards
-│           └── auth_guard.dart ← redirect con deep-link restore (?from=)
+│           └── auth_guard.dart ← redirect with deep-link restore (?from=)
 ├── core
 │   ├── config
-│   │   ├── app_environment.dart        ← AppEnvironment sealed + selectEnvironment() (sin current estático — Rule 16)
+│   │   ├── app_environment.dart        ← AppEnvironment sealed + selectEnvironment() (no static current — Rule 16)
 │   │   └── environment_provider.dart
 │   ├── database
 │   │   ├── app_database.dart
 │   │   ├── app_database_provider.dart
 │   │   ├── database_encrypt.dart   ← pure AES-256-CBC codec (no sembast types)
-│   │   ├── i_app_database.dart     ← IAppDatabase + IDatabaseHandle (facade sembast-free: findAll/replaceAll/deleteAll — sin ISembastDb)
+│   │   ├── i_app_database.dart     ← IAppDatabase + IDatabaseHandle (facade sembast-free: findAll/replaceAll/deleteAll — no ISembastDb)
 │   │   ├── sembast_codec.dart      ← SembastCodec wrapper (public sembast API)
 │   │   ├── secure_storage_key_service.dart
-│   │   ├── sembast_db_wrapper.dart ← SembastDbWrapper implements IDatabaseHandle (la única implementación del facade)
+│   │   ├── sembast_db_wrapper.dart ← SembastDbWrapper implements IDatabaseHandle (the only implementation of the facade)
 │   │   ├── serializers
 │   │   │   ├── clinical_history_serializer.dart
-│   │   │   ├── lab_results_serializer.dart ← LabResultsSerializer (Entity ↔ Map, discriminador LabResultKind)
+│   │   │   ├── lab_results_serializer.dart ← LabResultsSerializer (Entity ↔ Map, LabResultKind discriminator)
 │   │   │   └── patient_serializer.dart
 │   │   └── tables
 │   │       ├── clinical_history.dart        ← ClinicalHistory impl (IDatabaseHandle, store 'clinical_histories', no providers — Rule 20)
 │   │       ├── clinical_history_providers.dart ← clinicalHistoryStoreProvider
 │   │       ├── lab_results.dart             ← LabResults impl (IDatabaseHandle, store 'lab_results', no providers — Rule 20)
 │   │       ├── lab_results_providers.dart   ← labResultsStoreProvider
-│   │       ├── patient_info.dart            ← PatientInfo impl (IDatabaseHandle, store 'patient_info' con clave fija 'patient', no providers — Rule 20)
+│   │       ├── patient_info.dart            ← PatientInfo impl (IDatabaseHandle, store 'patient_info' with fixed key 'patient', no providers — Rule 20)
 │   │       └── patient_info_providers.dart  ← patientInfoStoreProvider
 │   ├── network
 │   │   ├── _network.lib.dart
@@ -61,12 +61,12 @@
 │   │   │   ├── dio_multipart_builder.dart
 │   │   │   ├── dio_providers.dart    ← authDioProvider, httpServiceProvider, authInterceptorProvider (seam)
 │   │   │   ├── dio_response_parser.dart
-│   │   │   ├── dio_wrapper.dart      ← IDioWrapper + DioWrapper (orquesta; ctor posicional + 7 opcionales intacto)
-│   │   │   ├── error_mapper.dart     ← IErrorMapper + ErrorMapper (mapea DioException → AppError; isBrowserNetworkFailure)
+│   │   │   ├── dio_wrapper.dart      ← IDioWrapper + DioWrapper (orchestrator; positional ctor + 7 optionals intact)
+│   │   │   ├── error_mapper.dart     ← IErrorMapper + ErrorMapper (maps DioException → AppError; isBrowserNetworkFailure)
 │   │   │   ├── http_response.dart
 │   │   │   ├── i_multipart_file.dart
-│   │   │   ├── request_executor.dart ← IRequestExecutor + RequestExecutor (HttpMethod, llamada dio + parse + error mapping + retry timeout)
-│   │   │   └── retry_executor.dart   ← IRetryExecutor + RetryExecutor (política retryOnTimeout/maxRetries/baseDelay → AppTimeoutException)
+│   │   │   ├── request_executor.dart ← IRequestExecutor + RequestExecutor (HttpMethod, dio call + parse + error mapping + retry timeout)
+│   │   │   └── retry_executor.dart   ← IRetryExecutor + RetryExecutor (policy retryOnTimeout/maxRetries/baseDelay → AppTimeoutException)
 │   │   ├── interceptors
 │   │   │   ├── _interceptors.dart
 │   │   │   ├── _interceptors.lib.dart
@@ -84,7 +84,7 @@
 │   │   └── utils
 │   │       └── uri_utils.dart
 │   ├── repositories
-│   │   └── online_first_repository.dart ← OnlineFirstRepository<T> (template-method: load/refresh con hooks remoteLoader/localLoader/cacheWriter; online-first policy centralizada — Rule 25)
+│   │   └── online_first_repository.dart ← OnlineFirstRepository<T> (template-method: load/refresh with hooks remoteLoader/localLoader/cacheWriter; centralized online-first policy — Rule 25)
 │   ├── router
 │   │   └── app_navigator_provider.dart ← appNavigatorProvider (seam IAppNavigator, fail-fast; bind en routerOverrides)
 │   └── services
@@ -150,12 +150,12 @@
 │   │   │   │   ├── credential_login_usecase.dart ← stored-credentials re-login (shared by Handle401 + Restore)
 │   │   │   │   ├── handle_401_usecase.dart
 │   │   │   │   ├── login_input.dart
-│   │   │   │   ├── login_usecase.dart          ← orquesta: valida + hashea + login + delega persistencia a SaveSessionUseCase (Rule 18 DIP)
+│   │   │   │   ├── login_usecase.dart          ← orchestrates: validates + hashes + login + delegates persistence to SaveSessionUseCase (Rule 18 DIP)
 │   │   │   │   ├── refresh_token_input.dart
 │   │   │   │   ├── refresh_token_usecase.dart
 │   │   │   │   ├── restore_session_usecase.dart
-│   │   │   │   ├── save_session_input.dart     ← (data, email, passwordHash, rememberMe) — VOs ya validados
-│   │   │   │   └── save_session_usecase.dart   ← persiste sesión (rememberMe → saveSession) o token (tokenStore.save)
+│   │   │   │   ├── save_session_input.dart     ← (data, email, passwordHash, rememberMe) — VOs already validated
+│   │   │   │   └── save_session_usecase.dart   ← persists session (rememberMe → saveSession) or token (tokenStore.save)
 │   │   │   └── value_objects
 │   │   │       ├── email.dart (+ .freezed)
 │   │   │       ├── password.dart (+ .freezed)
@@ -213,8 +213,8 @@
 │       │   ├── screens
 │       │   │   └── clinical_history_screen.dart
 │       │   └── widgets                     ← standalone files, explicit imports (no barrel)
-│       │       ├── clinical_history_card.dart             ← header + fecha + expand (estado _expanded)
-│       │       ├── clinical_history_details_section.dart  ← columna de detalles (Divider + 6 secciones condicionales)
+│       │       ├── clinical_history_card.dart             ← header + date + expand (state _expanded)
+│       │       ├── clinical_history_details_section.dart  ← details column (Divider + 6 conditional sections)
 │       │       ├── clinical_history_section_header.dart   ← ClinicalHistorySectionHeader (reusable)
 │       │       ├── clinical_history_diagnosis_section.dart
 │       │       ├── clinical_history_observations_section.dart
@@ -248,15 +248,15 @@
 │       │   │   ├── lab_result_value_dto.dart (+ .freezed/.g) ← value dynamic (num | String)
 │       │   │   └── lab_results_list_response_dto.dart (+ .freezed/.g) ← @JsonKey 'lab_results'
 │       │   ├── mappers
-│       │   │   └── lab_results_mapper.dart   ← wire DTO ↔ Entity (adaptador de frontera, no unificar con serializer)
+│       │   │   └── lab_results_mapper.dart   ← wire DTO ↔ Entity (boundary adapter, do not unify with serializer)
 │       │   └── repositories
-│       │       └── lab_results_repository_impl.dart ← extends OnlineFirstRepository<LabResultEntity> implements ILabResultsRepository (online-first, write-through, cache fallback solo sin conexión)
+│       │       └── lab_results_repository_impl.dart ← extends OnlineFirstRepository<LabResultEntity> implements ILabResultsRepository (online-first, write-through, cache fallback only on no connection)
 │       ├── presentation
 │       │   ├── mappers
 │       │   │   └── lab_result_chart_mapper.dart  ← Entity → TrendChartData
 │       │   ├── notifiers
 │       │   │   ├── lab_results_notifier.dart (+ .g)          ← provider: labResultsProvider (codegen)
-│       │   │   ├── lab_results_period_provider.dart (+ .g)   ← periodo seleccionado (UI-state)
+│       │   │   ├── lab_results_period_provider.dart (+ .g)   ← selected period (UI-state)
 │       │   │   ├── lab_results_refresh_error_provider.dart (+ .g) ← refresh-error snackbar (UI-state)
 │       │   │   └── lab_results_state.dart (+ .freezed)
 │       │   ├── screens
@@ -288,26 +288,26 @@
     ├── exceptions
     │   ├── _exceptions.lib.dart
     │   ├── api / app_timeout / device_security / no_connection / seam_not_bound / server_unreachable / unexpected_response
-    │   └── seam_not_bound_exception.dart ← Error (fail-fast) para DI seams no bindeadas — NO mapeado en guard()
+    │   └── seam_not_bound_exception.dart ← Error (fail-fast) for unboud DI seams — NOT mapped in guard()
     ├── functions
     │   └── online_first.dart
     ├── interfaces
     │   ├── _interfaces.lib.dart
-    │   ├── i_app_navigator.dart          ← IAppNavigator (seam de navegación tipado, sin go_router)
+    │   ├── i_app_navigator.dart          ← IAppNavigator (typed navigation seam, no go_router)
     │   ├── i_clinical_history_store.dart
     │   ├── i_connectivity_checker.dart
     │   ├── i_credential_store.dart
     │   ├── i_lab_results_store.dart    ← ILabResultsStore + ISP split ILabResultsReader/ILabResultsWriter
-    │   ├── i_logger.dart                 ← ILogger (seam de observabilidad — port de dominio)
+    │   ├── i_logger.dart                 ← ILogger (observability seam — domain port)
     │   ├── i_password_hasher.dart
     │   ├── i_patient_info_store.dart
     │   ├── i_token_store.dart
     │   ├── i_token_verifier.dart
-    │   └── i_usecase.dart               ← IUseCase<In,Out> + NoParams (contrato uniforme de usecases)
+    │   └── i_usecase.dart               ← IUseCase<In,Out> + NoParams (uniform usecase contract)
     ├── models                    ← Shared Kernel (DDD): domain models shared by ≥2 bounded contexts (features + core/database); no single feature owns them
     │   ├── _models.lib.dart
     │   ├── clinical_history/ (ClinicalHistoryEntity + 6 sub-entities + ClinicalHistoryStatus enum, freezed)
     │   ├── lab_results/ (LabResultEntity + LabResultValueEntity + LabResultReferenceRangeEntity + enums LabResultKind/LabResultStatus, freezed)
     │   └── patient/patient_entity.dart
     └── router
-        └── app_route.dart               ← AppRoute (registro tipado de rutas, Shared Kernel, pure Dart): login, clinicalHistory, labResults (/clinical-history/lab-results)
+        └── app_route.dart               ← AppRoute (typed route registry, Shared Kernel, pure Dart): login, clinicalHistory, labResults (/clinical-history/lab-results)

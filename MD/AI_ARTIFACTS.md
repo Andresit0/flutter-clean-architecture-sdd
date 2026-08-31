@@ -9,8 +9,8 @@ Guide to creating skills, agents, commands, orchestrators, prompts, and template
 ```
 .ai/
 ├── skills/           ← Skills AND agents (unified location)
-│   ├── app-*             ← App skills (prefijo app-)
-│   └── app-agent-*       ← App agents (prefijo app-agent-)
+│   ├── app-*             ← App skills (app- prefix)
+│   └── app-agent-*       ← App agents (app-agent- prefix)
 ├── commands/         ← CLI command scripts for AI
 ├── orchestrators/    ← Workflow orchestrators (multi-phase flows)
 ├── memory/          ← Persistent memory (Engram/Openspec)
@@ -27,7 +27,7 @@ Guide to creating skills, agents, commands, orchestrators, prompts, and template
 
 **Location**: `.ai/skills/`
 
-**Naming**: `app-agent-{name-in-lowercase}/SKILL.md` (con prefijo app-agent-)
+**Naming**: `app-agent-{name-in-lowercase}/SKILL.md` (with app-agent- prefix)
 
 **Structure**:
 ```markdown
@@ -66,7 +66,7 @@ trigger: Phrases or commands that activate this agent
 
 **Location**: `.ai/skills/`
 
-**Naming**: `app-{skill-name}/SKILL.md` (con prefijo app-)
+**Naming**: `app-{skill-name}/SKILL.md` (with app- prefix)
 
 **Structure**:
 ```markdown
