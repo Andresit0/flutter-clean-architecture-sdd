@@ -9,7 +9,7 @@
 
 | Layer | Rule |
 |---|---|---|
-| `core/network/dio/dio_wrapper.dart` | Orquesta 3 colaboradores inyectados (interface+impl): `RequestExecutor` (llamada dio + parse + error mapping + retry-timeout), `ErrorMapper` (`isBrowserNetworkFailure` + mapeo `DioException` → typed exceptions), `RetryExecutor` (política `retryOnTimeout/maxRetries/baseDelay` → `AppTimeoutException`). **Throws typed exceptions** (`ApiException`, `NoConnectionException`, …) — el wrapper público solo rellena `pathParams` y delega. |
+| `core/network/dio/dio_wrapper.dart` | Orchestrates 3 injected collaborators (interface+impl): `RequestExecutor` (dio call + parse + error mapping + retry-timeout), `ErrorMapper` (`isBrowserNetworkFailure` + `DioException` → typed exceptions mapping), `RetryExecutor` (policy `retryOnTimeout/maxRetries/baseDelay` → `AppTimeoutException`). **Throws typed exceptions** (`ApiException`, `NoConnectionException`, …) — the public wrapper only fills `pathParams` and delegates. |
 | **Datasource impl** | Raw call only — **no try/catch**, lets exceptions propagate up |
 | **Repository impl** | Wraps datasource with `guard(...)` → `Result<T>`. |
 | **Repository interface** | Declares `Future<Result<T>>` return types |
@@ -228,7 +228,7 @@ if (expired) {
 return Success(data);
 ```
 
-> **Dos idiomas de consumo (decisión):** usa **switch-expression** cuando exista un default sensato para `Failure` (p. ej. `connectivity` → `false`; un `Failure` de connectivity se trata como offline). Usa **early-return + `(x as Success<T>).data`** cuando debas propagar el error (validaciones: `Email.result()`, `Password.result()`). `Result<T>` no expone `.data` en la base sealed, así que el cast tras el guard de `Failure` es el patrón idiomático; no reemplazarlo por `switch` con `throw StateError('unreachable')` (ruido defensivo).
+> **Two consumption languages (decision):** use **switch-expression** when there is a sensible default for `Failure` (e.g. `connectivity` → `false`; a connectivity `Failure` is treated as offline). Use **early-return + `(x as Success<T>).data`** when you need to propagate the error (validations: `Email.result()`, `Password.result()`). `Result<T>` does not expose `.data` on the sealed base, so the cast after the `Failure` guard is the idiomatic pattern; do not replace it with `switch` + `throw StateError('unreachable')` (defensive noise).
 
 ---
 
@@ -273,7 +273,7 @@ class NoParams { const NoParams(); }
 - **Output** is always wrapped in `Result` — a use case NEVER throws.
 - The single `call(Input)` signature makes every use case uniformly injectable, testable and decorable.
 
-> **DIP entre usecases (enforced by Rule 18):** a use case that orchestrates another use case (e.g. `RestoreSessionUseCase` → `CredentialLoginUseCase` / `RefreshTokenUseCase`) injects the **abstraction** `IUseCase<Input, Output>`, never the concrete class:
+> **DIP between usecases (enforced by Rule 18):** a use case that orchestrates another use case (e.g. `RestoreSessionUseCase` → `CredentialLoginUseCase` / `RefreshTokenUseCase`) injects the **abstraction** `IUseCase<Input, Output>`, never the concrete class:
 
 ```dart
 class RestoreSessionUseCase implements IUseCase<NoParams, LoginResponseEntity?> {
@@ -306,17 +306,17 @@ final result = await ref.read(loginUseCaseProvider)(LoginInput(email: e, passwor
 
 ## 12. Decision — Shared Kernel entities: NO validated factories
 
-**Decisión registrada (2026-08):** las entidades del Shared Kernel (`PatientEntity`, `ClinicalHistoryEntity` + sub-entidades, `LabResultEntity` + sub-entidades) son **modelos de wire/persistencia** y NO tienen factories validadas (`result()`/`create()`). Se mantienen anémicas a propósito.
+**Recorded decision (2026-08):** Shared Kernel entities (`PatientEntity`, `ClinicalHistoryEntity` + sub-entities, `LabResultEntity` + sub-entities) are **wire/persistence models** and do NOT have validated factories (`result()`/`create()`). They remain intentionally anemic.
 
-**Razón:** la única frontera de input no confiable de la app es el formulario de login, ya cubierta por los VOs (`Email.result()`, `Password.result()`, `PasswordHash.result()`, §10). `PatientEntity`/`ClinicalHistoryEntity`/`LabResultEntity` llegan desde la propia API (DTO → mapper) y la propia DB (serializer) — contratos controlados por la app. La forma del wire ya se valida en el mapper (`AuthMapper`/`ClinicalHistoryMapper`/`LabResultsMapper` — ver §13 — lanzan excepciones tipadas que `guard()` mapea). Añadir "no vacío" a las entidades sería validación decorativa: los serializers/mappers usan el `const factory` (no existe `raw` en entidades), por lo que la invariante sería bypasseable en las dos rutas reales de entrada de datos.
+**Reason:** the only untrusted input boundary of the app is the login form, already covered by VOs (`Email.result()`, `Password.result()`, `PasswordHash.result()`, §10). `PatientEntity`/`ClinicalHistoryEntity`/`LabResultEntity` come from the API itself (DTO → mapper) and the DB itself (serializer) — contracts controlled by the app. The wire shape is already validated in the mapper (`AuthMapper`/`ClinicalHistoryMapper`/`LabResultsMapper` — see §13 — they throw typed exceptions that `guard()` maps). Adding "not empty" to the entities would be decorative validation: serializers/mappers use the `const factory` (there is no `raw` on entities), so the invariant would be bypassable in both actual data entry routes.
 
-**Cuándo re-evaluar (condiciones para agregarlas):**
-1. La API deja de ser propia / el contrato viene de un tercero sin SLA de schema.
-2. Aparecen ≥2 puntos de construcción desde input no confiable (hoy son 3: `AuthMapper`, `ClinicalHistoryMapper` y `LabResultsMapper`).
-3. Surge una regla de negocio real (p. ej. "una historia clínica debe tener ≥1 diagnóstico"), no un mero "no vacío". En ese caso la validación debe vivir **en la frontera** (mapper DTO→Entity), no en una factory decorativa.
+**When to re-evaluate (conditions for adding them):**
+1. The API ceases to be owned / the contract comes from a third party without schema SLA.
+2. ≥2 construction points from untrusted input appear (currently 3: `AuthMapper`, `ClinicalHistoryMapper` and `LabResultsMapper`).
+3. A real business rule emerges (e.g. "a clinical history must have ≥1 diagnosis"), not merely "not empty". In that case the validation must live **at the boundary** (mapper DTO→Entity), not in a decorative factory.
 
 ---
 
 ## 13. Third construction point — `LabResultsMapper` (DTO → Entity)
 
-**Decisión registrada (2026-08):** se añadió un tercer punto de construcción de entidades del Shared Kernel: `LabResultsMapper` (`features/lab_results/infrastructure/mappers/`). Igual que `AuthMapper`/`ClinicalHistoryMapper`, convierte wire DTO → Entity usando **named constructors** (`raw`-equivalentes, sin validación decorativa) — las entidades `LabResultEntity`/`LabResultValueEntity`/`LabResultReferenceRangeEntity` siguen anémicas (ver §12) y el mapper es la frontera que valida la forma del wire (excepciones tipadas que `guard()` mapea). El guard de consistencia es `test/core/database/lab_results_serializer_test.dart` (round-trip con discriminador `LabResultKind`).
+**Recorded decision (2026-08):** a third Shared Kernel entity construction point was added: `LabResultsMapper` (`features/lab_results/infrastructure/mappers/`). Like `AuthMapper`/`ClinicalHistoryMapper`, it converts wire DTO → Entity using **named constructors** (`raw`-equivalents, no decorative validation) — the entities `LabResultEntity`/`LabResultValueEntity`/`LabResultReferenceRangeEntity` remain anemic (see §12) and the mapper is the boundary that validates the wire shape (typed exceptions that `guard()` maps). The consistency guard is `test/core/database/lab_results_serializer_test.dart` (round-trip with `LabResultKind` discriminator).

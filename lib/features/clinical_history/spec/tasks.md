@@ -24,9 +24,9 @@
       - storeLocal(): adapter over IClinicalHistoryStore.storeAll()
 - [ ] Create lib/features/clinical_history/infrastructure/repositories/clinical_history_repository_impl.dart
       (ClinicalHistoryRepositoryImpl implements IClinicalHistoryRepository; takes IClinicalHistoryRemoteDatasource + IClinicalHistoryLocalDatasource)
-      - loadClinicalHistories(): fetchOrFallback(remote: loadRemote (raw tear-off), local: loadLocal (raw; null cuando cache vacía), onRemoteSuccess: _storeCache('load')) — el helper guarda las 3 fronteras; _storeCache es best-effort (try/catch Exception + log con stackTrace)
+      - loadClinicalHistories(): fetchOrFallback(remote: loadRemote (raw tear-off), local: loadLocal (raw; null when cache is empty), onRemoteSuccess: _storeCache('load')) — the helper owns the 3 boundaries; _storeCache is best-effort (try/catch Exception + log with stackTrace)
       - refreshClinicalHistories(): guard(() async { final list = await _ds.loadRemote(); await _storeCache('refresh'); return list; })
-      - Errors via guard() from shared/error/result_guard.dart; telemetría de DataOrigin via ILogger inyectado
+      - Errors via guard() from shared/error/result_guard.dart; DataOrigin telemetry via injected ILogger
 
 ### Presentation
 - [ ] Create lib/features/clinical_history/presentation/notifiers/clinical_history_state.dart

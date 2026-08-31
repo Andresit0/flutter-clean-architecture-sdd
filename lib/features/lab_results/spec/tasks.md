@@ -63,7 +63,7 @@
 - [ ] Create lib/features/lab_results/presentation/widgets/lab_results_test_selector.dart (chips/segmented list of NUMERIC tests only; hidden when no numeric tests)
 - [ ] Create lib/features/lab_results/presentation/widgets/lab_results_period_filter.dart (3 months / 6 months / 1 year / All; hidden when all results non-numeric)
 - [ ] Create lib/features/lab_results/presentation/widgets/lab_results_card.dart (M3 card: test name, latest UNFILTERED value + unit, status chip for numeric; latest text value + NO chip for non-numeric)
-- [ ] Create lib/features/lab_results/presentation/mappers/lab_result_chart_mapper.dart (Entity → TrendChartData: points/xLabels/reference band/tooltips; formatDate/statusLabel/referenceRangeLabel callbacks — no l10n leak; presentation-layer mapper, espejo de infrastructure/mappers en la frontera UI)
+- [ ] Create lib/features/lab_results/presentation/mappers/lab_result_chart_mapper.dart (Entity → TrendChartData: points/xLabels/reference band/tooltips; formatDate/statusLabel/referenceRangeLabel callbacks — no l10n leak; presentation-layer mapper, mirror of infrastructure/mappers at the UI boundary)
 - [ ] Create lib/features/lab_results/presentation/widgets/lab_results_chart_pane.dart (ITrendChart via trendChartProvider; delegates data building to LabResultChartMapper; filtered points + reference-range band; tooltip on touch → date, value+unit, range, status)
 - [ ] Create lib/features/lab_results/presentation/widgets/lab_results_non_numeric_list.dart (flat list of all non-numeric tests, each showing its latest text value — period-independent; no filterByPeriod)
 - [ ] Create lib/features/lab_results/presentation/screens/lab_results_screen.dart

@@ -8,7 +8,7 @@ codec. The migration (PR 7) switches `AppDatabase` to an AES-256-CBC codec
 in-memory test factory, and splits session/clinical-history storage. The
 `catch`-that-deletes-the-database must NOT be the only migration strategy.
 
-## Chosen policy: invalidación y rehidratación (cache derived from server)
+## Chosen policy: invalidation and rehydration (cache derived from server)
 
 The local database is a **derived cache** of server data (session token,
 patient info and clinical history), not a clinical source of truth. On the
@@ -29,9 +29,9 @@ first launch after upgrade the app must:
 ## When NOT to use this policy
 
 - If the cache ever carries data with clinical/regulatory value that cannot be
-  re-fetched, switch to **migración preservando datos**: version the
+  re-fetched, switch to **data-preserving migration**: version the
   schema/codec, prove upgrade from a fixture DB, and provide rollback.
-- If integrity cannot be guaranteed, choose **bloqueo de upgrade** and stop the
+- If integrity cannot be guaranteed, choose **upgrade lockout** and stop the
   deployment instead of silently wiping.
 
 ## Rollback
