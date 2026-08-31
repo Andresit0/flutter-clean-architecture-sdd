@@ -245,7 +245,7 @@ void main() {
           expect(
             error.stackTrace,
             isNotNull,
-            reason: 'la falla local debe preservar su stack trace',
+            reason: 'the local failure must preserve its stack trace',
           );
         },
       );

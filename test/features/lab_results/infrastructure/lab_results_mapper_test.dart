@@ -140,7 +140,7 @@ void main() {
     });
 
     group('VGV compliance', () {
-      test('NO usa Entity.fromJson en ninguna parte', () {
+      test('does NOT use Entity.fromJson anywhere', () {
         final sourceFile = File(
           'lib/features/lab_results/infrastructure/mappers/lab_results_mapper.dart',
         );
@@ -148,7 +148,7 @@ void main() {
         expect(
           source.contains('.fromJson'),
           isFalse,
-          reason: 'El mapper no debe contener ninguna llamada a .fromJson',
+          reason: 'The mapper must not contain any .fromJson call',
         );
       });
     });

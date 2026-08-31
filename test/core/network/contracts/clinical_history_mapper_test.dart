@@ -5,7 +5,7 @@ import 'package:clean_architecture_sdd_harness/core/network/contracts/_contracts
 void main() {
   group('ClinicalHistoryMapper', () {
     group('fromDtoList', () {
-      test('mapea lista con elementos y sub-entidades anidadas', () {
+      test('maps list with elements and nested sub-entities', () {
         final dto = ClinicalHistoryDto(
           id: 'ch1',
           encounterNumber: 'ENC-001',
@@ -65,14 +65,14 @@ void main() {
         expect(ch.state!.code, 'active');
       });
 
-      test('mapea lista vacía', () {
+      test('maps empty list', () {
         final entities = ClinicalHistoryMapper.fromDtoList([]);
         expect(entities, isEmpty);
       });
     });
 
     group('fromDto', () {
-      test('mapea professional y state null como null', () {
+      test('maps professional and state null as null', () {
         final dto = ClinicalHistoryDto(
           id: 'ch1',
           encounterNumber: 'ENC-001',
@@ -105,7 +105,7 @@ void main() {
         expect(ch.createdAt, isNull);
       });
 
-      test('mapea sub-entidades de diagnóstico, adjuntos y observaciones', () {
+      test('maps diagnosis sub-entities, attachments and observations', () {
         final dto = ClinicalHistoryDto(
           id: 'ch1',
           encounterNumber: 'ENC-001',
