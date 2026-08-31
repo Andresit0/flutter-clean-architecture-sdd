@@ -41,8 +41,11 @@ updates:
       - dependency-name: "flutter_jailbreak_detection_plus"
         update-types: ["version-update:semver-major"]
       # intl is SDK-pinned: flutter_localizations (Flutter 3.44.0) pins intl
-      # exactly to 0.20.2. A bump to ^0.20.3 is unsatisfiable and breaks
-      # `flutter pub get`. Remove this ignore when the Flutter SDK bumps its pin.
+      # exactly to 0.20.2. pubspec.yaml exact-pins intl 0.20.2 so the pub solver
+      # itself refuses a bump (Dependabot does NOT honor ignore inside grouped
+      # updates — dependabot-core #10122/#13213 — the exact pin is the real
+      # guard). This ignore is defense-in-depth. Bump the exact pin manually when
+      # the Flutter SDK bumps its own pin, then remove this ignore.
       - dependency-name: "intl"
       # test is effectively SDK-pinned via test_api: flutter_test (Flutter
       # 3.44.0) pins test_api 0.7.11 exactly, and test 1.31.1+ requires
