@@ -22,7 +22,7 @@ imported from the provider's `core/` source file — never imports the package d
 |---|---|---|---|---|
 | **auth** | `auth/secure_token_store.dart` | `ITokenStore` | `SecureTokenStore` | `ref.watch(tokenStoreProvider)` |
 | **auth** | `auth/secure_credential_store.dart` | `ICredentialStore` | `SecureCredentialStore` | `ref.watch(credentialStoreProvider)` |
-| **auth** | `auth/jwt_wrapper.dart` | `IJwtWrapper` | `JwtWrapper` | `ref.watch(jwtWrapperProvider)` — `decodePayload()` (decode sin verificación de firma) |
+| **auth** | `auth/jwt_wrapper.dart` | `IJwtWrapper` | `JwtWrapper` | `ref.watch(jwtWrapperProvider)` — `decodePayload()` (decode without signature verification) |
 | **auth** | `auth/jwt_token_expiry_checker.dart` | `ITokenVerifier` | `JwtTokenExpiryChecker` | `ref.watch(tokenVerifierProvider)` — `isExpired()` |
 | **charts** | `charts/fl_chart_wrapper.dart` | `ITrendChart` | `FlChartTrendChart` | `ref.watch(trendChartProvider)` (from `charts/charts_providers.dart`) — line chart with reference-range band + legible axes. Pure-utility-with-provider (precedent: `jwtWrapperProvider`). `ITrendChart` lives in `core/services/charts/` (NOT `shared/` — it exposes Flutter `Widget` types). ⚠️ **Anti-pattern:** `import 'package:fl_chart'` in feature code is forbidden (Rule 6) — features consume the seam via the `di/` re-export |
 | **crypto** | `crypto/bcrypt_wrapper.dart` | `IPasswordHasher` | `BcryptWrapper` | `ref.watch(passwordHasherProvider)` |

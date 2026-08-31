@@ -117,7 +117,7 @@ final _sedimento = LabResultEntity(
   values: [
     LabResultValueEntity(
       date: DateTime(2026, 8, 10),
-      textValue: 'No se observan cristales',
+      textValue: 'No crystals observed',
     ),
   ],
 );
@@ -368,7 +368,7 @@ void main() {
       expect(find.byType(LabResultsNonNumericList), findsOneWidget);
       expect(find.text('Otros resultados'), findsOneWidget);
       expect(find.text('A Positivo (A+)'), findsOneWidget);
-      expect(find.text('No se observan cristales'), findsOneWidget);
+      expect(find.text('No crystals observed'), findsOneWidget);
     },
   );
 

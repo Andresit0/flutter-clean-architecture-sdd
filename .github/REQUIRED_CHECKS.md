@@ -78,10 +78,19 @@ Policies:
 - Dependabot ignores `intl` and `test` (see `.github/dependabot.yml`); it also
   blocks `freezed` semver-major until freezed 4.0.0 stable ships (issue #62) —
   the analyzer-13 toolchain has no stable freezed.
+- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
+  updates** (dependabot-core #10122/#13213). Example: PR #113 bundled
+  `go_router` (ungrouped) + `intl` + `test` into one update and rewrote the
+  exact pin to `intl 0.20.3`, breaking `flutter pub get`. The exact manifest pin
+  (`intl: 0.20.2` in `pubspec.yaml`) is the real guard — the pub solver refuses
+  the bump, so such PRs fail CI and can never merge. A **stored ignore** via
+  `@dependabot ignore this dependency` was applied on PR #113 (honored even in
+  grouped updates) to stop future broken grouped proposals; the manual go_router
+  18.0.0 bump was opened separately (PR #114).
 - Dependabot reads `.github/dependabot.yml` from the **default branch**
-  (`main`); config changes land on `develop` but only take effect after the
-  next release promotes them to `main` (issue #63). Until then, regenerate
-  dependabot PRs are closed manually.
+  (`main`); its ignore rules (intl/test/freezed-major) are active since
+  release v1.1.0 (issue #63 resolved). `intl` is exact-pinned in
+  `pubspec.yaml` as the real guard against grouped-update bumps.
 - Any dependency PR must keep `flutter pub get` green on Flutter 3.44.0 and
   pass the full required-check matrix. Never edit `pubspec.lock` by hand —
   regenerate with `flutter pub get`.

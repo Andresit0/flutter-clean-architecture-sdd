@@ -218,7 +218,7 @@ void main() {
       expect(result.data, isNull);
     });
 
-    test('statusCode 200 con JSON body → HttpSuccess', () {
+    test('statusCode 200 with JSON body → HttpSuccess', () {
       final response = Response(
         statusCode: 200,
         requestOptions: RequestOptions(path: '/test'),

@@ -17,7 +17,7 @@ export 'app_timeout_exception.dart';
 
 **Example barrels:**
 - `shared/models/` → `_models.lib.dart` barrel
-- `shared/interfaces/` → `_interfaces.lib.dart` (exports `IAppNavigator`, `ITokenStore`, etc.) — **Rule 26**: solo se importa por el barrel, y ningún barrel externo re-exporta interfaces de esta carpeta
+- `shared/interfaces/` → `_interfaces.lib.dart` (exports `IAppNavigator`, `ITokenStore`, etc.) — **Rule 26**: only imported via the barrel, and no external barrel re-exports interfaces from this folder
 - `shared/error/` → `_error.lib.dart` barrel (Rule 22)
 - `shared/exceptions/` → `_exceptions.lib.dart` barrel (Rule 23)
 - `core/network/` → `_network.lib.dart` (re-exports the `contracts/` and `interceptors/` barrels)
@@ -32,7 +32,7 @@ export 'app_timeout_exception.dart';
 - `app/di/` → app-level DI seams (`dio_overrides.dart`, `auth_observer_provider.dart`, `router_overrides.dart`) — NO provider barrel; providers live in `core/` source files (composition root: `httpServiceProvider`, `tokenStoreProvider`, `appDatabaseProvider`, `internetServiceProvider`, `clinicalHistoryStoreProvider`, `patientInfoStoreProvider`, `passwordHasherProvider`, `connectivityCheckerProvider`, `tokenVerifierProvider`, `credentialStoreProvider`, `jwtWrapperProvider`, `environmentProvider`, `appNavigatorProvider`)
 - `shared/` → mock data lives in per-feature FakeDatasource files (no CustomJsons barrel)
 - `core/database/` → accessed via Riverpod providers (`ref.watch(appDatabaseProvider)`); **no barrel** — production imports provider files directly and tests import the table impls directly (`tables/clinical_history.dart`, `tables/patient_info.dart`)
-- `core/database/tables/` → impls en `clinical_history.dart` / `patient_info.dart`; providers en archivos dedicados `clinical_history_providers.dart` / `patient_info_providers.dart` (DI separado de la implementación — Rule 20)
+- `core/database/tables/` → impls in `clinical_history.dart` / `patient_info.dart`; providers in dedicated files `clinical_history_providers.dart` / `patient_info_providers.dart` (DI separate from implementation — Rule 20)
 - `core/network/interceptors/` → used internally by `DioWrapper`; not accessed from features
 
 **Rules:**

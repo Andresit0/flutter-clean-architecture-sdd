@@ -53,8 +53,9 @@ flutter gen-l10n
 
 Caveats:
 
-- **Never force-bump SDK-pinned packages.** Flutter 3.44.0 pins `intl` (0.20.2),
-  `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to exact versions. If
+- **Never force-bump SDK-pinned packages.** Flutter 3.44.0 pins `intl`
+  (0.20.2, **exact-pinned in `pubspec.yaml`**), `test_api` (0.7.11), `matcher`,
+  `meta`, `vector_math` to exact versions. If
   `flutter pub get` fails on `intl`/`test`, revert those constraints — do not
   resolve by hand.
 - **Never adopt prerelease-major codegen** (`freezed 4.0.0-dev.x`) in
@@ -66,6 +67,14 @@ Caveats:
   `compileSdk 37`).
 - Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**;
   its ignore rules (intl/test/freezed) are active since release v1.1.0 (issue #63 resolved).
+- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
+  updates** (dependabot-core #10122/#13213) — e.g. PR #113 bundled
+  go_router+intl+test despite the ignore entries. The exact pin `intl: 0.20.2`
+  is the real guard (pub solver refuses the bump → `flutter pub get` fails →
+  PR can never merge). To stop future broken grouped PRs, apply a **stored
+  ignore**: comment `@dependabot ignore this dependency` on the PR (honored even
+  in grouped updates), close it, and reopen the valid dep (e.g. go_router) as a
+  manual PR (PR #114).
 - Regenerated `.g.dart`/`.freezed.dart` files must be committed with their
   source (Rule 29).
 
