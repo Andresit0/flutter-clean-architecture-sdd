@@ -67,6 +67,14 @@ Caveats:
   `compileSdk 37`).
 - Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**;
   its ignore rules (intl/test/freezed) are active since release v1.1.0 (issue #63 resolved).
+- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
+  updates** (dependabot-core #10122/#13213) — e.g. PR #113 bundled
+  go_router+intl+test despite the ignore entries. The exact pin `intl: 0.20.2`
+  is the real guard (pub solver refuses the bump → `flutter pub get` fails →
+  PR can never merge). To stop future broken grouped PRs, apply a **stored
+  ignore**: comment `@dependabot ignore this dependency` on the PR (honored even
+  in grouped updates), close it, and reopen the valid dep (e.g. go_router) as a
+  manual PR (PR #114).
 - Regenerated `.g.dart`/`.freezed.dart` files must be committed with their
   source (Rule 29).
 
