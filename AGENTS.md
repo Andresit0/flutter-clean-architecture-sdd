@@ -61,9 +61,10 @@ Default branch: `main` (production). Integration branch: `develop`. See README.m
 
 ### Dependency management
 
-- The Flutter SDK pinned in CI (`3.44.0`) pins `intl` (0.20.2), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to **exact** versions. If a dependabot PR fails `flutter pub get` on `intl`/`test`, revert those constraint bumps — do not hand-edit the lock; regenerate with `flutter pub get`.
+- The Flutter SDK pinned in CI (`3.44.0`) pins `intl` (0.20.2), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to **exact** versions. `intl` is exact-pinned in `pubspec.yaml` (resists Dependabot grouped-update bumps). If a dependabot PR fails `flutter pub get` on `intl`/`test`, revert those constraint bumps — do not hand-edit the lock; regenerate with `flutter pub get`.
 - Never adopt prerelease-major codegen (e.g. `freezed 4.0.0-dev.x`) in production — the analyzer-13 toolchain has no stable freezed (issue #62).
-- Dependabot ignores `intl`, `test` and `freezed` (semver-major). Note: Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**; config changes on `develop` activate after the next release promotes them (issue #63).
+- Dependabot ignores `intl`, `test` and `freezed` (semver-major). Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**; the ignore rules are active since release v1.1.0 (issue #63 resolved).
+- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency updates** (dependabot-core #10122/#13213) — grouped PRs keep bundling `intl`/`test` with other deps (e.g. PR #113 bundled go_router+intl+test). The exact manifest pin (`intl: 0.20.2`) is the real guard: the pub solver refuses the bump, so such PRs fail `flutter pub get` and can never merge. A stored ignore (`@dependabot ignore this dependency`) was applied on PR #113 to stop future grouped proposals; the manual `go_router 18.0.0` bump was opened separately (PR #114). When a grouped dependabot PR touches `intl`/`test`, close it and reopen the valid dep as a manual PR.
 - Android `compileSdk`/`minSdk` are set explicitly when a plugin requires more than the Flutter default (e.g. `flutter_secure_storage 11` → `compileSdk 37`).
 
 
@@ -76,7 +77,7 @@ go_router is accessed exclusively via Riverpod. The composition root (`main.dart
 | Symbol | Access |
 |---|---|
 | `goRouterProvider` | `ref.watch(goRouterProvider)` in `main.dart` (returns `GoRouter`); bound by `app/di/router/router_overrides.dart` → `routerOverrides()` merged in `main.dart` |
-| `appNavigatorProvider` | `Provider<IAppNavigator>` seam in `core/router/app_navigator_provider.dart`; a feature that navigates imperatively adds a one-line re-export in its `di/` and calls `ref.read(appNavigatorProvider).go/push(AppRoute.x)` — assertado en el boot (`main.dart` `_assertDiSeamsBound`) |
+| `appNavigatorProvider` | `Provider<IAppNavigator>` seam in `core/router/app_navigator_provider.dart`; a feature that navigates imperatively adds a one-line re-export in its `di/` and calls `ref.read(appNavigatorProvider).go/push(AppRoute.x)` — asserted at boot (`main.dart` `_assertDiSeamsBound`) |
 | `AppRoute` | Typed route registry in `lib/shared/router/app_route.dart` (Shared Kernel, pure Dart) — used by `app_router.dart` and `AuthGuard`; features navigate via `IAppNavigator` |
 
 ---
@@ -110,7 +111,7 @@ import 'package:clean_architecture_sdd_harness/shared/models/_models.lib.dart';
 | `ClinicalHistoryEntity` + 6 sub-entities | `features/clinical_history` + `core/database` (`ClinicalHistorySerializer`) |
 | `LabResultEntity` + sub-entities | `features/lab_results` (domain/infrastructure/presentation) + `core/database` (`LabResultsSerializer`) |
 
-**Criteria to add a model:** ≥ 2 bounded contexts consume it, it is 100% Dart puro, and it does not depend on `core/`, `app/`, `l10n/`, or any feature. **Governance:** changing a Shared Kernel model impacts all consumers — run the full suite and update every serializer/mapper/store; the round-trip guards `test/core/database/*_serializer_test.dart` protect consistency.
+**Criteria to add a model:** ≥ 2 bounded contexts consume it, it is 100% pure Dart, and it does not depend on `core/`, `app/`, `l10n/`, or any feature. **Governance:** changing a Shared Kernel model impacts all consumers — run the full suite and update every serializer/mapper/store; the round-trip guards `test/core/database/*_serializer_test.dart` protect consistency.
 
 ---
 
@@ -121,13 +122,13 @@ Database access is now managed through `core/database/` with Riverpod providers,
 | Provider | Type | Access from features |
 |---|---|---|
 | `appDatabaseProvider` | `Provider<IAppDatabase>` | `ref.watch(appDatabaseProvider)` |
-| `IAppDatabase.database` | `Future<IDatabaseHandle>` | `await ref.read(appDatabaseProvider).database` — facade sembast-free (`findAll`/`replaceAll`/`deleteAll`); las tablas reciben este facade, nunca el `Database` crudo |
+| `IAppDatabase.database` | `Future<IDatabaseHandle>` | `await ref.read(appDatabaseProvider).database` — facade sembast-free (`findAll`/`replaceAll`/`deleteAll`); the tables receive this facade, never the raw `Database` |
 | `IAppDatabase.resetDatabase()` | `Future<void>` | `await ref.read(appDatabaseProvider).resetDatabase()` — full local wipe: deletes the DB file AND the encryption key (account reset / GDPR). NOT used on logout — logout clears the session via `clearSession()`. Features do NOT call it directly: the production consumer is `ResetAccountUseCase` (auth) → `LocalAuthDatasourceImpl.resetAccount()` = `clearSession()` + `resetDatabase()`. |
 | `clinicalHistoryStoreProvider` | `Provider<IClinicalHistoryStore>` | `ref.watch(clinicalHistoryStoreProvider)` — from `core/database/tables/clinical_history_providers.dart` |
 | `patientInfoStoreProvider` | `Provider<IPatientInfoStore>` | `ref.watch(patientInfoStoreProvider)` — from `core/database/tables/patient_info_providers.dart` |
 | `labResultsStoreProvider` | `Provider<ILabResultsStore>` | `ref.watch(labResultsStoreProvider)` — from `core/database/tables/lab_results_providers.dart` |
 
-> **Providers viven en archivos `*_providers.dart` dedicados, nunca embebidos en las clases de tabla (Rule 20, enforced by CI).**
+> **Providers live in dedicated `*_providers.dart` files, never embedded in table classes (Rule 20, enforced by CI).**
 
 **Test patterns (real, used across the suite):**
 - DB-backed store/datasource tests use real in-memory sembast with **always-on encryption** (the factory no longer bypasses the codec): `AppDatabase(databaseFactory: newDatabaseFactoryMemory(), keyService: DatabaseKeyService(storage: FakeSecureStorage()))`. The fake key storage lives in `test/helpers/mocks.dart`; never rely on the platform key store in unit tests.
@@ -145,7 +146,7 @@ Interceptors live in `lib/core/network/interceptors/` with their own barrel `_in
 
 > JWT utilities: `ITokenVerifier.isExpired()` (via `tokenVerifierProvider`, impl `JwtTokenExpiryChecker`) delegates payload decoding to `IJwtWrapper.decodePayload()` (via `jwtWrapperProvider`, impl `JwtWrapper`). The app never verifies JWT signatures locally (server-side concern).
 
-> **CI barrels:** `shared/error` solo via `_error.lib.dart` (Rule 22), `shared/exceptions` solo via `_exceptions.lib.dart` (Rule 23), `shared/interfaces` solo via `_interfaces.lib.dart` (Rule 26 — y sin `export` de interfaces fuera de esa carpeta).
+> **CI barrels:** `shared/error` only via `_error.lib.dart` (Rule 22), `shared/exceptions` only via `_exceptions.lib.dart` (Rule 23), `shared/interfaces` only via `_interfaces.lib.dart` (Rule 26 — and no `export` of interfaces outside that folder).
 
 ---
 
@@ -157,14 +158,14 @@ The project use 2 skills that must be used always to maintain SOLID principles t
 
 - When the code is written inside lib/features the skill used is `.ai/skills/app-class-to-solid/SKILL.md`.
 
-**Convenciones aplicadas por CI (`test/architecture/dependency_rules_test.dart`):**
-- **DIP entre usecases (Rule 18):** un usecase que orquesta otro usecase inyecta `IUseCase<Input, Output>`, nunca la clase concreta (`RestoreSessionUseCase`/`Handle401UseCase` inyectan `IUseCase<NoParams, LoginResponseEntity?>` y `IUseCase<RefreshTokenInput, TokenEntity>`).
-- **1 contrato = 1 impl (Rule 19a):** cada interfaz de `domain/repositories/` + `domain/datasources/` tiene exactamente 1 implementación en `infrastructure/`.
-- **1 clase = 1 contrato (Rule 19b):** ninguna clase de `infrastructure/` implementa >1 interfaz de dominio (el split de auth: `AuthRemoteRepositoryImpl`/`AuthLocalRepositoryImpl`).
-- **Barrel de errores (Rule 22):** `shared/error/` solo se importa vía el barrel `_error.lib.dart`, nunca archivos crudos (convención de barrels, ver `LEARN.md`).
-- **Composition root sin re-exports (Rule 27):** `app/` NO re-exporta símbolos de `features/` — la composition root importa features explícitamente; los re-exports ocultos crean dependencias transitivas.
-- **Campos inyectados privados (Rule 28):** dependencias inyectadas por constructor (tipos `I...`, `VoidCallback`, `Future<String?> Function()`) deben ser campos privados `_x`; el parámetro nombrado público se deriva del initializing formal (`this._x` → `x`). Motivo: encapsulación y seam limpio (p. ej. `IAuthInterceptorProvider`).
-- **Sin archivos generados huérfanos (Rule 29):** todo `*.freezed.dart`/`*.g.dart` debe tener su fuente `*.dart` hermana en el mismo directorio que lo declare como `part`. Migrar DTOs/entidades sin borrar los generados viejos hace fallar el CI (protege contra restos tras migraciones de `infrastructure/dtos/` → `core/network/contracts/`).
+**Enforced CI conventions (`test/architecture/dependency_rules_test.dart`):**
+- **DIP between usecases (Rule 18):** a usecase that orchestrates another usecase injects `IUseCase<Input, Output>`, never the concrete class (`RestoreSessionUseCase`/`Handle401UseCase` inject `IUseCase<NoParams, LoginResponseEntity?>` and `IUseCase<RefreshTokenInput, TokenEntity>`).
+- **1 contract = 1 impl (Rule 19a):** each interface in `domain/repositories/` + `domain/datasources/` has exactly 1 implementation in `infrastructure/`.
+- **1 class = 1 contract (Rule 19b):** no class in `infrastructure/` implements >1 domain interface (the auth split: `AuthRemoteRepositoryImpl`/`AuthLocalRepositoryImpl`).
+- **Error barrel (Rule 22):** `shared/error/` is only imported via the barrel `_error.lib.dart`, never raw files (barrel convention, see `LEARN.md`).
+- **Composition root without re-exports (Rule 27):** `app/` does NOT re-export symbols from `features/` — the composition root imports features explicitly; hidden re-exports create transitive dependencies.
+- **Private injected fields (Rule 28):** dependencies injected by constructor (types `I...`, `VoidCallback`, `Future<String?> Function()`) must be private fields `_x`; the public named parameter is derived from the initializing formal (`this._x` → `x`). Reason: encapsulation and clean seam (e.g. `IAuthInterceptorProvider`).
+- **No orphaned generated files (Rule 29):** every `*.freezed.dart`/`*.g.dart` must have its sibling `*.dart` source in the same directory that declares it as `part`. Migrating DTOs/entities without deleting the old generated files causes CI failure (protects against remnants after migrations from `infrastructure/dtos/` → `core/network/contracts/`).
 
 ---
 
@@ -305,7 +306,7 @@ The project has two cross-cutting directories with distinct roles:
 
 - **`lib/shared/`** — Pure domain abstractions (100% Dart, NO Flutter and NO third-party types): error handling (`error/` with `AppError` — sealed, **no `userMessage`** (UI localizes by type via `localizeError()`), flags `isNetworkRelated`/`isTransient`, diagnostic `technicalMessage`/`stackTrace` consumed by the `ILogger` seam in `shared/interfaces/` via `loggerProvider`, re-exported by feature `di/`; `Result<T>`, `guard()`, `RetryResult`), domain interfaces (`interfaces/` with `IConnectivityChecker`, `ITokenStore`, `ITokenVerifier`, `ICredentialStore`, `IPasswordHasher`, `IClinicalHistoryStore` + the ISP split `IClinicalHistoryReader`/`IClinicalHistoryWriter`, `IPatientInfoStore`, `ILabResultsStore` + the ISP split `ILabResultsReader`/`ILabResultsWriter`), exception classes (`exceptions/`), models/entities (`models/`), online-first repository helper (`functions/online_first.dart` — remote first, cache fallback ONLY on a genuine connectivity failure; `fetchOrFallback()` owns all boundary guarding internally and returns `OnlineFirstResult` with `DataOrigin` remote/cache). Domain layer can import from `shared/`. **Boundary rule:** `guard()` wraps EVERY fallible boundary — repositories wrap datasources; usecases wrap shared ports that return raw values (`String?`, `bool`, `void`, records) so exceptions never escape the `Result` chain; the composition root does the same for startup ports (`AppInitializer.checkJailbreak()` returns `Result<void>` via `guard()`, and `main.dart` folds — see `MD/APP_EXCEPTION.md`). VOs/entities stay pure (no wrap): value objects build their own `Result` directly via their single `result()` factory (no `guard()`, no exceptions, no `tryCreate`), and trusted construction uses the freezed `raw` constructor. `localizeError()` lives in `lib/l10n/error_localizer.dart` (UI layer), NOT in `shared/`. **Enforced by CI:** `shared/error` is imported only via the barrel `_error.lib.dart` (architecture Rule 22); `shared/exceptions` is imported only via the barrel `_exceptions.lib.dart` (architecture Rule 23); the guard↔localizer mapping coverage and exception-barrel completeness are enforced by `test/architecture/error_mapping_consistency_test.dart`.
 
-- **`lib/core/`** — Pure infrastructure: service wrappers (`services/`, incl. `IAuthenticationObserver` — extends `Listenable`, in `core/services/auth/`), database (`database/` incl. `IAppDatabase`/`IDatabaseHandle` facade sembast-free en `core/database/i_app_database.dart`, `SembastDbWrapper` como única impl), repositories (`repositories/` con `OnlineFirstRepository<T>`), network (`network/` incl. `dio_providers.dart`, `internetStatusProvider` in `connectivity/connectivity_providers.dart`), router adapter (`router/`), utils (`utils/`). Domain layer must NEVER import from `core/`. Cross-cutting abstractions that expose third-party types (e.g. sembast `Database`) live in `core/`, not `shared/`. **Shared wire transport contracts** (DTOs consumed by 2+ features, e.g. `PatientDto`, `ClinicalHistoryDto`, `ClinicalHistoryMapper`) live in `core/network/contracts/`; feature-private DTOs live in `features/<name>/infrastructure/dtos/`. Al mover un DTO entre carpetas, borra los `.freezed.dart`/`.g.dart` de la carpeta de origen (Rule 29).
+- **`lib/core/`** — Pure infrastructure: service wrappers (`services/`, incl. `IAuthenticationObserver` — extends `Listenable`, in `core/services/auth/`), database (`database/` incl. `IAppDatabase`/`IDatabaseHandle` facade sembast-free in `core/database/i_app_database.dart`, `SembastDbWrapper` as the only impl), repositories (`repositories/` with `OnlineFirstRepository<T>`), network (`network/` incl. `dio_providers.dart`, `internetStatusProvider` in `connectivity/connectivity_providers.dart`), router adapter (`router/`), utils (`utils/`). Domain layer must NEVER import from `core/`. Cross-cutting abstractions that expose third-party types (e.g. sembast `Database`) live in `core/`, not `shared/`. **Shared wire transport contracts** (DTOs consumed by 2+ features, e.g. `PatientDto`, `ClinicalHistoryDto`, `ClinicalHistoryMapper`) live in `core/network/contracts/`; feature-private DTOs live in `features/<name>/infrastructure/dtos/`. When moving a DTO between folders, delete the `.freezed.dart`/`.g.dart` from the source folder (Rule 29).
 
 - **`lib/app/`** — Application composition root: GoRouter setup (`router/`), app initializer, the offline banner (`app/widgets/connectivity_banner.dart`), and the DI seam bindings (`app/di/network/dio_overrides.dart`). Features must NEVER import `app/` — feature DI imports providers directly from `core/` (one-way dependency, enforced by architecture Rule 11).
 
@@ -322,46 +323,46 @@ path activates ONLY when the user genuinely has no connectivity. This is a
 deliberate design decision, documented as acceptance scenarios in
 `lib/features/auth/spec/spec.md`.
 
-| Escenario | Qué hace la app | Qué ve el usuario | ¿Offline? |
+| Scenario | What the app does | What the user sees | Offline? |
 |---|---|---|---|
-| 1/4 | Restore hace login completo (online + credenciales) | Clinical history actualizada | - |
-| 2/3 | Restore carga solo cache | Clinical history offline | ✅ |
-| 5 | Restore NO fuerza logout, usa cache | Clinical history offline (sin login) | ✅ |
-| 6 | Sin sesión → `Success(null)` | Pantalla de login | - |
-| 7 | 401 → refresh / re-login | Sigue viendo lo mismo, sin interrupción | - |
-| 8 | 401 → RetryFailed → force logout | Login (sesión realmente inválida) | - |
-| 9 | 401 sin conexión → RetryNoConnection → NO logout | Sigue viendo datos cacheados | ✅ |
+| 1/4 | Restore performs full login (online + credentials) | Clinical history updated | - |
+| 2/3 | Restore loads cache only | Clinical history offline | ✅ |
+| 5 | Restore does NOT force logout, uses cache | Clinical history offline (no login) | ✅ |
+| 6 | No session → `Success(null)` | Login screen | - |
+| 7 | 401 → refresh / re-login | Continues seeing the same, uninterrupted | - |
+| 8 | 401 → RetryFailed → force logout | Login (session truly invalid) | - |
+| 9 | 401 no connection → RetryNoConnection → NO logout | Continues seeing cached data | ✅ |
 | 10 | `guard()` → `Failure(NetworkError)` → notifier | Snackbar "No internet connection" | ✅ |
 
-Reglas de implementación:
-- `login()` es **estrictamente remoto** (nunca cae a la sesión cacheada).
-- `fetchOrFallback` cae a cache SOLO en `NetworkError`/`ServerUnreachableError`.
-  Un `TimeoutError` NO es offline (no cae a cache) — `isNetworkRelated == false`.
-- `fetchOrFallback` (`shared/functions/online_first.dart`) guarda las 3 fronteras
-  (remote/local/onRemoteSuccess) internamente — el caller pasa closures raw. Una
-  falla de lectura local se superficie como `Failure` con su stack trace.
-- El cache write es best-effort en los repos online-first (load y refresh): la
-  política y el cache write viven en la base `OnlineFirstRepository<T>`
-  (`lib/core/repositories/online_first_repository.dart`) — los repos de feature
-  (`ClinicalHistoryRepositoryImpl`, `LabResultsRepositoryImpl`) solo aportan los
-  hooks `remoteLoader`/`localLoader`/`cacheWriter` (template-method). El
-  `_storeCacheBestEffort` captura el `Exception`, lo loguea con stack trace via `ILogger`
-  y devuelve los datos remotos (`Success`); `Error` rethrow (fail-fast).
-- `RestoreSessionUseCase` nunca hace logout; `Handle401UseCase` distingue
-  fallos transitorios (`RetryNoConnection`, sin logout) de rechazos reales
+Implementation rules:
+- `login()` is **strictly remote** (never falls back to cached session).
+- `fetchOrFallback` falls back to cache ONLY on `NetworkError`/`ServerUnreachableError`.
+  A `TimeoutError` is NOT offline (does not fall back to cache) — `isNetworkRelated == false`.
+- `fetchOrFallback` (`shared/functions/online_first.dart`) owns the 3 boundaries
+  (remote/local/onRemoteSuccess) internally — the caller passes raw closures. A
+  local read failure surfaces as `Failure` with its stack trace.
+- Cache write is best-effort in online-first repos (load and refresh): the
+  policy and cache write live in the base `OnlineFirstRepository<T>`
+  (`lib/core/repositories/online_first_repository.dart`) — feature repos
+  (`ClinicalHistoryRepositoryImpl`, `LabResultsRepositoryImpl`) only provide the
+  hooks `remoteLoader`/`localLoader`/`cacheWriter` (template-method). The
+  `_storeCacheBestEffort` captures the `Exception`, logs it with stack trace via `ILogger`
+  and returns the remote data (`Success`); `Error` rethrows (fail-fast).
+- `RestoreSessionUseCase` never does logout; `Handle401UseCase` distinguishes
+  transient failures (`RetryNoConnection`, no logout) from real rejections
   (`RetryFailed`, logout).
-- El banner `ConnectivityBanner` (en `app/widgets/`) se muestra cuando
-  `internetStatusProvider` emite `false`.
-- El `AuthInterceptor` adjunta el `Authorization` header en `onRequest`
-  (vía `getToken`) y maneja el 401.
+- The `ConnectivityBanner` widget (in `app/widgets/`) is shown when
+  `internetStatusProvider` emits `false`.
+- The `AuthInterceptor` attaches the `Authorization` header in `onRequest`
+  (via `getToken`) and handles 401s.
 
-## Boundary adapters: mapper vs serializer (no unificar)
+## Boundary adapters: mapper vs serializer (do not unify)
 
-`ClinicalHistoryMapper` (wire DTO ↔ Entity, `core/network/contracts/`) y
+`ClinicalHistoryMapper` (wire DTO ↔ Entity, `core/network/contracts/`) and
 `ClinicalHistorySerializer` (Entity ↔ sembast Map, `core/database/serializers/`)
-son **dos adaptadores de frontera distintos** con formatos de destino distintos.
-No se fusionan por diseño. El `test/core/database/clinical_history_serializer_test.dart`
-es el *guard* de consistencia: si el schema de la entidad cambia, el round-trip
-falla hasta que ambos límites lo cubran.
+are **two distinct boundary adapters** with different target formats.
+They are not merged by design. The `test/core/database/clinical_history_serializer_test.dart`
+is the consistency *guard*: if the entity schema changes, the round-trip
+fails until both boundaries cover it.
 
-Lo mismo aplica a `lab_results`: `LabResultsMapper` (wire DTO ↔ Entity, feature `infrastructure/mappers/`) y `LabResultsSerializer` (Entity ↔ sembast Map, `core/database/serializers/`) son adaptadores de frontera distintos con formatos de destino distintos — no se fusionan. El `test/core/database/lab_results_serializer_test.dart` es el guard de consistencia (round-trip con discriminador `LabResultKind`).
+The same applies to `lab_results`: `LabResultsMapper` (wire DTO ↔ Entity, feature `infrastructure/mappers/`) and `LabResultsSerializer` (Entity ↔ sembast Map, `core/database/serializers/`) are distinct boundary adapters with different target formats — they are not merged. The `test/core/database/lab_results_serializer_test.dart` is the consistency guard (round-trip with `LabResultKind` discriminator).

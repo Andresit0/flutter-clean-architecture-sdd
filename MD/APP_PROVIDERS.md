@@ -31,7 +31,7 @@ All global providers are **non-autoDispose** (alive for the lifetime of the `Pro
 | `appUriesProvider` | `core/network/api_endpoints.dart` | `Provider<IEndpointConfig>` | Remote endpoint URLs bound to `environmentProvider` (overridable in tests) |
 | `appNavigatorProvider` | `core/router/app_navigator_provider.dart` | `Provider<IAppNavigator>` | Navigation seam — fail-fast until bound by `routerOverrides()`; a feature that navigates imperatively uses it via a one-line re-export in its own `di/` (on-demand) |
 
-**Boot validation:** ambos seams (`authInterceptorProvider`, `appNavigatorProvider`) se verifican en el boot de `main.dart` (`_assertDiSeamsBound`) — si `dioOverrides()`/`routerOverrides()` no se mergean, la app aborta al arrancar (fail-fast).
+**Boot validation:** both seams (`authInterceptorProvider`, `appNavigatorProvider`) are verified at boot in `main.dart` (`_assertDiSeamsBound`) — if `dioOverrides()`/`routerOverrides()` are not merged, the app aborts on startup (fail-fast).
 
 **Unaliased global providers** (accessed via direct `ref.watch(provider)` — see access categories in MD/APP_PACKAGE_WRAPPER.md):
 

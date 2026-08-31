@@ -30,7 +30,7 @@ void main() {
           guardSource.contains(exception),
           isTrue,
           reason:
-              '$exception no tiene catch en guard() — añadirlo a '
+              '$exception has no catch in guard() — add it to '
               'result_guard.dart y a _canonicalMapping',
         );
       }
@@ -40,7 +40,7 @@ void main() {
       expect(
         guardSource.contains('TimeoutException'),
         isTrue,
-        reason: 'guard() debe mapear TimeoutException (dart:async)',
+        reason: 'guard() must map TimeoutException (dart:async)',
       );
     });
 
@@ -50,7 +50,7 @@ void main() {
           localizerSource.contains(error),
           isTrue,
           reason:
-              '$error no tiene branch en localizeError() — añadirlo a '
+              '$error has no branch in localizeError() — add it to '
               'error_localizer.dart y a _canonicalMapping',
         );
       }
@@ -82,15 +82,15 @@ void main() {
               className != null,
               isTrue,
               reason:
-                  '$fileName declarado en _programmingErrors pero su clase '
-                  'no está en fileToClass',
+                  '$fileName declared in _programmingErrors but its class '
+                  'is not in fileToClass',
             );
             expect(
               _canonicalMapping.containsKey(className),
               isFalse,
               reason:
-                  '$className es un Error de programación (fail-fast) — NO '
-                  'debe mapearse en guard() ni localizeError()',
+                  '$className is a programming Error (fail-fast) — NOT '
+                  'must be mapped in guard() or localizeError()',
             );
             final source = File(
               'lib/shared/exceptions/$fileName',
@@ -99,16 +99,16 @@ void main() {
               source.contains('extends Error'),
               isTrue,
               reason:
-                  '$className debe extender Error (no Exception) para que '
-                  'guard() no lo convierta en Failure — ver MD/APP_EXCEPTION.md',
+                  '$className must extend Error (not Exception) so that '
+                  'guard() does not convert it to Failure — see MD/APP_EXCEPTION.md',
             );
           } else {
             expect(
               className != null && _canonicalMapping.containsKey(className),
               isTrue,
               reason:
-                  '$fileName existe en shared/exceptions pero su clase no está '
-                  'en _canonicalMapping — cubrir el mapping guard() + '
+                  '$fileName exists in shared/exceptions but its class is not '
+                  'in _canonicalMapping — cover the guard() mapping + '
                   'localizeError()',
             );
           }
@@ -134,8 +134,8 @@ void main() {
             barrelSource.contains("export '$fileName'"),
             isTrue,
             reason:
-                '$fileName no está exportado en _exceptions.lib.dart — '
-                'archivo huérfano (código muerto)',
+                '$fileName is not exported in _exceptions.lib.dart — '
+                'orphaned file (dead code)',
           );
         }
       },

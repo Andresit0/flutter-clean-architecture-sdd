@@ -60,8 +60,7 @@ void main() {
         expect(
           flattened.length,
           AppRoute.values.length,
-          reason:
-              'la tabla de rutas debe cubrir exactamente el registro AppRoute',
+          reason: 'the route table must exactly cover the AppRoute registry',
         );
 
         final routePaths = <String>{};
