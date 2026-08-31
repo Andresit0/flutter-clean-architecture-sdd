@@ -53,8 +53,9 @@ flutter gen-l10n
 
 Caveats:
 
-- **Never force-bump SDK-pinned packages.** Flutter 3.44.0 pins `intl` (0.20.2),
-  `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to exact versions. If
+- **Never force-bump SDK-pinned packages.** Flutter 3.44.0 pins `intl`
+  (0.20.2, **exact-pinned in `pubspec.yaml`**), `test_api` (0.7.11), `matcher`,
+  `meta`, `vector_math` to exact versions. If
   `flutter pub get` fails on `intl`/`test`, revert those constraints — do not
   resolve by hand.
 - **Never adopt prerelease-major codegen** (`freezed 4.0.0-dev.x`) in
