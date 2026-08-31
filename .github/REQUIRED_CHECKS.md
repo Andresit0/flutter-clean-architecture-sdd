@@ -79,9 +79,9 @@ Policies:
   blocks `freezed` semver-major until freezed 4.0.0 stable ships (issue #62) —
   the analyzer-13 toolchain has no stable freezed.
 - Dependabot reads `.github/dependabot.yml` from the **default branch**
-  (`main`); config changes land on `develop` but only take effect after the
-  next release promotes them to `main` (issue #63). Until then, regenerate
-  dependabot PRs are closed manually.
+  (`main`); its ignore rules (intl/test/freezed-major) are active since
+  release v1.1.0 (issue #63 resolved). `intl` is exact-pinned in
+  `pubspec.yaml` as the real guard against grouped-update bumps.
 - Any dependency PR must keep `flutter pub get` green on Flutter 3.44.0 and
   pass the full required-check matrix. Never edit `pubspec.lock` by hand —
   regenerate with `flutter pub get`.
