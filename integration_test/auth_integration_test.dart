@@ -454,6 +454,7 @@ void main() {
         overrides: [
           ..._authRepoOverrides(fakeRepo),
           clinicalHistoryRepositoryProvider.overrideWith((ref) => _fakeChRepo),
+          tokenStoreProvider.overrideWith((ref) => _FakeTokenStore()),
         ],
       );
       await tester.pumpAndSettle();
@@ -561,6 +562,7 @@ void main() {
         overrides: [
           ..._authRepoOverrides(_FakeAuthRepository()),
           clinicalHistoryRepositoryProvider.overrideWith((ref) => _fakeChRepo),
+          tokenStoreProvider.overrideWith((ref) => _FakeTokenStore()),
         ],
       );
       await tester.pumpAndSettle();
