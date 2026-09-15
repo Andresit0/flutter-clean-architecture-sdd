@@ -76,8 +76,7 @@ The Flutter SDK version is pinned once in `pubspec.yaml` (`environment.flutter:
 
 Policies:
 
-- Dependabot ignores `intl` and `test` (see `.github/dependabot.yml`); it also
-  blocks `freezed` semver-major until the codegen toolchain migrates (issue #62).
+- Dependabot ignores `intl` and `test` (see `.github/dependabot.yml`).
 - **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
   updates** (dependabot-core #10122/#13213). The manifest constraints plus CI
   are the real guard — grouped PRs that rewrite `intl`/`test` fail
@@ -85,9 +84,11 @@ Policies:
   reopen the valid dep as a manual PR.
 - Dependabot reads `.github/dependabot.yml` from the **default branch**
   (`main`).
-- The codegen toolchain stays on analyzer 12 / freezed 3.2.6 with Dart language
-  version 3.12 (`environment.sdk: ^3.12.0`): Dart LV 3.13 rejects the `final`
-  parameters the current generated code emits.
+- The codegen toolchain is on analyzer 13 / freezed 4 with Dart language version
+  3.13 (`environment.sdk: ^3.13.0`): freezed 4 no longer emits the `final`
+  parameters Dart 3.13 rejects. Value objects exposing only static members must
+  not declare a private `._()` constructor. The floor is enforced by
+  `test/architecture/workflow_gates_test.dart`.
 - Platform minimums follow the SDK: iOS `15.0` (`ios/Runner.xcodeproj`,
   `ios/Podfile`) and macOS `12.0` (`macos/Runner.xcodeproj`).
 - Any dependency PR must keep `flutter pub get` green on Flutter 3.47.4 and

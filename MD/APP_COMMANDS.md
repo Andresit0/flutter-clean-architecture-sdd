@@ -60,16 +60,16 @@ Caveats:
   `matcher` (0.12.20), `meta` (1.19.0), `vector_math` (2.4.2). If
   `flutter pub get` fails on `intl`/`test`, revert those constraints — do not
   resolve by hand.
-- **Codegen toolchain.** Stays on analyzer 12 / freezed 3.2.6 with Dart
-  language version 3.12 (`environment.sdk: ^3.12.0`): Dart LV 3.13 rejects the
-  `final` parameters its generated code emits. Adopting freezed 4 (analyzer 13)
-  is deferred until a language-version bump (issue #62).
+- **Codegen toolchain.** On analyzer 13 / freezed 4 with Dart language version
+  3.13 (`environment.sdk: ^3.13.0`); freezed 4 no longer emits the `final`
+  parameters Dart 3.13 rejects. Value objects exposing only static members must
+  not declare a private `._()` constructor.
 - **Android platform**: if a plugin requires a higher SDK than the Flutter
   default, set `compileSdk`/`minSdk` explicitly in
   `android/app/build.gradle.kts` (e.g. `flutter_secure_storage 11` →
   `compileSdk 37`).
 - Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**;
-  its ignore rules (intl/test/freezed) are active since release v1.1.0 (issue #63 resolved).
+  its ignore rules (intl/test) are active since release v1.1.0 (issue #63 resolved).
 - **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
   updates** (dependabot-core #10122/#13213). The manifest constraints plus CI
   are the real guard: grouped PRs that rewrite `intl`/`test` fail
