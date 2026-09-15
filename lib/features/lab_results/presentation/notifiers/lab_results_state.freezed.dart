@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_results_state.dart';
@@ -9,6 +9,7 @@ part of 'lab_results_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$LabResultsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsState);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LabResultsState()';
+    return 'LabResultsState()';
 }
 
 
@@ -197,7 +198,7 @@ class LabResultsInitial implements LabResultsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsInitial);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LabResultsState.initial()';
+    return 'LabResultsState.initial()';
 }
 
 
@@ -243,7 +244,7 @@ class LabResultsLoading implements LabResultsState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsLoading);
 }
 
 
@@ -252,7 +253,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LabResultsState.loading()';
+    return 'LabResultsState.loading()';
 }
 
 
@@ -279,7 +280,7 @@ class _$LabResultsLoadingCopyWithImpl<$Res>
 
 
 class LabResultsLoaded implements LabResultsState {
-  const LabResultsLoaded({required final  List<LabResultEntity> results, this.selectedTestId, required this.period}): _results = results;
+  const LabResultsLoaded({required  List<LabResultEntity> results, this.selectedTestId, required this.period}): _results = results;
   
 
  final  List<LabResultEntity> _results;
@@ -302,16 +303,18 @@ $LabResultsLoadedCopyWith<LabResultsLoaded> get copyWith => _$LabResultsLoadedCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsLoaded&&const DeepCollectionEquality().equals(other._results, _results)&&(identical(other.selectedTestId, selectedTestId) || other.selectedTestId == selectedTestId)&&(identical(other.period, period) || other.period == period));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsLoaded&&const DeepCollectionEquality().equals(other.results, _results)&&(identical(other.selectedTestId, selectedTestId) || other.selectedTestId == selectedTestId)&&(identical(other.period, period) || other.period == period));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_results),selectedTestId,period);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_results),selectedTestId,period);
+}
 
 @override
 String toString() {
-  return 'LabResultsState.loaded(results: $results, selectedTestId: $selectedTestId, period: $period)';
+    return 'LabResultsState.loaded(results: $results, selectedTestId: $selectedTestId, period: $period)';
 }
 
 
@@ -370,16 +373,18 @@ $LabResultsFailureCopyWith<LabResultsFailure> get copyWith => _$LabResultsFailur
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsFailure&&(identical(other.error, error) || other.error == error));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsFailure&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,error);
+int get hashCode {
+    return Object.hash(runtimeType,error);
+}
 
 @override
 String toString() {
-  return 'LabResultsState.failure(error: $error)';
+    return 'LabResultsState.failure(error: $error)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_result_dto.dart';
@@ -9,6 +9,7 @@ part of 'lab_result_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LabResultDtoCopyWith<LabResultDto> get copyWith => _$LabResultDtoCopyWithImpl<L
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultDto&&(identical(other.id, id) || other.id == id)&&(identical(other.testCode, testCode) || other.testCode == testCode)&&(identical(other.testName, testName) || other.testName == testName)&&(identical(other.category, category) || other.category == category)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.referenceRange, referenceRange) || other.referenceRange == referenceRange)&&const DeepCollectionEquality().equals(other.values, values));
+  final _this = this as LabResultDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultDto&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.testCode, _this.testCode) || other.testCode == _this.testCode)&&(identical(other.testName, _this.testName) || other.testName == _this.testName)&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.unit, _this.unit) || other.unit == _this.unit)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.referenceRange, _this.referenceRange) || other.referenceRange == _this.referenceRange)&&const DeepCollectionEquality().equals(other.values, _this.values));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,testCode,testName,category,unit,kind,referenceRange,const DeepCollectionEquality().hash(values));
+int get hashCode {
+  final _this = this as LabResultDto;
+  return Object.hash(runtimeType,_this.id,_this.testCode,_this.testName,_this.category,_this.unit,_this.kind,_this.referenceRange,const DeepCollectionEquality().hash(_this.values));
+}
 
 @override
 String toString() {
-  return 'LabResultDto(id: $id, testCode: $testCode, testName: $testName, category: $category, unit: $unit, kind: $kind, referenceRange: $referenceRange, values: $values)';
+  final _this = this as LabResultDto;
+  return 'LabResultDto(id: ${_this.id}, testCode: ${_this.testCode}, testName: ${_this.testName}, category: ${_this.category}, unit: ${_this.unit}, kind: ${_this.kind}, referenceRange: ${_this.referenceRange}, values: ${_this.values})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LabResultDtoCopyWithImpl<$Res>
 /// Create a copy of LabResultDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? testCode = null,Object? testName = null,Object? category = null,Object? unit = freezed,Object? kind = null,Object? referenceRange = freezed,Object? values = null,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,testCode: null == testCode ? _self.testCode : testCode // ignore: cast_nullable_to_non_nullable
 as String,testName: null == testName ? _self.testName : testName // ignore: cast_nullable_to_non_nullable
@@ -228,7 +234,7 @@ return $default(_that.id,_that.testCode,_that.testName,_that.category,_that.unit
 @JsonSerializable()
 
 class _LabResultDto implements LabResultDto {
-  const _LabResultDto({required this.id, @JsonKey(name: 'test_code') required this.testCode, @JsonKey(name: 'test_name') required this.testName, required this.category, this.unit, required this.kind, @JsonKey(name: 'reference_range') this.referenceRange, required final  List<LabResultValueDto> values}): _values = values;
+  const _LabResultDto({required this.id, @JsonKey(name: 'test_code') required this.testCode, @JsonKey(name: 'test_name') required this.testName, required this.category, this.unit, required this.kind, @JsonKey(name: 'reference_range') this.referenceRange, required  List<LabResultValueDto> values}): _values = values;
   factory _LabResultDto.fromJson(Map<String, dynamic> json) => _$LabResultDtoFromJson(json);
 
 @override final  String id;
@@ -259,16 +265,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultDto&&(identical(other.id, id) || other.id == id)&&(identical(other.testCode, testCode) || other.testCode == testCode)&&(identical(other.testName, testName) || other.testName == testName)&&(identical(other.category, category) || other.category == category)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.referenceRange, referenceRange) || other.referenceRange == referenceRange)&&const DeepCollectionEquality().equals(other._values, _values));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultDto&&(identical(other.id, id) || other.id == id)&&(identical(other.testCode, testCode) || other.testCode == testCode)&&(identical(other.testName, testName) || other.testName == testName)&&(identical(other.category, category) || other.category == category)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.referenceRange, referenceRange) || other.referenceRange == referenceRange)&&const DeepCollectionEquality().equals(other.values, _values));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,testCode,testName,category,unit,kind,referenceRange,const DeepCollectionEquality().hash(_values));
+int get hashCode {
+    return Object.hash(runtimeType,id,testCode,testName,category,unit,kind,referenceRange,const DeepCollectionEquality().hash(_values));
+}
 
 @override
 String toString() {
-  return 'LabResultDto(id: $id, testCode: $testCode, testName: $testName, category: $category, unit: $unit, kind: $kind, referenceRange: $referenceRange, values: $values)';
+    return 'LabResultDto(id: $id, testCode: $testCode, testName: $testName, category: $category, unit: $unit, kind: $kind, referenceRange: $referenceRange, values: $values)';
 }
 
 

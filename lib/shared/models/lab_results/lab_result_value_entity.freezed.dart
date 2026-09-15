@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_result_value_entity.dart';
@@ -9,6 +9,7 @@ part of 'lab_result_value_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LabResultValueEntityCopyWith<LabResultValueEntity> get copyWith => _$LabResultV
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultValueEntity&&(identical(other.date, date) || other.date == date)&&(identical(other.value, value) || other.value == value)&&(identical(other.textValue, textValue) || other.textValue == textValue));
+  final _this = this as LabResultValueEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultValueEntity&&(identical(other.date, _this.date) || other.date == _this.date)&&(identical(other.value, _this.value) || other.value == _this.value)&&(identical(other.textValue, _this.textValue) || other.textValue == _this.textValue));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,date,value,textValue);
+int get hashCode {
+  final _this = this as LabResultValueEntity;
+  return Object.hash(runtimeType,_this.date,_this.value,_this.textValue);
+}
 
 @override
 String toString() {
-  return 'LabResultValueEntity(date: $date, value: $value, textValue: $textValue)';
+  final _this = this as LabResultValueEntity;
+  return 'LabResultValueEntity(date: ${_this.date}, value: ${_this.value}, textValue: ${_this.textValue})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LabResultValueEntityCopyWithImpl<$Res>
 /// Create a copy of LabResultValueEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? value = freezed,Object? textValue = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultValueEntity(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as double?,textValue: freezed == textValue ? _self.textValue : textValue // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$LabResultValueEntityCopyWith<_LabResultValueEntity> get copyWith => __$LabResu
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultValueEntity&&(identical(other.date, date) || other.date == date)&&(identical(other.value, value) || other.value == value)&&(identical(other.textValue, textValue) || other.textValue == textValue));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultValueEntity&&(identical(other.date, date) || other.date == date)&&(identical(other.value, value) || other.value == value)&&(identical(other.textValue, textValue) || other.textValue == textValue));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,date,value,textValue);
+int get hashCode {
+    return Object.hash(runtimeType,date,value,textValue);
+}
 
 @override
 String toString() {
-  return 'LabResultValueEntity(date: $date, value: $value, textValue: $textValue)';
+    return 'LabResultValueEntity(date: $date, value: $value, textValue: $textValue)';
 }
 
 

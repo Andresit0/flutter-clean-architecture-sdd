@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clinical_history_state.dart';
@@ -9,6 +9,7 @@ part of 'clinical_history_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$ClinicalHistoryState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryState);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryState);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ClinicalHistoryState()';
+    return 'ClinicalHistoryState()';
 }
 
 
@@ -197,7 +198,7 @@ class ClinicalHistoryInitial implements ClinicalHistoryState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryInitial);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryInitial);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ClinicalHistoryState.initial()';
+    return 'ClinicalHistoryState.initial()';
 }
 
 
@@ -243,7 +244,7 @@ class ClinicalHistoryLoading implements ClinicalHistoryState {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryLoading);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryLoading);
 }
 
 
@@ -252,7 +253,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'ClinicalHistoryState.loading()';
+    return 'ClinicalHistoryState.loading()';
 }
 
 
@@ -279,7 +280,7 @@ class _$ClinicalHistoryLoadingCopyWithImpl<$Res>
 
 
 class ClinicalHistoryLoaded implements ClinicalHistoryState {
-  const ClinicalHistoryLoaded(final  List<ClinicalHistoryEntity> clinicalHistory): _clinicalHistory = clinicalHistory;
+  const ClinicalHistoryLoaded( List<ClinicalHistoryEntity> clinicalHistory): _clinicalHistory = clinicalHistory;
   
 
  final  List<ClinicalHistoryEntity> _clinicalHistory;
@@ -300,16 +301,18 @@ $ClinicalHistoryLoadedCopyWith<ClinicalHistoryLoaded> get copyWith => _$Clinical
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryLoaded&&const DeepCollectionEquality().equals(other._clinicalHistory, _clinicalHistory));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryLoaded&&const DeepCollectionEquality().equals(other.clinicalHistory, _clinicalHistory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clinicalHistory));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_clinicalHistory));
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryState.loaded(clinicalHistory: $clinicalHistory)';
+    return 'ClinicalHistoryState.loaded(clinicalHistory: $clinicalHistory)';
 }
 
 
@@ -366,16 +369,18 @@ $ClinicalHistoryFailureCopyWith<ClinicalHistoryFailure> get copyWith => _$Clinic
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFailure&&(identical(other.error, error) || other.error == error));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFailure&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,error);
+int get hashCode {
+    return Object.hash(runtimeType,error);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryState.failure(error: $error)';
+    return 'ClinicalHistoryState.failure(error: $error)';
 }
 
 

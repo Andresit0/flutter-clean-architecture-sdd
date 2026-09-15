@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_result_reference_range_dto.dart';
@@ -9,6 +9,7 @@ part of 'lab_result_reference_range_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LabResultReferenceRangeDtoCopyWith<LabResultReferenceRangeDto> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultReferenceRangeDto&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
+  final _this = this as LabResultReferenceRangeDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultReferenceRangeDto&&(identical(other.low, _this.low) || other.low == _this.low)&&(identical(other.high, _this.high) || other.high == _this.high));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,low,high);
+int get hashCode {
+  final _this = this as LabResultReferenceRangeDto;
+  return Object.hash(runtimeType,_this.low,_this.high);
+}
 
 @override
 String toString() {
-  return 'LabResultReferenceRangeDto(low: $low, high: $high)';
+  final _this = this as LabResultReferenceRangeDto;
+  return 'LabResultReferenceRangeDto(low: ${_this.low}, high: ${_this.high})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LabResultReferenceRangeDtoCopyWithImpl<$Res>
 /// Create a copy of LabResultReferenceRangeDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? low = null,Object? high = null,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultReferenceRangeDto(
 low: null == low ? _self.low : low // ignore: cast_nullable_to_non_nullable
 as double,high: null == high ? _self.high : high // ignore: cast_nullable_to_non_nullable
 as double,
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultReferenceRangeDto&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultReferenceRangeDto&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,low,high);
+int get hashCode {
+    return Object.hash(runtimeType,low,high);
+}
 
 @override
 String toString() {
-  return 'LabResultReferenceRangeDto(low: $low, high: $high)';
+    return 'LabResultReferenceRangeDto(low: $low, high: $high)';
 }
 
 

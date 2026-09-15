@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'token_entity.dart';
@@ -9,6 +9,7 @@ part of 'token_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $TokenEntityCopyWith<TokenEntity> get copyWith => _$TokenEntityCopyWithImpl<Toke
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TokenEntity&&(identical(other.key, key) || other.key == key));
+  final _this = this as TokenEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TokenEntity&&(identical(other.key, _this.key) || other.key == _this.key));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,key);
+int get hashCode {
+  final _this = this as TokenEntity;
+  return Object.hash(runtimeType,_this.key);
+}
 
 @override
 String toString() {
-  return 'TokenEntity(key: $key)';
+  final _this = this as TokenEntity;
+  return 'TokenEntity(key: ${_this.key})';
 }
 
 
@@ -63,7 +69,7 @@ class _$TokenEntityCopyWithImpl<$Res>
 /// Create a copy of TokenEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? key = null,}) {
-  return _then(_self.copyWith(
+  return _then(TokenEntity(
 key: null == key ? _self.key : key // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -221,16 +227,18 @@ _$TokenEntityCopyWith<_TokenEntity> get copyWith => __$TokenEntityCopyWithImpl<_
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TokenEntity&&(identical(other.key, key) || other.key == key));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TokenEntity&&(identical(other.key, key) || other.key == key));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,key);
+int get hashCode {
+    return Object.hash(runtimeType,key);
+}
 
 @override
 String toString() {
-  return 'TokenEntity(key: $key)';
+    return 'TokenEntity(key: $key)';
 }
 
 
