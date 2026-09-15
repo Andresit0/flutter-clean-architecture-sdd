@@ -40,23 +40,20 @@ updates:
       # minor/patch via the auto-merge workflow.
       - dependency-name: "flutter_jailbreak_detection_plus"
         update-types: ["version-update:semver-major"]
-      # intl is SDK-pinned: flutter_localizations (Flutter 3.44.0) pins intl
-      # exactly to 0.20.2. pubspec.yaml exact-pins intl 0.20.2 so the pub solver
-      # itself refuses a bump (Dependabot does NOT honor ignore inside grouped
-      # updates — dependabot-core #10122/#13213 — the exact pin is the real
-      # guard). This ignore is defense-in-depth. Bump the exact pin manually when
-      # the Flutter SDK bumps its own pin, then remove this ignore.
+      # intl is SDK-pinned: flutter_localizations (Flutter 3.47.4) requires
+      # intl ^0.20.3, so pubspec.yaml pins intl ^0.20.3. Dependabot does NOT
+      # honor ignore inside grouped updates (dependabot-core #10122/#13213), so
+      # this ignore is defense-in-depth; the constraint plus CI are the real
+      # guard. Revisit only if flutter_localizations widens its range.
       - dependency-name: "intl"
       # test is effectively SDK-pinned via test_api: flutter_test (Flutter
-      # 3.44.0) pins test_api 0.7.11 exactly, and test 1.31.1+ requires
-      # test_api 0.7.12. Remove this ignore when the Flutter SDK bumps its pin.
+      # 3.47.4) pins test_api 0.7.12, and test 1.32.0 requires test_api 0.7.14.
+      # Keep this ignore until the Flutter SDK bumps its test_api pin.
       - dependency-name: "test"
-      # freezed 4.x is currently prerelease (4.0.0-dev.x). The codegen
-      # toolchain bump to analyzer 13 (build_runner 2.16 / riverpod 4.0.8)
-      # forces freezed 4.0.0-dev.3 — the ONLY freezed compatible with analyzer
-      # 13, since no stable freezed supports it. Enterprise policy: do not
-      # adopt prerelease-major codegen in production. Remove this ignore when
-      # freezed 4.0.0 stable ships (tracked in issue #62).
+      # freezed 4.x is stable, but adopting it forces the analyzer-13 codegen
+      # toolchain and a Dart language-version bump to 3.13, which the current
+      # freezed 3.2.6 generated code is not compatible with. Deferred until the
+      # codegen toolchain migration lands (tracked in issue #62).
       - dependency-name: "freezed"
         update-types: ["version-update:semver-major"]
 
