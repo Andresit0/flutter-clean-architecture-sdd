@@ -412,7 +412,7 @@ git commit -m "refactor(scope): <description>"
 
 ```bash
 flutter pub get
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 flutter gen-l10n   # ONLY if a .arb file changed (generated localizations are committed)
 dart format --output=none --set-exit-if-changed lib test integration_test
 flutter analyze

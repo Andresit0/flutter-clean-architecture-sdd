@@ -8,7 +8,7 @@
    flutter clean
    flutter pub get
    dart format --output=none --set-exit-if-changed lib test integration_test
-   dart run build_runner build --delete-conflicting-outputs
+   dart run build_runner build
    flutter analyze
    flutter test --exclude-tags golden
    flutter test --tags golden

@@ -64,7 +64,7 @@ Each phase has a checklist. Before moving to the next phase, ALL items must be c
 [ ] 1.1  Create domain/entities/*.dart for each entity in domain.md
         (including @freezed + @JsonSerializable where applicable)
 
-[ ] 1.2  Run: dart run build_runner build --delete-conflicting-outputs
+[ ] 1.2  Run: dart run build_runner build
         
 
 [ ] 1.3  Create DTOs (infrastructure/dtos/)
@@ -159,7 +159,7 @@ Each phase has a checklist. Before moving to the next phase, ALL items must be c
 
 [ ] 6.3  Create di/<name>_provider.dart (DI chain — moved from presentation/providers/)
 
-[ ] 6.4  Run: dart run build_runner build --delete-conflicting-outputs
+[ ] 6.4  Run: dart run build_runner build
         
 
 [ ] 6.5  Verify .freezed.dart exists for state and .g.dart for notifier/provider
@@ -246,7 +246,7 @@ Each phase has a checklist. Before moving to the next phase, ALL items must be c
 [ ] 10.6  If the spec says there is a navigation trigger in parent screen:
         → Add IconButton with ref.read(appNavigatorProvider).push(AppRoute.x) in that screen (re-export the seam in the feature's di/)
 
-[ ] 10.7  Run: dart run build_runner build --delete-conflicting-outputs
+[ ] 10.7  Run: dart run build_runner build
         
 
 [ ] 10.8  Run: flutter analyze
