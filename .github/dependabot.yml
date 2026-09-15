@@ -50,12 +50,6 @@ updates:
       # 3.47.4) pins test_api 0.7.12, and test 1.32.0 requires test_api 0.7.14.
       # Keep this ignore until the Flutter SDK bumps its test_api pin.
       - dependency-name: "test"
-      # freezed 4.x is stable, but adopting it forces the analyzer-13 codegen
-      # toolchain and a Dart language-version bump to 3.13, which the current
-      # freezed 3.2.6 generated code is not compatible with. Deferred until the
-      # codegen toolchain migration lands (tracked in issue #62).
-      - dependency-name: "freezed"
-        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
