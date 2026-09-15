@@ -84,35 +84,32 @@ void main() {
       expect(bands, isEmpty);
     });
 
-    test(
-      'bottom titles fit inside the axis box so edge labels do not collide with margins',
-      () {
-        const chart = FlChartTrendChart();
+    test('bottom titles fit inside the axis box so edge labels do not collide with margins', () {
+      const chart = FlChartTrendChart();
 
-        final widget = chart.lineChart(data: sampleData());
+      final widget = chart.lineChart(data: sampleData());
 
-        final bottomTitles =
-            (widget as LineChart).data.titlesData.bottomTitles.sideTitles;
-        final meta = TitleMeta(
-          min: 0,
-          max: 10,
-          parentAxisSize: 100,
-          axisPosition: 0,
-          appliedInterval: 1,
-          sideTitles: bottomTitles,
-          formattedValue: 'Jan',
-          axisSide: AxisSide.bottom,
-          rotationQuarterTurns: 0,
-        );
+      final bottomTitles =
+          (widget as LineChart).data.titlesData.bottomTitles.sideTitles;
+      final meta = TitleMeta(
+        min: 0,
+        max: 10,
+        parentAxisSize: 100,
+        axisPosition: 0,
+        appliedInterval: 1,
+        sideTitles: bottomTitles,
+        formattedValue: 'Jan',
+        axisSide: AxisSide.bottom,
+        rotationQuarterTurns: 0,
+      );
 
-        final titleWidget = bottomTitles.getTitlesWidget(
-          sampleData().points.first.date.millisecondsSinceEpoch.toDouble(),
-          meta,
-        );
+      final titleWidget = bottomTitles.getTitlesWidget(
+        sampleData().points.first.date.millisecondsSinceEpoch.toDouble(),
+        meta,
+      );
 
-        expect(titleWidget, isA<SideTitleWidget>());
-        expect((titleWidget as SideTitleWidget).fitInside.enabled, isTrue);
-      },
-    );
+      expect(titleWidget, isA<SideTitleWidget>());
+      expect((titleWidget as SideTitleWidget).fitInside.enabled, isTrue);
+    });
   });
 }

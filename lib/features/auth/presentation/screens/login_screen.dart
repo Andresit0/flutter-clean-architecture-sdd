@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:clean_architecture_sdd_harness/design_system/theme/app_colors.dart';
 import 'package:clean_architecture_sdd_harness/design_system/_design.lib.dart';
+
 import '../../../../l10n/app_localizations.dart';
 
 import '../notifiers/auth_notifier.dart';
@@ -92,9 +93,8 @@ class _LoginFormState extends ConsumerState<_LoginForm> {
                 Text(
                   AppLocalizations.of(context)!.loginTitle,
                   textAlign: TextAlign.center,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.gray),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: AppColors.gray),
                 ),
                 const SizedBox(height: 40),
                 EmailFormField(

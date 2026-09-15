@@ -196,83 +196,69 @@ void main() {
       ).called(1);
     });
 
-    test(
-      'login_throws_UnexpectedResponseException_when_response_is_not_a_json_object',
-      () async {
-        when(
-          () => mockDio.post(
-            any(),
-            body: any(named: 'body'),
-            headers: any(named: 'headers'),
-            sla: any(named: 'sla'),
-          ),
-        ).thenAnswer(
-          (_) async => HttpResponse<Map<String, dynamic>>(data: null),
-        );
+    test('login_throws_UnexpectedResponseException_when_response_is_not_a_json_object', () async {
+      when(
+        () => mockDio.post(
+          any(),
+          body: any(named: 'body'),
+          headers: any(named: 'headers'),
+          sla: any(named: 'sla'),
+        ),
+      ).thenAnswer((_) async => HttpResponse<Map<String, dynamic>>(data: null));
 
-        expect(
-          () =>
-              datasource.login(email: 'test@example.com', passwordHash: 'hash'),
-          throwsA(
-            isA<UnexpectedResponseException>().having(
-              (e) => e.details,
-              'details',
-              'login response must be a JSON object',
-            ),
+      expect(
+        () => datasource.login(email: 'test@example.com', passwordHash: 'hash'),
+        throwsA(
+          isA<UnexpectedResponseException>().having(
+            (e) => e.details,
+            'details',
+            'login response must be a JSON object',
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
-    test(
-      'refreshToken_throws_UnexpectedResponseException_when_response_is_not_a_json_object',
-      () async {
-        when(
-          () => mockDio.post(
-            any(),
-            headers: any(named: 'headers'),
-            sla: any(named: 'sla'),
-          ),
-        ).thenAnswer(
-          (_) async => HttpResponse<Map<String, dynamic>>(data: null),
-        );
+    test('refreshToken_throws_UnexpectedResponseException_when_response_is_not_a_json_object', () async {
+      when(
+        () => mockDio.post(
+          any(),
+          headers: any(named: 'headers'),
+          sla: any(named: 'sla'),
+        ),
+      ).thenAnswer((_) async => HttpResponse<Map<String, dynamic>>(data: null));
 
-        expect(
-          () => datasource.refreshToken(token: 'old_token'),
-          throwsA(
-            isA<UnexpectedResponseException>().having(
-              (e) => e.details,
-              'details',
-              'refreshToken response must be a JSON object',
-            ),
+      expect(
+        () => datasource.refreshToken(token: 'old_token'),
+        throwsA(
+          isA<UnexpectedResponseException>().having(
+            (e) => e.details,
+            'details',
+            'refreshToken response must be a JSON object',
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
-    test(
-      'refreshToken_throws_UnexpectedResponseException_when_token_is_not_a_json_object',
-      () async {
-        when(
-          () => mockDio.post(
-            any(),
-            headers: any(named: 'headers'),
-            sla: any(named: 'sla'),
-          ),
-        ).thenAnswer((_) async => HttpResponse(data: {'token': 'not-a-map'}));
+    test('refreshToken_throws_UnexpectedResponseException_when_token_is_not_a_json_object', () async {
+      when(
+        () => mockDio.post(
+          any(),
+          headers: any(named: 'headers'),
+          sla: any(named: 'sla'),
+        ),
+      ).thenAnswer((_) async => HttpResponse(data: {'token': 'not-a-map'}));
 
-        expect(
-          () => datasource.refreshToken(token: 'old_token'),
-          throwsA(
-            isA<UnexpectedResponseException>().having(
-              (e) => e.details,
-              'details',
-              'refreshToken response must contain a token object',
-            ),
+      expect(
+        () => datasource.refreshToken(token: 'old_token'),
+        throwsA(
+          isA<UnexpectedResponseException>().having(
+            (e) => e.details,
+            'details',
+            'refreshToken response must contain a token object',
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
     test('refreshToken_passes_EndpointSla_login', () async {
       final responseJson = <String, dynamic>{

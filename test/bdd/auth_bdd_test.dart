@@ -287,8 +287,10 @@ Future<void> main() async {
     },
 
     'the system POSTs to /user/refreshtoken with the current token as Bearer'
-            .mapper():
-        (tester, ctx) async {},
+        .mapper(): (
+      tester,
+      ctx,
+    ) async {},
 
     'the system stores the new token'.mapper(): (tester, ctx) async {
       _s.currentState = _tLoaded;
@@ -297,8 +299,10 @@ Future<void> main() async {
       expect(_s.currentState, isA<AuthLoaded>());
     },
 
-    'the system POSTs to /user/refreshtoken and receives 401'.mapper():
-        (tester, ctx) async {},
+    'the system POSTs to /user/refreshtoken and receives 401'.mapper(): (
+      tester,
+      ctx,
+    ) async {},
 
     'the system POSTs email and passwordHash to /user/login and also receives 401'
         .mapper(): (tester, ctx) async {

@@ -36,43 +36,34 @@ void main() {
       },
     );
 
-    test(
-      'should return Failure with ServerUnreachableError on ServerUnreachableException',
-      () async {
-        final result = await guard<int>(() async {
-          throw const ServerUnreachableException();
-        });
+    test('should return Failure with ServerUnreachableError on ServerUnreachableException', () async {
+      final result = await guard<int>(() async {
+        throw const ServerUnreachableException();
+      });
 
-        expect(result, isA<Failure<int>>());
-        expect((result as Failure<int>).error, isA<ServerUnreachableError>());
-      },
-    );
+      expect(result, isA<Failure<int>>());
+      expect((result as Failure<int>).error, isA<ServerUnreachableError>());
+    });
 
-    test(
-      'should return Failure with UnexpectedError on UnexpectedResponseException',
-      () async {
-        final result = await guard<int>(() async {
-          throw const UnexpectedResponseException('details');
-        });
+    test('should return Failure with UnexpectedError on UnexpectedResponseException', () async {
+      final result = await guard<int>(() async {
+        throw const UnexpectedResponseException('details');
+      });
 
-        expect(result, isA<Failure<int>>());
-        final error = (result as Failure<int>).error as UnexpectedError;
-        expect(error, isA<UnexpectedError>());
-        expect(error.technicalMessage, 'details');
-      },
-    );
+      expect(result, isA<Failure<int>>());
+      final error = (result as Failure<int>).error as UnexpectedError;
+      expect(error, isA<UnexpectedError>());
+      expect(error.technicalMessage, 'details');
+    });
 
-    test(
-      'should return Failure with DeviceSecurityError on DeviceSecurityException',
-      () async {
-        final result = await guard<int>(() async {
-          throw const DeviceSecurityException();
-        });
+    test('should return Failure with DeviceSecurityError on DeviceSecurityException', () async {
+      final result = await guard<int>(() async {
+        throw const DeviceSecurityException();
+      });
 
-        expect(result, isA<Failure<int>>());
-        expect((result as Failure<int>).error, isA<DeviceSecurityError>());
-      },
-    );
+      expect(result, isA<Failure<int>>());
+      expect((result as Failure<int>).error, isA<DeviceSecurityError>());
+    });
 
     test('should return Failure with TimeoutError preserving the message '
         'on AppTimeoutException', () async {

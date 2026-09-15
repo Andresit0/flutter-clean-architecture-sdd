@@ -16,9 +16,8 @@ void main() {
     mockRepo = _MockLocalAuthRepository();
     useCase = ClearSessionUseCase(repository: mockRepo);
 
-    when(
-      () => mockRepo.clearSession(),
-    ).thenAnswer((_) async => const Success(null));
+    when(() => mockRepo.clearSession())
+        .thenAnswer((_) async => const Success(null));
   });
 
   group('ClearSessionUseCase', () {
@@ -30,9 +29,8 @@ void main() {
     });
 
     test('returns Failure when repository fails', () async {
-      when(
-        () => mockRepo.clearSession(),
-      ).thenAnswer((_) async => const Failure(UnexpectedError()));
+      when(() => mockRepo.clearSession())
+          .thenAnswer((_) async => const Failure(UnexpectedError()));
 
       final result = await useCase(NoParams());
 

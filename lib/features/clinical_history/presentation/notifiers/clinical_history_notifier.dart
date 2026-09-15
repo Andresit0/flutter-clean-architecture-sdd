@@ -2,6 +2,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:clean_architecture_sdd_harness/features/clinical_history/di/clinical_history_provider.dart';
 import 'package:clean_architecture_sdd_harness/shared/interfaces/_interfaces.lib.dart';
+
 import 'clinical_history_refresh_error_provider.dart';
 import 'clinical_history_state.dart';
 

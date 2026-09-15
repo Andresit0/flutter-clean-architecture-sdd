@@ -23,9 +23,8 @@ void main() {
       test(
         'delegates to FlutterSecureStorage.read and returns value',
         () async {
-          when(
-            () => mockStorage.read(key: 'my_key'),
-          ).thenAnswer((_) async => 'my_value');
+          when(() => mockStorage.read(key: 'my_key'))
+              .thenAnswer((_) async => 'my_value');
 
           final result = await cpSecureStorage.read(key: 'my_key');
 
@@ -35,9 +34,8 @@ void main() {
       );
 
       test('returns null when key not found', () async {
-        when(
-          () => mockStorage.read(key: 'missing_key'),
-        ).thenAnswer((_) async => null);
+        when(() => mockStorage.read(key: 'missing_key'))
+            .thenAnswer((_) async => null);
 
         final result = await cpSecureStorage.read(key: 'missing_key');
 
@@ -47,15 +45,13 @@ void main() {
 
     group('write', () {
       test('delegates to FlutterSecureStorage.write', () async {
-        when(
-          () => mockStorage.write(key: 'my_key', value: 'my_value'),
-        ).thenAnswer((_) async {});
+        when(() => mockStorage.write(key: 'my_key', value: 'my_value'))
+            .thenAnswer((_) async {});
 
         await cpSecureStorage.write(key: 'my_key', value: 'my_value');
 
-        verify(
-          () => mockStorage.write(key: 'my_key', value: 'my_value'),
-        ).called(1);
+        verify(() => mockStorage.write(key: 'my_key', value: 'my_value'))
+            .called(1);
       });
     });
 
@@ -71,9 +67,8 @@ void main() {
 
     group('containsKey', () {
       test('returns true when key exists', () async {
-        when(
-          () => mockStorage.containsKey(key: 'my_key'),
-        ).thenAnswer((_) async => true);
+        when(() => mockStorage.containsKey(key: 'my_key'))
+            .thenAnswer((_) async => true);
 
         final result = await cpSecureStorage.containsKey(key: 'my_key');
 
@@ -82,9 +77,8 @@ void main() {
       });
 
       test('returns false when key does not exist', () async {
-        when(
-          () => mockStorage.containsKey(key: 'missing_key'),
-        ).thenAnswer((_) async => false);
+        when(() => mockStorage.containsKey(key: 'missing_key'))
+            .thenAnswer((_) async => false);
 
         final result = await cpSecureStorage.containsKey(key: 'missing_key');
 

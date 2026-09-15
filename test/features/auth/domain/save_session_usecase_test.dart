@@ -122,9 +122,8 @@ void main() {
     });
 
     test('rememberMe=false maps a token-store throw to Failure', () async {
-      when(
-        () => mockTokenStore.save(any()),
-      ).thenThrow(Exception('storage down'));
+      when(() => mockTokenStore.save(any()))
+          .thenThrow(Exception('storage down'));
 
       final result = await saveSessionUseCase(input(rememberMe: false));
 

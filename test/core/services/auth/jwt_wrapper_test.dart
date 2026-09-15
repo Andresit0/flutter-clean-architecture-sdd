@@ -14,10 +14,8 @@ void main() {
       const secret = 'my_secret_key';
 
       test('should return the payload claims for a valid token', () {
-        final token = JWT({
-          'sub': '123',
-          'role': 'admin',
-        }).sign(SecretKey(secret));
+        final token = JWT({'sub': '123', 'role': 'admin'})
+            .sign(SecretKey(secret));
 
         final result = wrapper.decodePayload(token);
 

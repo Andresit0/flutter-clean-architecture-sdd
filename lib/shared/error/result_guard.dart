@@ -1,6 +1,7 @@
 import 'dart:async' show TimeoutException;
 
 import 'package:clean_architecture_sdd_harness/shared/exceptions/_exceptions.lib.dart';
+
 import 'app_error.dart';
 import 'result.dart';
 

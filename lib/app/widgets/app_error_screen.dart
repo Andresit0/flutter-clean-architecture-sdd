@@ -36,9 +36,8 @@ class AppErrorScreen extends ConsumerWidget {
                   child: SelectableText(
                     error.toString(),
                     textAlign: TextAlign.center,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.gray),
+                    style: Theme.of(context).textTheme.bodySmall
+                        ?.copyWith(color: AppColors.gray),
                   ),
                 ),
               TextButton(
