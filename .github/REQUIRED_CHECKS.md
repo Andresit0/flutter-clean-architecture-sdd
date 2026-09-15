@@ -61,40 +61,39 @@ update this file in the SAME change (D7: required checks must match real CI).
 
 ## Dependency management
 
-The Flutter SDK pinned in CI (`3.44.0`) pins several transitive packages to
-**exact** versions. They must NOT be force-bumped — a constraint that excludes
-the SDK pin makes `flutter pub get` fail:
+The Flutter SDK version is pinned once in `pubspec.yaml` (`environment.flutter:
+3.47.4`) and every job resolves it via `flutter-version-file` — no hardcoded
+`flutter-version`. Flutter 3.47.4 requires `intl` (`^0.20.3`, forced by
+`flutter_localizations`) and pins several transitive packages:
 
-| Package | Pin (Flutter 3.44.0) | Owned by |
+| Package | Pin (Flutter 3.47.4) | Owned by |
 |---|---|---|
-| `intl` | `0.20.2` (exact) | `flutter_localizations` |
-| `test_api` | `0.7.11` (exact) | `flutter_test` |
-| `matcher` | `0.12.19` (exact) | `flutter_test` |
-| `meta` | `1.18.0` (exact) | `flutter_test` |
-| `vector_math` | `2.2.0` (exact) | `flutter_test` |
+| `intl` | `^0.20.3` | `flutter_localizations` |
+| `test_api` | `0.7.12` (exact) | `flutter_test` |
+| `matcher` | `0.12.20` (exact) | `flutter_test` |
+| `meta` | `1.19.0` | `flutter_test` |
+| `vector_math` | `2.4.2` | `flutter_test` |
 
 Policies:
 
 - Dependabot ignores `intl` and `test` (see `.github/dependabot.yml`); it also
-  blocks `freezed` semver-major until freezed 4.0.0 stable ships (issue #62) —
-  the analyzer-13 toolchain has no stable freezed.
+  blocks `freezed` semver-major until the codegen toolchain migrates (issue #62).
 - **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
-  updates** (dependabot-core #10122/#13213). Example: PR #113 bundled
-  `go_router` (ungrouped) + `intl` + `test` into one update and rewrote the
-  exact pin to `intl 0.20.3`, breaking `flutter pub get`. The exact manifest pin
-  (`intl: 0.20.2` in `pubspec.yaml`) is the real guard — the pub solver refuses
-  the bump, so such PRs fail CI and can never merge. A **stored ignore** via
-  `@dependabot ignore this dependency` was applied on PR #113 (honored even in
-  grouped updates) to stop future broken grouped proposals; the manual go_router
-  18.0.0 bump was opened separately (PR #114).
+  updates** (dependabot-core #10122/#13213). The manifest constraints plus CI
+  are the real guard — grouped PRs that rewrite `intl`/`test` fail
+  `flutter pub get` and can never merge. When that happens, close the PR and
+  reopen the valid dep as a manual PR.
 - Dependabot reads `.github/dependabot.yml` from the **default branch**
-  (`main`); its ignore rules (intl/test/freezed-major) are active since
-  release v1.1.0 (issue #63 resolved). `intl` is exact-pinned in
-  `pubspec.yaml` as the real guard against grouped-update bumps.
-- Any dependency PR must keep `flutter pub get` green on Flutter 3.44.0 and
+  (`main`).
+- The codegen toolchain stays on analyzer 12 / freezed 3.2.6 with Dart language
+  version 3.12 (`environment.sdk: ^3.12.0`): Dart LV 3.13 rejects the `final`
+  parameters the current generated code emits.
+- Platform minimums follow the SDK: iOS `15.0` (`ios/Runner.xcodeproj`,
+  `ios/Podfile`) and macOS `12.0` (`macos/Runner.xcodeproj`).
+- Any dependency PR must keep `flutter pub get` green on Flutter 3.47.4 and
   pass the full required-check matrix. Never edit `pubspec.lock` by hand —
   regenerate with `flutter pub get`.
 - Android `compileSdk`/`minSdk` are set explicitly in
   `android/app/build.gradle.kts` when a plugin requires more than the Flutter
   default (e.g. `flutter_secure_storage 11` requires `compileSdk 37` vs the
-  Flutter 3.44 default of 36).
+  Flutter default of 36).

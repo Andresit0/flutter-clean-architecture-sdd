@@ -3043,7 +3043,7 @@ Key design decisions:
 - **Caching:** all jobs enable `cache: true` on `subosito/flutter-action@v2`; `Build iOS` additionally caches CocoaPods (`actions/cache@v6`, `ios/Pods`).
 - **Least privilege:** `permissions: contents: read` on the whole workflow.
 - **Concurrency:** `concurrency: ci-${{ github.ref }}` with `cancel-in-progress: true` cancels superseded runs, saving minutes and avoiding races.
-- **Pinned Flutter version:** All jobs pin `flutter-version: '3.44.0'`.
+- **Pinned Flutter version:** The version lives once in `environment.flutter` (`pubspec.yaml`); all jobs resolve it via `flutter-version-file`, so no workflow hardcodes `flutter-version`.
 
 ### Golden tests
 

@@ -17,8 +17,9 @@
    ```
    If a device/controlled runner is available (D6), also run
    `integration_test/*_test.dart` on the device.
-   Note: `flutter pub get` re-resolves the lock against the pinned Flutter SDK
-   (3.44.0) — never hand-edit `pubspec.lock`.
+   Note: `flutter pub get` re-resolves the lock against the Flutter SDK pinned
+   in `pubspec.yaml` (`environment.flutter`, 3.47.4) — never hand-edit
+   `pubspec.lock`.
 3. Create `release/X.Y.Z` from `develop`.
 4. Open a PR from `release/X.Y.Z` to `main` only. The Branch Source Gate
    (`branch-source-gate`) rejects any non-`release/*` / `hotfix/*` head.
