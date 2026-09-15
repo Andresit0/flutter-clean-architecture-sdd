@@ -17,6 +17,7 @@ import 'package:clean_architecture_sdd_harness/features/auth/presentation/notifi
 import 'package:clean_architecture_sdd_harness/features/auth/presentation/notifiers/auth_state.dart';
 import 'package:clean_architecture_sdd_harness/features/auth/di/auth_provider.dart';
 import 'package:clean_architecture_sdd_harness/shared/interfaces/_interfaces.lib.dart';
+
 import '../../../../helpers/mocks.dart';
 
 class _MockLoginUseCase extends Mock implements LoginUseCase {}
@@ -51,18 +52,14 @@ void main() {
     mockAuthRepo = _MockAuthRepository();
     fakeLogger = FakeLogger();
 
-    when(
-      () => mockAuthRepo.clearSession(),
-    ).thenAnswer((_) async => const Success(null));
-    when(
-      () => mockAuthRepo.resetAccount(),
-    ).thenAnswer((_) async => const Success(null));
-    when(
-      () => mockRestoreSessionUseCase.call(any()),
-    ).thenAnswer((_) async => const Success(null));
-    when(
-      () => mockLoginUseCase.call(any()),
-    ).thenAnswer((_) async => Success(mockLoginResponse));
+    when(() => mockAuthRepo.clearSession())
+        .thenAnswer((_) async => const Success(null));
+    when(() => mockAuthRepo.resetAccount())
+        .thenAnswer((_) async => const Success(null));
+    when(() => mockRestoreSessionUseCase.call(any()))
+        .thenAnswer((_) async => const Success(null));
+    when(() => mockLoginUseCase.call(any()))
+        .thenAnswer((_) async => Success(mockLoginResponse));
 
     container = ProviderContainer(
       overrides: [
@@ -116,9 +113,8 @@ void main() {
       });
 
       test('login_failure_sets_AuthFailure_with_message', () async {
-        when(
-          () => mockLoginUseCase.call(any()),
-        ).thenAnswer((_) async => const Failure(NetworkError()));
+        when(() => mockLoginUseCase.call(any()))
+            .thenAnswer((_) async => const Failure(NetworkError()));
 
         await notifier.login('test@example.com', 'password');
         final state = container.read(authProvider);
@@ -139,9 +135,8 @@ void main() {
 
     group('restoreSession', () {
       test('restoreSession_success_sets_loaded_state', () async {
-        when(
-          () => mockRestoreSessionUseCase.call(any()),
-        ).thenAnswer((_) async => Success(mockLoginResponse));
+        when(() => mockRestoreSessionUseCase.call(any()))
+            .thenAnswer((_) async => Success(mockLoginResponse));
 
         await notifier.restoreSession();
         final state = container.read(authProvider);
@@ -151,18 +146,16 @@ void main() {
       });
 
       test('restoreSession_null_data_keeps_initial_state', () async {
-        when(
-          () => mockRestoreSessionUseCase.call(any()),
-        ).thenAnswer((_) async => const Success(null));
+        when(() => mockRestoreSessionUseCase.call(any()))
+            .thenAnswer((_) async => const Success(null));
 
         await notifier.restoreSession();
         expect(container.read(authProvider), const AuthState.initial());
       });
 
       test('restoreSession_failure_sets_AuthFailure', () async {
-        when(
-          () => mockRestoreSessionUseCase.call(any()),
-        ).thenAnswer((_) async => const Failure(NetworkError()));
+        when(() => mockRestoreSessionUseCase.call(any()))
+            .thenAnswer((_) async => const Failure(NetworkError()));
 
         await notifier.restoreSession();
         final state = container.read(authProvider);
@@ -190,9 +183,8 @@ void main() {
       });
 
       test('logout_failure_sets_AuthFailure', () async {
-        when(
-          () => mockAuthRepo.clearSession(),
-        ).thenAnswer((_) async => const Failure(NetworkError()));
+        when(() => mockAuthRepo.clearSession())
+            .thenAnswer((_) async => const Failure(NetworkError()));
 
         await notifier.logout();
         final state = container.read(authProvider);
@@ -214,9 +206,8 @@ void main() {
       });
 
       test('forceLogout_resets_state_even_when_clear_session_fails', () async {
-        when(
-          () => mockAuthRepo.clearSession(),
-        ).thenAnswer((_) async => const Failure(NetworkError()));
+        when(() => mockAuthRepo.clearSession())
+            .thenAnswer((_) async => const Failure(NetworkError()));
 
         await notifier.forceLogout();
 
@@ -241,9 +232,8 @@ void main() {
       });
 
       test('resetAccount_failure_sets_AuthFailure', () async {
-        when(
-          () => mockAuthRepo.resetAccount(),
-        ).thenAnswer((_) async => const Failure(NetworkError()));
+        when(() => mockAuthRepo.resetAccount())
+            .thenAnswer((_) async => const Failure(NetworkError()));
 
         await notifier.resetAccount();
 

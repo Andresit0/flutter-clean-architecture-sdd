@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_result_value_dto.dart';
@@ -9,6 +9,7 @@ part of 'lab_result_value_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LabResultValueDtoCopyWith<LabResultValueDto> get copyWith => _$LabResultValueDt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultValueDto&&(identical(other.date, date) || other.date == date)&&const DeepCollectionEquality().equals(other.value, value));
+  final _this = this as LabResultValueDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultValueDto&&(identical(other.date, _this.date) || other.date == _this.date)&&const DeepCollectionEquality().equals(other.value, _this.value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,date,const DeepCollectionEquality().hash(value));
+int get hashCode {
+  final _this = this as LabResultValueDto;
+  return Object.hash(runtimeType,_this.date,const DeepCollectionEquality().hash(_this.value));
+}
 
 @override
 String toString() {
-  return 'LabResultValueDto(date: $date, value: $value)';
+  final _this = this as LabResultValueDto;
+  return 'LabResultValueDto(date: ${_this.date}, value: ${_this.value})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LabResultValueDtoCopyWithImpl<$Res>
 /// Create a copy of LabResultValueDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? date = null,Object? value = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultValueDto(
 date: null == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as DateTime,value: freezed == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as dynamic,
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultValueDto&&(identical(other.date, date) || other.date == date)&&const DeepCollectionEquality().equals(other.value, value));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultValueDto&&(identical(other.date, date) || other.date == date)&&const DeepCollectionEquality().equals(other.value, value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,date,const DeepCollectionEquality().hash(value));
+int get hashCode {
+    return Object.hash(runtimeType,date,const DeepCollectionEquality().hash(value));
+}
 
 @override
 String toString() {
-  return 'LabResultValueDto(date: $date, value: $value)';
+    return 'LabResultValueDto(date: $date, value: $value)';
 }
 
 

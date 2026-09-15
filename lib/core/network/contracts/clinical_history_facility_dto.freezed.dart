@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clinical_history_facility_dto.dart';
@@ -9,6 +9,7 @@ part of 'clinical_history_facility_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ClinicalHistoryFacilityDtoCopyWith<ClinicalHistoryFacilityDto> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFacilityDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
+  final _this = this as ClinicalHistoryFacilityDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFacilityDto&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.city, _this.city) || other.city == _this.city));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,city);
+int get hashCode {
+  final _this = this as ClinicalHistoryFacilityDto;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.city);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryFacilityDto(id: $id, name: $name, city: $city)';
+  final _this = this as ClinicalHistoryFacilityDto;
+  return 'ClinicalHistoryFacilityDto(id: ${_this.id}, name: ${_this.name}, city: ${_this.city})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ClinicalHistoryFacilityDtoCopyWithImpl<$Res>
 /// Create a copy of ClinicalHistoryFacilityDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? city = null,}) {
-  return _then(_self.copyWith(
+  return _then(ClinicalHistoryFacilityDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,city: null == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
@@ -231,16 +237,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryFacilityDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryFacilityDto&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,city);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,city);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryFacilityDto(id: $id, name: $name, city: $city)';
+    return 'ClinicalHistoryFacilityDto(id: $id, name: $name, city: $city)';
 }
 
 

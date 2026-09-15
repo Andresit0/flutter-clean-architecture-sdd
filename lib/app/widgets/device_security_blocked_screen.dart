@@ -31,9 +31,8 @@ class DeviceSecurityBlockedScreen extends StatelessWidget {
               Text(
                 l10n.deviceSecurityMessage,
                 textAlign: TextAlign.center,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: AppColors.gray),
+                style: Theme.of(context).textTheme.bodyMedium
+                    ?.copyWith(color: AppColors.gray),
               ),
             ],
           ),

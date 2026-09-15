@@ -10,6 +10,7 @@ import 'package:clean_architecture_sdd_harness/features/auth/domain/usecases/cre
 import 'package:clean_architecture_sdd_harness/features/auth/domain/value_objects/email.dart';
 import 'package:clean_architecture_sdd_harness/features/auth/domain/value_objects/password_hash.dart';
 import 'package:clean_architecture_sdd_harness/shared/models/patient/patient_entity.dart';
+
 import '../../../helpers/mocks.dart';
 
 class _MockAuthRepository extends Mock implements IAuthRepository {}
@@ -39,9 +40,8 @@ void main() {
   });
 
   test('returns_null_success_when_no_credentials_stored', () async {
-    when(
-      () => mockCredentialStore.readCredentials(),
-    ).thenAnswer((_) async => null);
+    when(() => mockCredentialStore.readCredentials())
+        .thenAnswer((_) async => null);
 
     final result = await useCase(NoParams());
 
@@ -83,9 +83,8 @@ void main() {
   });
 
   test('returns_success_null_and_logs_when_stored_email_is_invalid', () async {
-    when(
-      () => mockCredentialStore.readCredentials(),
-    ).thenAnswer((_) async => (email: 'not-an-email', passwordHash: 'hash'));
+    when(() => mockCredentialStore.readCredentials())
+        .thenAnswer((_) async => (email: 'not-an-email', passwordHash: 'hash'));
 
     final result = await useCase(NoParams());
 
@@ -137,9 +136,8 @@ void main() {
   );
 
   test('returns_failure_when_credential_store_throws', () async {
-    when(
-      () => mockCredentialStore.readCredentials(),
-    ).thenThrow(Exception('storage down'));
+    when(() => mockCredentialStore.readCredentials())
+        .thenThrow(Exception('storage down'));
 
     final result = await useCase(NoParams());
 

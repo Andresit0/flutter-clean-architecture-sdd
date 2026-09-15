@@ -7,6 +7,7 @@ import 'package:clean_architecture_sdd_harness/features/lab_results/infrastructu
 import 'package:clean_architecture_sdd_harness/shared/error/_error.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/exceptions/_exceptions.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/models/_models.lib.dart';
+
 import '../../../helpers/mocks.dart';
 
 class _MockRemoteDatasource extends Mock
@@ -101,9 +102,8 @@ void main() {
       'remote_success_with_cache_write_failure_logs_and_returns_Success',
       () async {
         when(() => mockRemote.loadRemote()).thenAnswer((_) async => _tList);
-        when(
-          () => mockLocal.storeLocal(any()),
-        ).thenThrow(Exception('db error'));
+        when(() => mockLocal.storeLocal(any()))
+            .thenThrow(Exception('db error'));
 
         final result = await repository.loadLabResults();
 
@@ -120,36 +120,30 @@ void main() {
       },
     );
 
-    test(
-      'network_failure_falls_back_to_cache_does_not_write_through_and_logs_origin_cache',
-      () async {
-        when(
-          () => mockRemote.loadRemote(),
-        ).thenThrow(const NoConnectionException());
-        when(() => mockLocal.loadLocal()).thenAnswer((_) async => _tCachedList);
+    test('network_failure_falls_back_to_cache_does_not_write_through_and_logs_origin_cache', () async {
+      when(() => mockRemote.loadRemote())
+          .thenThrow(const NoConnectionException());
+      when(() => mockLocal.loadLocal()).thenAnswer((_) async => _tCachedList);
 
-        final result = await repository.loadLabResults();
+      final result = await repository.loadLabResults();
 
-        expect(result.isSuccess, isTrue);
-        result.fold(
-          onSuccess: (data) => expect(data, _tCachedList),
-          onFailure: (_) => fail('should be Success'),
-        );
-        verifyNever(() => mockLocal.storeLocal(any()));
-        expect(
-          fakeLogger.infoMessages,
-          contains('[lab_results] load origin=cache'),
-        );
-      },
-    );
+      expect(result.isSuccess, isTrue);
+      result.fold(
+        onSuccess: (data) => expect(data, _tCachedList),
+        onFailure: (_) => fail('should be Success'),
+      );
+      verifyNever(() => mockLocal.storeLocal(any()));
+      expect(
+        fakeLogger.infoMessages,
+        contains('[lab_results] load origin=cache'),
+      );
+    });
 
     test('network_failure_with_empty_cache_returns_Failure', () async {
-      when(
-        () => mockRemote.loadRemote(),
-      ).thenThrow(const NoConnectionException());
-      when(
-        () => mockLocal.loadLocal(),
-      ).thenAnswer((_) async => const <LabResultEntity>[]);
+      when(() => mockRemote.loadRemote())
+          .thenThrow(const NoConnectionException());
+      when(() => mockLocal.loadLocal())
+          .thenAnswer((_) async => const <LabResultEntity>[]);
 
       final result = await repository.loadLabResults();
 
@@ -163,9 +157,8 @@ void main() {
     test(
       'local_read_failure_surfaces_failure_with_stack_trace_and_origin_cache',
       () async {
-        when(
-          () => mockRemote.loadRemote(),
-        ).thenThrow(const NoConnectionException());
+        when(() => mockRemote.loadRemote())
+            .thenThrow(const NoConnectionException());
         when(() => mockLocal.loadLocal()).thenThrow(Exception('db corrupt'));
 
         final result = await repository.loadLabResults();
@@ -227,9 +220,8 @@ void main() {
     test(
       'remote_failure_returns_Failure_and_does_not_fall_back_to_cache',
       () async {
-        when(
-          () => mockRemote.loadRemote(),
-        ).thenThrow(const NoConnectionException());
+        when(() => mockRemote.loadRemote())
+            .thenThrow(const NoConnectionException());
         when(() => mockLocal.loadLocal()).thenAnswer((_) async => _tCachedList);
 
         final result = await repository.refreshLabResults();

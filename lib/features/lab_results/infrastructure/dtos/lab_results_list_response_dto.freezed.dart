@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_results_list_response_dto.dart';
@@ -9,6 +9,7 @@ part of 'lab_results_list_response_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LabResultsListResponseDtoCopyWith<LabResultsListResponseDto> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsListResponseDto&&const DeepCollectionEquality().equals(other.labResults, labResults));
+  final _this = this as LabResultsListResponseDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultsListResponseDto&&const DeepCollectionEquality().equals(other.labResults, _this.labResults));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(labResults));
+int get hashCode {
+  final _this = this as LabResultsListResponseDto;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.labResults));
+}
 
 @override
 String toString() {
-  return 'LabResultsListResponseDto(labResults: $labResults)';
+  final _this = this as LabResultsListResponseDto;
+  return 'LabResultsListResponseDto(labResults: ${_this.labResults})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LabResultsListResponseDtoCopyWithImpl<$Res>
 /// Create a copy of LabResultsListResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? labResults = null,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultsListResponseDto(
 labResults: null == labResults ? _self.labResults : labResults // ignore: cast_nullable_to_non_nullable
 as List<LabResultDto>,
   ));
@@ -209,7 +215,7 @@ return $default(_that.labResults);case _:
 @JsonSerializable()
 
 class _LabResultsListResponseDto implements LabResultsListResponseDto {
-  const _LabResultsListResponseDto({@JsonKey(name: 'lab_results') required final  List<LabResultDto> labResults}): _labResults = labResults;
+  const _LabResultsListResponseDto({@JsonKey(name: 'lab_results') required  List<LabResultDto> labResults}): _labResults = labResults;
   factory _LabResultsListResponseDto.fromJson(Map<String, dynamic> json) => _$LabResultsListResponseDtoFromJson(json);
 
  final  List<LabResultDto> _labResults;
@@ -233,16 +239,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultsListResponseDto&&const DeepCollectionEquality().equals(other._labResults, _labResults));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultsListResponseDto&&const DeepCollectionEquality().equals(other.labResults, _labResults));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_labResults));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_labResults));
+}
 
 @override
 String toString() {
-  return 'LabResultsListResponseDto(labResults: $labResults)';
+    return 'LabResultsListResponseDto(labResults: $labResults)';
 }
 
 

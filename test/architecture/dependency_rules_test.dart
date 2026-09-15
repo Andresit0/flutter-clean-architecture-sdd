@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 
 List<Directory> _featureDirs() =>
@@ -40,42 +41,15 @@ const _externalPackages = [
 
 void main() {
   group('Architecture Dependency Rules', () {
-    test(
-      'Rule 1: domain/ does NOT import infrastructure, core, app, presentation, nor flutter',
-      () {
-        for (final feature in _featureDirs()) {
-          for (final file in _dartFilesIn(
-            Directory('${feature.path}/domain'),
-          )) {
-            for (final import in _imports(file)) {
-              for (final forbidden in [
-                'infrastructure/',
-                'core/',
-                'app/',
-                'presentation/',
-                'package:flutter/',
-              ]) {
-                expect(
-                  import.contains(forbidden),
-                  isFalse,
-                  reason: '${file.path} imports $forbidden',
-                );
-              }
-            }
-          }
-        }
-      },
-    );
-
-    test(
-      'Rule 2: shared/models/ does NOT import infrastructure, core, app, nor flutter',
-      () {
-        for (final file in _dartFilesIn(Directory('lib/shared/models'))) {
+    test('Rule 1: domain/ does NOT import infrastructure, core, app, presentation, nor flutter', () {
+      for (final feature in _featureDirs()) {
+        for (final file in _dartFilesIn(Directory('${feature.path}/domain'))) {
           for (final import in _imports(file)) {
             for (final forbidden in [
               'infrastructure/',
               'core/',
               'app/',
+              'presentation/',
               'package:flutter/',
             ]) {
               expect(
@@ -86,14 +60,33 @@ void main() {
             }
           }
         }
-      },
-    );
+      }
+    });
+
+    test('Rule 2: shared/models/ does NOT import infrastructure, core, app, nor flutter', () {
+      for (final file in _dartFilesIn(Directory('lib/shared/models'))) {
+        for (final import in _imports(file)) {
+          for (final forbidden in [
+            'infrastructure/',
+            'core/',
+            'app/',
+            'package:flutter/',
+          ]) {
+            expect(
+              import.contains(forbidden),
+              isFalse,
+              reason: '${file.path} imports $forbidden',
+            );
+          }
+        }
+      }
+    });
 
     test('Rule 3: No .g.dart files in domain/ or shared/models/', () {
       for (final feature in _featureDirs()) {
-        final domainG = Directory(
-          '${feature.path}/domain',
-        ).listSync().where((f) => f.path.endsWith('.g.dart'));
+        final domainG = Directory('${feature.path}/domain')
+            .listSync()
+            .where((f) => f.path.endsWith('.g.dart'));
         expect(
           domainG,
           isEmpty,
@@ -101,9 +94,9 @@ void main() {
         );
       }
 
-      final sharedG = Directory(
-        'lib/shared/models',
-      ).listSync(recursive: true).where((f) => f.path.endsWith('.g.dart'));
+      final sharedG = Directory('lib/shared/models')
+          .listSync(recursive: true)
+          .where((f) => f.path.endsWith('.g.dart'));
       expect(sharedG, isEmpty, reason: 'shared/models/ contains .g.dart');
     });
 
@@ -146,27 +139,23 @@ void main() {
       }
     });
 
-    test(
-      'Rule 6: features/ does NOT import external packages directly (only via wrappers)',
-      () {
-        for (final feature in _featureDirs()) {
-          final featureFiles = _dartFilesIn(feature);
+    test('Rule 6: features/ does NOT import external packages directly (only via wrappers)', () {
+      for (final feature in _featureDirs()) {
+        final featureFiles = _dartFilesIn(feature);
 
-          for (final file in featureFiles) {
-            for (final import in _imports(file)) {
-              for (final pkg in _externalPackages) {
-                expect(
-                  import.contains(pkg),
-                  isFalse,
-                  reason:
-                      '${file.path} imports $pkg directly. Must use wrapper.',
-                );
-              }
+        for (final file in featureFiles) {
+          for (final import in _imports(file)) {
+            for (final pkg in _externalPackages) {
+              expect(
+                import.contains(pkg),
+                isFalse,
+                reason: '${file.path} imports $pkg directly. Must use wrapper.',
+              );
             }
           }
         }
-      },
-    );
+      }
+    });
 
     test('Rule 6b: feature tests (test/features, test/bdd, integration_test) '
         'does NOT import external packages directly (only via wrappers)', () {
@@ -221,34 +210,31 @@ void main() {
       }
     });
 
-    test(
-      'Rule 9: domain/entities/ does NOT import external packages (only shared/ and freezed_annotation)',
-      () {
-        const allowedPrefixes = [
-          'package:clean_architecture_sdd_harness/shared/',
-          'package:freezed_annotation/',
-        ];
+    test('Rule 9: domain/entities/ does NOT import external packages (only shared/ and freezed_annotation)', () {
+      const allowedPrefixes = [
+        'package:clean_architecture_sdd_harness/shared/',
+        'package:freezed_annotation/',
+      ];
 
-        for (final feature in _featureDirs()) {
-          final entityFiles = _dartFilesIn(
-            Directory('${feature.path}/domain/entities'),
-          );
+      for (final feature in _featureDirs()) {
+        final entityFiles = _dartFilesIn(
+          Directory('${feature.path}/domain/entities'),
+        );
 
-          for (final file in entityFiles) {
-            for (final import in _imports(file)) {
-              final isAllowed = allowedPrefixes.any(
-                (prefix) => import.contains(prefix),
-              );
-              final isDartSdk = import.contains('dart:');
-              final isRelative = !import.contains('package:');
-              if (!isAllowed && !isDartSdk && !isRelative) {
-                fail('${file.path} imports "${import.trim()}" - not allowed');
-              }
+        for (final file in entityFiles) {
+          for (final import in _imports(file)) {
+            final isAllowed = allowedPrefixes.any(
+              (prefix) => import.contains(prefix),
+            );
+            final isDartSdk = import.contains('dart:');
+            final isRelative = !import.contains('package:');
+            if (!isAllowed && !isDartSdk && !isRelative) {
+              fail('${file.path} imports "${import.trim()}" - not allowed');
             }
           }
         }
-      },
-    );
+      }
+    });
 
     test('Rule 10: shared/ does NOT import l10n/ nor package:flutter/', () {
       for (final file in _dartFilesIn(Directory('lib/shared'))) {
@@ -287,82 +273,74 @@ void main() {
       }
     });
 
-    test(
-      'Rule 12: domain/ does NOT import external packages (only shared/, freezed_annotation and relatives)',
-      () {
-        for (final feature in _featureDirs()) {
-          final featureName = feature.path.split('/').last;
-          for (final file in _dartFilesIn(
-            Directory('${feature.path}/domain'),
-          )) {
-            final content = file.readAsStringSync();
-            expect(
-              content.contains('.g.dart'),
-              isFalse,
-              reason:
-                  '${file.path} — domain/ does not allow .g.dart (without '
-                  'domain serialization; use DTOs in infrastructure/)',
-            );
+    test('Rule 12: domain/ does NOT import external packages (only shared/, freezed_annotation and relatives)', () {
+      for (final feature in _featureDirs()) {
+        final featureName = feature.path.split('/').last;
+        for (final file in _dartFilesIn(Directory('${feature.path}/domain'))) {
+          final content = file.readAsStringSync();
+          expect(
+            content.contains('.g.dart'),
+            isFalse,
+            reason:
+                '${file.path} — domain/ does not allow .g.dart (without '
+                'domain serialization; use DTOs in infrastructure/)',
+          );
 
-            for (final import in _imports(file)) {
-              final isShared = import.contains(
-                'package:clean_architecture_sdd_harness/shared/',
-              );
-              final isFreezed = import.contains('package:freezed_annotation/');
-              final isOwnDomain = import.contains(
-                'features/$featureName/domain/',
-              );
-              final isDartSdk = import.contains('dart:');
-              final isRelative = !import.contains('package:');
-              if (!isShared &&
-                  !isFreezed &&
-                  !isOwnDomain &&
-                  !isDartSdk &&
-                  !isRelative) {
-                fail(
-                  '${file.path} imports "${import.trim()}" - not allowed '
-                  'in domain/ (only dart:, shared/, freezed_annotation and its '
-                  'own domain)',
-                );
-              }
-            }
-          }
-        }
-      },
-    );
-
-    test(
-      'Rule 13: no implementation_imports (package:.../src/) fuera de allowlist',
-      () {
-        const allowlist = <String>[];
-        final root = Directory.current.path;
-
-        final dartFiles = Directory('lib')
-            .listSync(recursive: true)
-            .whereType<File>()
-            .where(
-              (f) =>
-                  f.path.endsWith('.dart') &&
-                  !f.path.contains('.g.dart') &&
-                  !f.path.contains('.freezed.dart'),
-            );
-
-        for (final file in dartFiles) {
           for (final import in _imports(file)) {
-            if (import.contains('package:') && import.contains('/src/')) {
-              final relative = file.path.replaceFirst('$root/', '');
-              expect(
-                allowlist.contains(relative),
-                isTrue,
-                reason:
-                    '${file.path} imports package:.../src/ — must be isolated '
-                    'in an allowlist file (e.g. sembast_codec.dart)',
+            final isShared = import.contains(
+              'package:clean_architecture_sdd_harness/shared/',
+            );
+            final isFreezed = import.contains('package:freezed_annotation/');
+            final isOwnDomain = import.contains(
+              'features/$featureName/domain/',
+            );
+            final isDartSdk = import.contains('dart:');
+            final isRelative = !import.contains('package:');
+            if (!isShared &&
+                !isFreezed &&
+                !isOwnDomain &&
+                !isDartSdk &&
+                !isRelative) {
+              fail(
+                '${file.path} imports "${import.trim()}" - not allowed '
+                'in domain/ (only dart:, shared/, freezed_annotation and its '
+                'own domain)',
               );
             }
           }
         }
-      },
-    );
+      }
+    });
+
+    test('Rule 13: no implementation_imports (package:.../src/) fuera de allowlist', () {
+      const allowlist = <String>[];
+      final root = Directory.current.path;
+
+      final dartFiles = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where(
+            (f) =>
+                f.path.endsWith('.dart') &&
+                !f.path.contains('.g.dart') &&
+                !f.path.contains('.freezed.dart'),
+          );
+
+      for (final file in dartFiles) {
+        for (final import in _imports(file)) {
+          if (import.contains('package:') && import.contains('/src/')) {
+            final relative = file.path.replaceFirst('$root/', '');
+            expect(
+              allowlist.contains(relative),
+              isTrue,
+              reason:
+                  '${file.path} imports package:.../src/ — must be isolated '
+                  'in an allowlist file (e.g. sembast_codec.dart)',
+            );
+          }
+        }
+      }
+    });
 
     test('Rule 14: core/ does NOT import features/ nor app/', () {
       for (final file in _dartFilesIn(Directory('lib/core'))) {
@@ -435,30 +413,27 @@ void main() {
       },
     );
 
-    test(
-      'Rule 17a: every public method of domain/repositories/* returns Future<Result<...>>',
-      () {
-        for (final feature in _featureDirs()) {
-          final repoDir = Directory('${feature.path}/domain/repositories');
-          if (!repoDir.existsSync()) continue;
-          for (final file in _dartFilesIn(repoDir)) {
-            final content = file.readAsStringSync();
-            final methodRegex = RegExp(r'Future<[^>]*>\s+(\w+)\s*\(');
-            for (final match in methodRegex.allMatches(content)) {
-              final returnType = match.group(0)!.split(RegExp(r'\s+')).first;
-              expect(
-                returnType.startsWith('Future<Result<'),
-                isTrue,
-                reason:
-                    '${file.path} — ${match.group(1)} must return '
-                    'Future<Result<...>> (canonical Result policy). '
-                    'Encontrado: $returnType',
-              );
-            }
+    test('Rule 17a: every public method of domain/repositories/* returns Future<Result<...>>', () {
+      for (final feature in _featureDirs()) {
+        final repoDir = Directory('${feature.path}/domain/repositories');
+        if (!repoDir.existsSync()) continue;
+        for (final file in _dartFilesIn(repoDir)) {
+          final content = file.readAsStringSync();
+          final methodRegex = RegExp(r'Future<[^>]*>\s+(\w+)\s*\(');
+          for (final match in methodRegex.allMatches(content)) {
+            final returnType = match.group(0)!.split(RegExp(r'\s+')).first;
+            expect(
+              returnType.startsWith('Future<Result<'),
+              isTrue,
+              reason:
+                  '${file.path} — ${match.group(1)} must return '
+                  'Future<Result<...>> (canonical Result policy). '
+                  'Encontrado: $returnType',
+            );
           }
         }
-      },
-    );
+      }
+    });
 
     test(
       'Rule 17b: every usecase implements IUseCase<In, Out> (uniform contract)',
@@ -647,35 +622,32 @@ void main() {
       }
     });
 
-    test(
-      'Rule 22: shared/error is only imported via the barrel _error.lib.dart',
-      () {
-        final dartFiles = Directory('lib')
-            .listSync(recursive: true)
-            .whereType<File>()
-            .where(
-              (f) =>
-                  f.path.endsWith('.dart') &&
-                  !f.path.contains('.g.dart') &&
-                  !f.path.contains('.freezed.dart'),
-            );
+    test('Rule 22: shared/error is only imported via the barrel _error.lib.dart', () {
+      final dartFiles = Directory('lib')
+          .listSync(recursive: true)
+          .whereType<File>()
+          .where(
+            (f) =>
+                f.path.endsWith('.dart') &&
+                !f.path.contains('.g.dart') &&
+                !f.path.contains('.freezed.dart'),
+          );
 
-        for (final file in dartFiles) {
-          for (final import in _imports(file)) {
-            final isRawErrorImport =
-                import.contains('shared/error/') &&
-                !import.contains('_error.lib.dart');
-            expect(
-              isRawErrorImport,
-              isFalse,
-              reason:
-                  '${file.path} imports shared/error directly — '
-                  'always use the barrel _error.lib.dart (LEARN.md barrel rule)',
-            );
-          }
+      for (final file in dartFiles) {
+        for (final import in _imports(file)) {
+          final isRawErrorImport =
+              import.contains('shared/error/') &&
+              !import.contains('_error.lib.dart');
+          expect(
+            isRawErrorImport,
+            isFalse,
+            reason:
+                '${file.path} imports shared/error directly — '
+                'always use the barrel _error.lib.dart (LEARN.md barrel rule)',
+          );
         }
-      },
-    );
+      }
+    });
 
     test('Rule 23: shared/exceptions is only imported via the barrel '
         '_exceptions.lib.dart', () {
@@ -848,25 +820,22 @@ void main() {
       },
     );
 
-    test(
-      'Rule 27: app/ does NOT re-export symbols from features/ (the composition '
-      'root imports features explicitly, without hidden re-exports)',
-      () {
-        for (final file in _dartFilesIn(Directory('lib/app'))) {
-          for (final line in file.readAsStringSync().split('\n')) {
-            final trimmed = line.trimLeft();
-            if (trimmed.startsWith('export') && trimmed.contains('features/')) {
-              fail(
-                '${file.path} re-exports features/ — the composition root '
-                'must import feature symbols explicitly; hidden '
-                're-exports crean dependencias ocultas/transitivas. '
-                'Line: $trimmed',
-              );
-            }
+    test('Rule 27: app/ does NOT re-export symbols from features/ (the composition '
+        'root imports features explicitly, without hidden re-exports)', () {
+      for (final file in _dartFilesIn(Directory('lib/app'))) {
+        for (final line in file.readAsStringSync().split('\n')) {
+          final trimmed = line.trimLeft();
+          if (trimmed.startsWith('export') && trimmed.contains('features/')) {
+            fail(
+              '${file.path} re-exports features/ — the composition root '
+              'must import feature symbols explicitly; hidden '
+              're-exports crean dependencias ocultas/transitivas. '
+              'Line: $trimmed',
+            );
           }
         }
-      },
-    );
+      }
+    });
 
     test('Rule 28: constructor-injected dependencies (I*, VoidCallback, '
         'Function()) must be private fields (_field)', () {

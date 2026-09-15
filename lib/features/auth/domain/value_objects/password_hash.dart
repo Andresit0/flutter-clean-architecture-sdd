@@ -6,7 +6,6 @@ part 'password_hash.freezed.dart';
 
 @freezed
 abstract class PasswordHash with _$PasswordHash {
-  const PasswordHash._();
   const factory PasswordHash.raw(String value) = _PasswordHash;
 
   static String? _validate(String value) {

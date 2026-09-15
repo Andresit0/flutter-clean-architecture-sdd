@@ -35,9 +35,8 @@ class ConnectivityBanner extends ConsumerWidget {
               Expanded(
                 child: Text(
                   l10n.offlineBanner,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.offlineText,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium
+                      ?.copyWith(color: AppColors.offlineText),
                 ),
               ),
             ],

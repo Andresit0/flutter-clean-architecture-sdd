@@ -155,9 +155,8 @@ void main() {
         statusCode: 200,
         data: {'ok': true},
       );
-      when(
-        () => internalDio.fetch<dynamic>(any()),
-      ).thenAnswer((_) async => retryResponse);
+      when(() => internalDio.fetch<dynamic>(any()))
+          .thenAnswer((_) async => retryResponse);
 
       final err = DioException(
         requestOptions: RequestOptions(path: '/original'),

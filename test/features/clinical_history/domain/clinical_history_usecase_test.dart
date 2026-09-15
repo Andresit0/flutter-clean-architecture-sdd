@@ -52,9 +52,8 @@ void main() {
 
   group('LoadClinicalHistoriesUseCase', () {
     test('load_delegates_to_repository_and_returns_result_unchanged', () async {
-      when(
-        () => repository.loadClinicalHistories(),
-      ).thenAnswer((_) async => const Success(_tList));
+      when(() => repository.loadClinicalHistories())
+          .thenAnswer((_) async => const Success(_tList));
 
       final result = await loadUseCase(NoParams());
 
@@ -67,9 +66,8 @@ void main() {
     });
 
     test('load_returns_failure_when_repository_fails', () async {
-      when(
-        () => repository.loadClinicalHistories(),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => repository.loadClinicalHistories())
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final result = await loadUseCase(NoParams());
 
@@ -85,9 +83,8 @@ void main() {
     test(
       'refresh_delegates_to_repository_and_returns_result_unchanged',
       () async {
-        when(
-          () => repository.refreshClinicalHistories(),
-        ).thenAnswer((_) async => const Success(_tList));
+        when(() => repository.refreshClinicalHistories())
+            .thenAnswer((_) async => const Success(_tList));
 
         final result = await refreshUseCase(NoParams());
 
@@ -101,9 +98,8 @@ void main() {
     );
 
     test('refresh_returns_failure_when_repository_fails', () async {
-      when(
-        () => repository.refreshClinicalHistories(),
-      ).thenAnswer((_) async => const Failure(ApiError()));
+      when(() => repository.refreshClinicalHistories())
+          .thenAnswer((_) async => const Failure(ApiError()));
 
       final result = await refreshUseCase(NoParams());
 

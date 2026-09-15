@@ -79,17 +79,15 @@ void main() {
     });
 
     test('loadRemote_401_throws_ApiException_and_propagates', () async {
-      when(
-        () => mockDio.get(any(), sla: any(named: 'sla')),
-      ).thenThrow(const ApiException(401));
+      when(() => mockDio.get(any(), sla: any(named: 'sla')))
+          .thenThrow(const ApiException(401));
 
       expect(() => datasource.loadRemote(), throwsA(isA<ApiException>()));
     });
 
     test('loadRemote_network_failure_throws_NoConnectionException', () async {
-      when(
-        () => mockDio.get(any(), sla: any(named: 'sla')),
-      ).thenThrow(const NoConnectionException());
+      when(() => mockDio.get(any(), sla: any(named: 'sla')))
+          .thenThrow(const NoConnectionException());
 
       expect(
         () => datasource.loadRemote(),
@@ -97,25 +95,22 @@ void main() {
       );
     });
 
-    test(
-      'loadRemote_throws_UnexpectedResponseException_when_response_is_not_a_json_object',
-      () async {
-        when(() => mockDio.get(any(), sla: any(named: 'sla'))).thenAnswer(
-          (_) async => HttpSuccess<Map<String, dynamic>>(data: null),
-        );
+    test('loadRemote_throws_UnexpectedResponseException_when_response_is_not_a_json_object', () async {
+      when(
+        () => mockDio.get(any(), sla: any(named: 'sla')),
+      ).thenAnswer((_) async => HttpSuccess<Map<String, dynamic>>(data: null));
 
-        expect(
-          () => datasource.loadRemote(),
-          throwsA(
-            isA<UnexpectedResponseException>().having(
-              (e) => e.details,
-              'details',
-              'clinical history response must be a JSON object',
-            ),
+      expect(
+        () => datasource.loadRemote(),
+        throwsA(
+          isA<UnexpectedResponseException>().having(
+            (e) => e.details,
+            'details',
+            'clinical history response must be a JSON object',
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
 
     test('loadRemote_uses_EndpointSla_standard', () async {
       when(

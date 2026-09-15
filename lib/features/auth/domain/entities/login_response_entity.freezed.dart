@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_response_entity.dart';
@@ -9,6 +9,7 @@ part of 'login_response_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LoginResponseEntityCopyWith<LoginResponseEntity> get copyWith => _$LoginRespons
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseEntity&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.clinicalHistory, clinicalHistory));
+  final _this = this as LoginResponseEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseEntity&&(identical(other.patient, _this.patient) || other.patient == _this.patient)&&(identical(other.token, _this.token) || other.token == _this.token)&&const DeepCollectionEquality().equals(other.clinicalHistory, _this.clinicalHistory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(clinicalHistory));
+int get hashCode {
+  final _this = this as LoginResponseEntity;
+  return Object.hash(runtimeType,_this.patient,_this.token,const DeepCollectionEquality().hash(_this.clinicalHistory));
+}
 
 @override
 String toString() {
-  return 'LoginResponseEntity(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
+  final _this = this as LoginResponseEntity;
+  return 'LoginResponseEntity(patient: ${_this.patient}, token: ${_this.token}, clinicalHistory: ${_this.clinicalHistory})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LoginResponseEntityCopyWithImpl<$Res>
 /// Create a copy of LoginResponseEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? patient = null,Object? token = null,Object? clinicalHistory = null,}) {
-  return _then(_self.copyWith(
+  return _then(LoginResponseEntity(
 patient: null == patient ? _self.patient : patient // ignore: cast_nullable_to_non_nullable
 as PatientEntity,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as TokenEntity,clinicalHistory: null == clinicalHistory ? _self.clinicalHistory : clinicalHistory // ignore: cast_nullable_to_non_nullable
@@ -226,7 +232,7 @@ return $default(_that.patient,_that.token,_that.clinicalHistory);case _:
 
 
 class _LoginResponseEntity extends LoginResponseEntity {
-  const _LoginResponseEntity({required this.patient, required this.token, required final  List<ClinicalHistoryEntity> clinicalHistory}): _clinicalHistory = clinicalHistory,super._();
+  const _LoginResponseEntity({required this.patient, required this.token, required  List<ClinicalHistoryEntity> clinicalHistory}): _clinicalHistory = clinicalHistory,super._();
   
 
 @override final  PatientEntity patient;
@@ -249,16 +255,18 @@ _$LoginResponseEntityCopyWith<_LoginResponseEntity> get copyWith => __$LoginResp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseEntity&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other._clinicalHistory, _clinicalHistory));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseEntity&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.clinicalHistory, _clinicalHistory));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(_clinicalHistory));
+int get hashCode {
+    return Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(_clinicalHistory));
+}
 
 @override
 String toString() {
-  return 'LoginResponseEntity(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
+    return 'LoginResponseEntity(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
 }
 
 

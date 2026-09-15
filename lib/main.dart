@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart' show Override;
+
 import 'app/app_initializer.dart';
 import 'app/di/network/dio_overrides.dart';
 import 'app/di/router/router_overrides.dart';
@@ -13,11 +14,13 @@ import 'core/router/app_navigator_provider.dart';
 import 'core/services/_services.lib.dart';
 import 'l10n/app_localizations.dart';
 import 'l10n/error_localizer.dart';
+
 import 'package:clean_architecture_sdd_harness/shared/error/_error.lib.dart';
 import 'package:clean_architecture_sdd_harness/design_system/theme/app_theme.dart';
 import 'package:clean_architecture_sdd_harness/design_system/theme/app_colors.dart';
 import 'package:clean_architecture_sdd_harness/design_system/_design.lib.dart';
 import 'package:clean_architecture_sdd_harness/app/widgets/connectivity_banner.dart';
+
 import 'features/auth/presentation/notifiers/auth_notifier.dart';
 import 'features/auth/presentation/notifiers/auth_state.dart';
 

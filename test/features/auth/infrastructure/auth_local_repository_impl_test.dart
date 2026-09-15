@@ -80,9 +80,8 @@ void main() {
     });
 
     test('clearSession_failure_returns_UnexpectedError', () async {
-      when(
-        () => mockLocal.clearSession(),
-      ).thenThrow(Exception('storage error'));
+      when(() => mockLocal.clearSession())
+          .thenThrow(Exception('storage error'));
 
       final result = await repository.clearSession();
 
@@ -119,9 +118,8 @@ void main() {
 
   group('restoreSession', () {
     test('restoreSession_valid_returns_Success_with_entity', () async {
-      when(
-        () => mockLocal.restoreSession(),
-      ).thenAnswer((_) async => _loginResponseEntity);
+      when(() => mockLocal.restoreSession())
+          .thenAnswer((_) async => _loginResponseEntity);
 
       final result = await repository.restoreSession();
 

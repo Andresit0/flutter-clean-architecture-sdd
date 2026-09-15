@@ -12,6 +12,7 @@ import 'package:clean_architecture_sdd_harness/features/lab_results/presentation
 import 'package:clean_architecture_sdd_harness/shared/error/_error.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/interfaces/_interfaces.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/models/_models.lib.dart';
+
 import '../../../../helpers/mocks.dart';
 
 class _MockLoadUseCase extends Mock implements LoadLabResultsUseCase {}
@@ -117,28 +118,23 @@ void main() {
       expect(container.read(labResultsProvider), isA<LabResultsInitial>());
     });
 
-    test(
-      'load_success_sets_loaded_state_with_selection_first_numeric_and_period_all',
-      () async {
-        when(
-          () => mockLoadUseCase.call(any()),
-        ).thenAnswer((_) async => Success(_tList));
+    test('load_success_sets_loaded_state_with_selection_first_numeric_and_period_all', () async {
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => Success(_tList));
 
-        await container.read(labResultsProvider.notifier).load();
+      await container.read(labResultsProvider.notifier).load();
 
-        final state = container.read(labResultsProvider);
-        expect(state, isA<LabResultsLoaded>());
-        final loaded = state as LabResultsLoaded;
-        expect(loaded.results, _tList);
-        expect(loaded.selectedTestId, 'lr_0001');
-        expect(loaded.period, Period.all);
-      },
-    );
+      final state = container.read(labResultsProvider);
+      expect(state, isA<LabResultsLoaded>());
+      final loaded = state as LabResultsLoaded;
+      expect(loaded.results, _tList);
+      expect(loaded.selectedTestId, 'lr_0001');
+      expect(loaded.period, Period.all);
+    });
 
     test('load_failure_sets_failure_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       await container.read(labResultsProvider.notifier).load();
 
@@ -149,9 +145,8 @@ void main() {
     });
 
     test('load_empty_list_sets_loaded_with_empty_list', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => Success(_tEmpty));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => Success(_tEmpty));
 
       await container.read(labResultsProvider.notifier).load();
 
@@ -164,9 +159,8 @@ void main() {
     });
 
     test('select_test_updates_selection_without_reload', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => Success(_tList));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => Success(_tList));
 
       final notifier = container.read(labResultsProvider.notifier);
       await notifier.load();
@@ -186,9 +180,8 @@ void main() {
     });
 
     test('set_period_updates_period_without_reload', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => Success(_tList));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => Success(_tList));
 
       final notifier = container.read(labResultsProvider.notifier);
       await notifier.load();
@@ -210,18 +203,17 @@ void main() {
     test(
       'refresh_success_replaces_loaded_state_and_keeps_valid_selection',
       () async {
-        when(
-          () => mockLoadUseCase.call(any()),
-        ).thenAnswer((_) async => Success(_tList));
-        when(
-          () => mockRefreshUseCase.call(any()),
-        ).thenAnswer((_) async => Success(_tListKeepingSelected));
+        when(() => mockLoadUseCase.call(any()))
+            .thenAnswer((_) async => Success(_tList));
+        when(() => mockRefreshUseCase.call(any()))
+            .thenAnswer((_) async => Success(_tListKeepingSelected));
 
         final notifier = container.read(labResultsProvider.notifier);
         await notifier.load();
         expect(
-          (container.read(labResultsProvider) as LabResultsLoaded)
-              .selectedTestId,
+          (container.read(
+            labResultsProvider,
+          ) as LabResultsLoaded).selectedTestId,
           'lr_0001',
         );
 
@@ -239,18 +231,17 @@ void main() {
     test(
       'refresh_success_deselected_test_falls_back_to_first_numeric',
       () async {
-        when(
-          () => mockLoadUseCase.call(any()),
-        ).thenAnswer((_) async => Success(_tList));
-        when(
-          () => mockRefreshUseCase.call(any()),
-        ).thenAnswer((_) async => Success(_tListWithoutSelected));
+        when(() => mockLoadUseCase.call(any()))
+            .thenAnswer((_) async => Success(_tList));
+        when(() => mockRefreshUseCase.call(any()))
+            .thenAnswer((_) async => Success(_tListWithoutSelected));
 
         final notifier = container.read(labResultsProvider.notifier);
         await notifier.load();
         expect(
-          (container.read(labResultsProvider) as LabResultsLoaded)
-              .selectedTestId,
+          (container.read(
+            labResultsProvider,
+          ) as LabResultsLoaded).selectedTestId,
           'lr_0001',
         );
 
@@ -271,12 +262,10 @@ void main() {
     );
 
     test('refresh_failure_from_loaded_keeps_list_and_emits_error', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => Success(_tList));
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => Success(_tList));
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(labResultsProvider.notifier);
       await notifier.load();
@@ -302,9 +291,8 @@ void main() {
     });
 
     test('refresh_failure_without_loaded_list_sets_failure_state', () async {
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(labResultsProvider.notifier);
       await notifier.refresh();
@@ -319,9 +307,8 @@ void main() {
     });
 
     test('reset_returns_initial_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(labResultsProvider.notifier);
       await notifier.load();

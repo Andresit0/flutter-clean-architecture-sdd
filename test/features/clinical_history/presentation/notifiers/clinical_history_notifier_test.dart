@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -12,6 +13,7 @@ import 'package:clean_architecture_sdd_harness/features/clinical_history/present
 import 'package:clean_architecture_sdd_harness/shared/error/_error.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/interfaces/_interfaces.lib.dart';
 import 'package:clean_architecture_sdd_harness/shared/models/_models.lib.dart';
+
 import '../../../../helpers/mocks.dart';
 
 class _MockLoadUseCase extends Mock implements LoadClinicalHistoriesUseCase {}
@@ -115,9 +117,8 @@ void main() {
     });
 
     test('load_success_sets_loaded_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tList));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tList));
 
       await container.read(clinicalHistoryProvider.notifier).load();
 
@@ -127,9 +128,8 @@ void main() {
     });
 
     test('load_failure_sets_failure_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       await container.read(clinicalHistoryProvider.notifier).load();
 
@@ -143,9 +143,8 @@ void main() {
     });
 
     test('load_empty_list_sets_loaded_with_empty_list', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tEmpty));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tEmpty));
 
       await container.read(clinicalHistoryProvider.notifier).load();
 
@@ -155,18 +154,17 @@ void main() {
     });
 
     test('refresh_success_replaces_loaded_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tList));
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tNewList));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tList));
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tNewList));
 
       final notifier = container.read(clinicalHistoryProvider.notifier);
       await notifier.load();
       expect(
-        (container.read(clinicalHistoryProvider) as ClinicalHistoryLoaded)
-            .clinicalHistory,
+        (container.read(
+          clinicalHistoryProvider,
+        ) as ClinicalHistoryLoaded).clinicalHistory,
         _tList,
       );
 
@@ -178,13 +176,11 @@ void main() {
     });
 
     test('refresh_keeps_loaded_state_while_in_flight', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tList));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tList));
       final completer = Completer<Result<List<ClinicalHistoryEntity>>>();
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) => completer.future);
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) => completer.future);
 
       final notifier = container.read(clinicalHistoryProvider.notifier);
       await notifier.load();
@@ -211,12 +207,10 @@ void main() {
     });
 
     test('refresh_failure_from_loaded_keeps_list_and_emits_error', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Success(_tList));
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Success(_tList));
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(clinicalHistoryProvider.notifier);
       await notifier.load();
@@ -245,9 +239,8 @@ void main() {
     });
 
     test('refresh_failure_without_loaded_list_sets_failure_state', () async {
-      when(
-        () => mockRefreshUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockRefreshUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(clinicalHistoryProvider.notifier);
       await notifier.refresh();
@@ -262,9 +255,8 @@ void main() {
     });
 
     test('reset_returns_initial_state', () async {
-      when(
-        () => mockLoadUseCase.call(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockLoadUseCase.call(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final notifier = container.read(clinicalHistoryProvider.notifier);
       await notifier.load();

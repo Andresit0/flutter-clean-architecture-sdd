@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clinical_history_facility_entity.dart';
@@ -9,6 +9,7 @@ part of 'clinical_history_facility_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ClinicalHistoryFacilityEntityCopyWith<ClinicalHistoryFacilityEntity> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFacilityEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
+  final _this = this as ClinicalHistoryFacilityEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryFacilityEntity&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.city, _this.city) || other.city == _this.city));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,city);
+int get hashCode {
+  final _this = this as ClinicalHistoryFacilityEntity;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.city);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryFacilityEntity(id: $id, name: $name, city: $city)';
+  final _this = this as ClinicalHistoryFacilityEntity;
+  return 'ClinicalHistoryFacilityEntity(id: ${_this.id}, name: ${_this.name}, city: ${_this.city})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ClinicalHistoryFacilityEntityCopyWithImpl<$Res>
 /// Create a copy of ClinicalHistoryFacilityEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? city = null,}) {
-  return _then(_self.copyWith(
+  return _then(ClinicalHistoryFacilityEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,city: null == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
@@ -225,16 +231,18 @@ _$ClinicalHistoryFacilityEntityCopyWith<_ClinicalHistoryFacilityEntity> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryFacilityEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryFacilityEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.city, city) || other.city == city));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,city);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,city);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryFacilityEntity(id: $id, name: $name, city: $city)';
+    return 'ClinicalHistoryFacilityEntity(id: $id, name: $name, city: $city)';
 }
 
 

@@ -20,9 +20,8 @@ void main() {
   group('DatabaseKeyService', () {
     group('readKey', () {
       test('returns existing key from storage', () async {
-        when(
-          () => mockStorage.read(key: 'db_encryption_key'),
-        ).thenAnswer((_) async => 'existing_key_value');
+        when(() => mockStorage.read(key: 'db_encryption_key'))
+            .thenAnswer((_) async => 'existing_key_value');
 
         final result = await keyService.readKey();
 
@@ -31,9 +30,8 @@ void main() {
       });
 
       test('returns null when no key is stored', () async {
-        when(
-          () => mockStorage.read(key: 'db_encryption_key'),
-        ).thenAnswer((_) async => null);
+        when(() => mockStorage.read(key: 'db_encryption_key'))
+            .thenAnswer((_) async => null);
 
         final result = await keyService.readKey();
 
@@ -61,9 +59,8 @@ void main() {
 
     group('deleteKey', () {
       test('removes key from secure storage', () async {
-        when(
-          () => mockStorage.delete(key: 'db_encryption_key'),
-        ).thenAnswer((_) async {});
+        when(() => mockStorage.delete(key: 'db_encryption_key'))
+            .thenAnswer((_) async {});
 
         await keyService.deleteKey();
 

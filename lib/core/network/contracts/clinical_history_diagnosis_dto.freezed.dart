@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clinical_history_diagnosis_dto.dart';
@@ -9,6 +9,7 @@ part of 'clinical_history_diagnosis_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ClinicalHistoryDiagnosisDtoCopyWith<ClinicalHistoryDiagnosisDto> get copyWith =
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryDiagnosisDto&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+  final _this = this as ClinicalHistoryDiagnosisDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryDiagnosisDto&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,name);
+int get hashCode {
+  final _this = this as ClinicalHistoryDiagnosisDto;
+  return Object.hash(runtimeType,_this.code,_this.name);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryDiagnosisDto(code: $code, name: $name)';
+  final _this = this as ClinicalHistoryDiagnosisDto;
+  return 'ClinicalHistoryDiagnosisDto(code: ${_this.code}, name: ${_this.name})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ClinicalHistoryDiagnosisDtoCopyWithImpl<$Res>
 /// Create a copy of ClinicalHistoryDiagnosisDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? name = null,}) {
-  return _then(_self.copyWith(
+  return _then(ClinicalHistoryDiagnosisDto(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryDiagnosisDto&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryDiagnosisDto&&(identical(other.code, code) || other.code == code)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,name);
+int get hashCode {
+    return Object.hash(runtimeType,code,name);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryDiagnosisDto(code: $code, name: $name)';
+    return 'ClinicalHistoryDiagnosisDto(code: $code, name: $name)';
 }
 
 

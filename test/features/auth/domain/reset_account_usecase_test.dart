@@ -16,9 +16,8 @@ void main() {
     mockRepo = _MockLocalAuthRepository();
     useCase = ResetAccountUseCase(repository: mockRepo);
 
-    when(
-      () => mockRepo.resetAccount(),
-    ).thenAnswer((_) async => const Success(null));
+    when(() => mockRepo.resetAccount())
+        .thenAnswer((_) async => const Success(null));
   });
 
   group('ResetAccountUseCase', () {
@@ -30,9 +29,8 @@ void main() {
     });
 
     test('returns Failure when repository fails', () async {
-      when(
-        () => mockRepo.resetAccount(),
-      ).thenAnswer((_) async => const Failure(UnexpectedError()));
+      when(() => mockRepo.resetAccount())
+          .thenAnswer((_) async => const Failure(UnexpectedError()));
 
       final result = await useCase(NoParams());
 

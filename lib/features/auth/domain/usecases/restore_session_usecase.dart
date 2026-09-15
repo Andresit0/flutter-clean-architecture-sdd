@@ -3,6 +3,7 @@ import 'package:clean_architecture_sdd_harness/shared/interfaces/_interfaces.lib
 import 'package:clean_architecture_sdd_harness/features/auth/domain/entities/login_response_entity.dart';
 import 'package:clean_architecture_sdd_harness/features/auth/domain/entities/token_entity.dart';
 import 'package:clean_architecture_sdd_harness/features/auth/domain/repositories/i_local_auth_repository.dart';
+
 import 'refresh_token_input.dart';
 
 class RestoreSessionUseCase
@@ -35,9 +36,8 @@ class RestoreSessionUseCase
 
     if (online) {
       final loginResult = await _credentialLoginUseCase(NoParams());
-      if (loginResult case Success(
-        data: final loginData,
-      ) when loginData != null) {
+      if (loginResult case Success(data: final loginData)
+          when loginData != null) {
         await guard(() => _tokenStore.save(loginData.token.key));
         return Success(loginData);
       }

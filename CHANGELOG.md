@@ -19,9 +19,14 @@ Versions prior to 1.1.0 predate this changelog and are tracked in the git histor
 - **Dependencies** — `intl` is now `^0.20.3`, required by the Flutter 3.47.4
   `flutter_localizations` constraint (`0.20.2` no longer resolves). Transitive
   SDK pins moved to `test_api 0.7.12`, `matcher 0.12.20`, `meta 1.19.0` and
-  `vector_math 2.4.2`. The codegen toolchain stays on analyzer 12 / freezed
-  3.2.6 with Dart language version 3.12 (Dart LV 3.13 rejects the `final`
-  parameters its generated code emits); adopting freezed 4 is tracked in #62.
+  `vector_math 2.4.2`.
+- **Codegen toolchain** — adopted `analyzer 13` / `freezed 4` and raised the Dart
+  language version to 3.13 (`environment.sdk: ^3.13.0`); all freezed and
+  `json_serializable` outputs were regenerated. Value objects exposing only
+  static members no longer declare a private `._()` constructor, which freezed 4
+  turned into an invalid call. A new gate in
+  `test/architecture/workflow_gates_test.dart` enforces the toolchain floor.
+  Closes #62.
 - **Platforms** — applied the Flutter 3.47 migrations: iOS minimum `15.0`,
   macOS minimum `12.0`, and `analysis_options.yaml` excludes the platform
   directories via the official `AnalysisOptionsMigration`.

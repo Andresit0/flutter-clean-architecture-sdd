@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'lab_result_reference_range_entity.dart';
@@ -9,6 +9,7 @@ part of 'lab_result_reference_range_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LabResultReferenceRangeEntityCopyWith<LabResultReferenceRangeEntity> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultReferenceRangeEntity&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
+  final _this = this as LabResultReferenceRangeEntity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LabResultReferenceRangeEntity&&(identical(other.low, _this.low) || other.low == _this.low)&&(identical(other.high, _this.high) || other.high == _this.high));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,low,high);
+int get hashCode {
+  final _this = this as LabResultReferenceRangeEntity;
+  return Object.hash(runtimeType,_this.low,_this.high);
+}
 
 @override
 String toString() {
-  return 'LabResultReferenceRangeEntity(low: $low, high: $high)';
+  final _this = this as LabResultReferenceRangeEntity;
+  return 'LabResultReferenceRangeEntity(low: ${_this.low}, high: ${_this.high})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LabResultReferenceRangeEntityCopyWithImpl<$Res>
 /// Create a copy of LabResultReferenceRangeEntity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? low = null,Object? high = null,}) {
-  return _then(_self.copyWith(
+  return _then(LabResultReferenceRangeEntity(
 low: null == low ? _self.low : low // ignore: cast_nullable_to_non_nullable
 as double,high: null == high ? _self.high : high // ignore: cast_nullable_to_non_nullable
 as double,
@@ -223,16 +229,18 @@ _$LabResultReferenceRangeEntityCopyWith<_LabResultReferenceRangeEntity> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultReferenceRangeEntity&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LabResultReferenceRangeEntity&&(identical(other.low, low) || other.low == low)&&(identical(other.high, high) || other.high == high));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,low,high);
+int get hashCode {
+    return Object.hash(runtimeType,low,high);
+}
 
 @override
 String toString() {
-  return 'LabResultReferenceRangeEntity(low: $low, high: $high)';
+    return 'LabResultReferenceRangeEntity(low: $low, high: $high)';
 }
 
 
