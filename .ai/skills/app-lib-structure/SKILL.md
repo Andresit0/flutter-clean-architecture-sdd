@@ -18,7 +18,7 @@ Include `app_lib_structure` in your request when working under `lib/`. The assis
 - Layered by feature under `lib/features/<feature>` with subfolders: `domain`, `infrastructure`, `presentation`.
 - Infrastructure wrappers live in `lib/core/` organized by domain (`services/`, `network/`, `database/`, `error/`).
 - Shared domain abstractions under `lib/shared/`: `interfaces`, `exceptions`, `models`, `router`, `functions` (`online_first.dart` — online-first: remote first, cache fallback only on connectivity failure; the helper owns all boundary guarding).
-- Generated files (`*.g.dart`, `*.freezed.dart`) live next to their annotated source file; never edit them by hand. Re-generate with `dart run build_runner build --delete-conflicting-outputs` from the project root.
+- Generated files (`*.g.dart`, `*.freezed.dart`) live next to their annotated source file; never edit them by hand. Re-generate with `dart run build_runner build` from the project root.
 - All pub packages are wrapped in `lib/core/services/` or `lib/core/network/`; code always uses Riverpod providers, never imports packages directly (except `flutter_riverpod`, `freezed_annotation`, and `intl`).
 - Some folders (under `shared/` and `core/`) have barrel files: `_[name].lib.dart` (root library, centralises imports via `export`). Barrels are **pure-export** (no `part`, no `library;`) — use the `app-barrel` skill when creating or updating them.
 

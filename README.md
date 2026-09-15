@@ -109,7 +109,7 @@ flutter pub get
 flutter gen-l10n
 
 # 3. Generate Riverpod/freezed code (after modifying @riverpod or @freezed files)
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # 4. Run the app (macOS example; env vars come from .env — see .env.example)
 flutter run -d mac --dart-define-from-file=.env

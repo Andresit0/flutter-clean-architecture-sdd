@@ -10,7 +10,7 @@ flutter pub get
 flutter gen-l10n
 
 # 3. Regenerate Riverpod code (run whenever @riverpod files change)
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # 4. Check formatting (CI "Enforce Dart formatting" runs the same scope — analyze does NOT catch it)
 dart format --output=none --set-exit-if-changed lib test integration_test
@@ -45,7 +45,7 @@ Use this sequence for any dependency bump (dependabot or manual PR):
 # 2. Regenerate the lock — this fixes spurious SDK-pinned bumps (intl/test):
 flutter pub get
 # 3. If codegen toolchain changed (freezed/json_serializable/@riverpod):
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 # 4. Regenerate localization if .arb changed:
 flutter gen-l10n
 # 5. Full battery (see below): format, analyze, tests, goldens, integration, builds

@@ -42,7 +42,7 @@ Every file that contains a `@riverpod` annotation also declares `part '<filename
 
 ```bash
 # Run from project root
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 Every `*.freezed.dart` / `*.g.dart` must have its sibling `*.dart` source in the same directory that declares it as `part`. An orphaned generated file (without source) causes CI to fail (architecture Rule 29) — when moving a DTO/entity between folders, delete the generated files from the source folder.
@@ -92,7 +92,7 @@ flutter gen-l10n
    features/<name>/presentation/widgets/...
    ```
 5. **Repositories and UseCases never throw exceptions.** All exceptions are caught in `guard()` in `shared/error/` → `Result<T>` (Success / Failure): repositories wrap datasources; usecases wrap shared ports (`shared/interfaces/`) that return raw values (`String?`, `bool`, `void`, records). If a new exception type is needed, add in `shared/exceptions/` (and cover `guard()` + `localizeError()` — enforced by `test/architecture/error_mapping_consistency_test.dart`). On failure, notifiers log `technicalMessage`/`stackTrace` via `loggerProvider` (`core/services/logging/`) before setting state.
-6. **`.g.dart` and `.freezed.dart` files are never edited manually.** Always regenerate with `dart run build_runner build --delete-conflicting-outputs`.
+6. **`.g.dart` and `.freezed.dart` files are never edited manually.** Always regenerate with `dart run build_runner build`.
 7. **`GoRouter` is accessed via `goRouterProvider` from `app/di/router/router_provider.dart`.** In `main.dart`, use `ref.watch(goRouterProvider)` to get the instance. In features, navigate via the `IAppNavigator` seam — `ref.read(appNavigatorProvider).go/push(AppRoute.x)` — never `go_router` nor `app/` (Rules 6/11).
 8. **New routes** are added in `app_router.dart` (`appRoutes()`) with the route name added to `AppRoute` enum in `shared/router/app_route.dart`.
 9. **Use `@freezed` for all entities and states.** Do not create mutable data classes in the domain. **All DTOs are also `@freezed`** (wire transport + list envelopes, including the 4 from `lab_results`): `@JsonKey(name: ...)` maps the exact wire name (e.g. `test_code`, `reference_range`, `lab_results`) and `value` is declared `dynamic` to support `num | String`.
