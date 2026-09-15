@@ -135,6 +135,83 @@ void main() {
     });
   });
 
+  group('Toolchain pin gates', () {
+    test('pubspec.yaml declares an exact Flutter SDK pin', () {
+      final raw = File('pubspec.yaml').readAsStringSync();
+      final pubspec = Map<dynamic, dynamic>.from(loadYaml(raw));
+      final environment = pubspec['environment'];
+      expect(
+        environment,
+        isA<Map>(),
+        reason: 'pubspec.yaml must declare an environment section',
+      );
+      final flutter = (environment as Map)['flutter'];
+      expect(
+        flutter,
+        isA<String>(),
+        reason:
+            'pubspec.yaml environment.flutter is the single source of truth '
+            'for the Flutter SDK version',
+      );
+      expect(
+        (flutter as String).trim(),
+        matches(RegExp(r'^\d+\.\d+\.\d+$')),
+        reason:
+            'environment.flutter must be an exact version so '
+            'flutter-version-file can resolve it',
+      );
+    });
+
+    test('CI reads the Flutter pin from pubspec.yaml, never hardcodes it', () {
+      const workflowPaths = <String>[
+        '.github/workflows/ci.yml',
+        '.github/workflows/deploy-web.yml',
+      ];
+      var actionSteps = 0;
+      for (final path in workflowPaths) {
+        final raw = File(path).readAsStringSync();
+        final workflow = Map<dynamic, dynamic>.from(loadYaml(raw));
+        final jobs = workflow['jobs'] as Map;
+        for (final job in jobs.entries) {
+          final steps = (job.value as Map)['steps'] as List;
+          for (final step in steps) {
+            final uses = (step as Map)['uses'] as String?;
+            if (uses == null || !uses.contains('subosito/flutter-action')) {
+              continue;
+            }
+            actionSteps++;
+            final withBlock = step['with'] as Map?;
+            expect(
+              withBlock,
+              isNotNull,
+              reason:
+                  '$path job ${job.key} sets up Flutter without a with block',
+            );
+            expect(
+              withBlock!.containsKey('flutter-version'),
+              isFalse,
+              reason:
+                  '$path job ${job.key} must not hardcode flutter-version; '
+                  'use flutter-version-file',
+            );
+            expect(
+              withBlock['flutter-version-file'],
+              'pubspec.yaml',
+              reason:
+                  '$path job ${job.key} must read the SDK pin from '
+                  'pubspec.yaml',
+            );
+          }
+        }
+      }
+      expect(
+        actionSteps,
+        greaterThan(0),
+        reason: 'expected at least one subosito/flutter-action step',
+      );
+    });
+  });
+
   group('Test config gates (dart_test.yaml)', () {
     const configPath = 'dart_test.yaml';
 
