@@ -9,6 +9,8 @@ Versions prior to 1.1.0 predate this changelog and are tracked in the git histor
 
 ## [Unreleased]
 
+## [1.1.4] - 2026-09-15
+
 ### Maintenance
 
 - **Toolchain** — migrated the project from Flutter `3.44.0` to `3.47.4`
