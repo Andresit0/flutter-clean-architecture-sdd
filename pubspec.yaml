@@ -22,7 +22,7 @@ dependencies:
   encrypt: ^5.0.3
   crypto: ^3.0.7
   sembast: ^3.7.5+2
-  sembast_web: ^2.4.0+4
+  sembast_web: ^2.4.6
   flutter_localizations:
     sdk: flutter
   intl: ^0.20.3
