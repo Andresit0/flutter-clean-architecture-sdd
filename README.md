@@ -3,7 +3,7 @@
 [![CI](https://github.com/Andresit0/flutter-clean-architecture-sdd/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Andresit0/flutter-clean-architecture-sdd/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Andresit0/flutter-clean-architecture-sdd/branch/develop/graph/badge.svg)](https://codecov.io/gh/Andresit0/flutter-clean-architecture-sdd)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Dart](https://img.shields.io/badge/Dart-3.12-blue.svg)](https://dart.dev)
+[![Dart](https://img.shields.io/badge/Dart-3.13-blue.svg)](https://dart.dev)
 [![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-blue.svg)](https://andresit0.github.io/flutter-clean-architecture-sdd/)
 
 ## Live Demo
@@ -37,11 +37,11 @@ A production-oriented Flutter starter that enforces clean architecture conventio
 
 | Layer | Technology | Version |
 |---|---|---|
-| Runtime | Flutter / Dart | 3.44.0 / 3.12.0 |
+| Runtime | Flutter / Dart | 3.47.4 / 3.13.3 |
 | State management | flutter_riverpod + riverpod_annotation (codegen) | ^3.3.1 / ^4.0.3 |
 | Models | freezed + json_serializable | ^3.1.0 / ^6.9.0 |
 | Networking | dio | ^5.11.0 |
-| Routing | go_router | ^17.5.0 |
+| Routing | go_router | ^18.0.0 |
 | Local storage | sembast (+ sembast_web) | ^3.7.5+2 |
 | Secure storage | flutter_secure_storage | ^11.0.0 |
 | Auth/crypto | dart_jsonwebtoken, bcrypt, encrypt | ^3.1.1 / ^1.2.0 / ^5.0.3 |
@@ -84,7 +84,7 @@ Dependency rules (enforced by `test/architecture/dependency_rules_test.dart`):
 - `core/` is pure infrastructure; domain never depends on it.
 - Features never import external packages directly — only wrappers from `core/services/`.
 - No orphaned generated files — every `*.freezed.dart`/`*.g.dart` must have its sibling source (Rule 29).
-- **Dependency policy** — the Flutter SDK (3.44.0) pins `intl` (**0.20.2, exact-pinned in `pubspec.yaml`**), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to exact versions; never force-bump them (breaks `flutter pub get`). Dependabot ignores `intl`/`test`/`freezed-major` (see `.github/dependabot.yml`), but does **not** honor `ignore` inside grouped updates (dependabot-core #10122/#13213) — the exact pin is the real guard, and a stored `@dependabot ignore this dependency` was applied on PR #113 (manual go_router 18.0.0 bump opened as PR #114). Never adopt prerelease-major codegen in production (freezed 4.0.0-dev.x is deferred until stable — issue #62). See `MD/APP_COMMANDS.md` and `.github/REQUIRED_CHECKS.md`.
+- **Dependency policy** — the Flutter SDK version is pinned once in `pubspec.yaml` (`environment.flutter: 3.47.4`) and CI reads it via `flutter-version-file`, so there is no hardcoded version in the workflows. Flutter 3.47.4 requires `intl` (`^0.20.3`, forced by `flutter_localizations`) and pins `test_api` (0.7.12), `matcher` (0.12.20), `meta` (1.19.0) and `vector_math` (2.4.2); never force-bump them (breaks `flutter pub get`). Dependabot ignores `intl`/`test` (see `.github/dependabot.yml`), but does **not** honor `ignore` inside grouped updates (dependabot-core #10122/#13213) — the constraints plus CI are the real guard. The codegen toolchain is on analyzer 13 / freezed 4 with Dart language version 3.13 (`environment.sdk: ^3.13.0`); freezed 4 no longer emits the `final` parameters Dart 3.13 rejects. See `MD/APP_COMMANDS.md` and `.github/REQUIRED_CHECKS.md`.
 
 Full details: [MD/APP_ARCHITECTURE.md](MD/APP_ARCHITECTURE.md)
 
@@ -99,7 +99,7 @@ Full details: [MD/APP_ARCHITECTURE.md](MD/APP_ARCHITECTURE.md)
 
 ## Quickstart
 
-Prerequisites: Flutter 3.44 stable ([install](https://docs.flutter.dev/get-started/install)).
+Prerequisites: Flutter 3.47 stable ([install](https://docs.flutter.dev/get-started/install)). CI resolves the exact version from `environment.flutter` in `pubspec.yaml`.
 
 ```bash
 # 1. Install dependencies
@@ -109,7 +109,7 @@ flutter pub get
 flutter gen-l10n
 
 # 3. Generate Riverpod/freezed code (after modifying @riverpod or @freezed files)
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # 4. Run the app (macOS example; env vars come from .env — see .env.example)
 flutter run -d mac --dart-define-from-file=.env

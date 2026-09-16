@@ -50,9 +50,8 @@ void main() {
     mockRepo = _MockAuthRepository();
     mockPasswordHasher = _MockPasswordHasher();
     mockSaveSessionUseCase = _MockSaveSessionUseCase();
-    when(
-      () => mockSaveSessionUseCase(any()),
-    ).thenAnswer((_) async => const Success(null));
+    when(() => mockSaveSessionUseCase(any()))
+        .thenAnswer((_) async => const Success(null));
     loginUseCase = LoginUseCase(
       repository: mockRepo,
       passwordHasher: mockPasswordHasher,
@@ -69,9 +68,8 @@ void main() {
     );
 
     void stubLoginSuccess() {
-      when(
-        () => mockPasswordHasher.hash(any()),
-      ).thenAnswer((_) async => 'hashed_password');
+      when(() => mockPasswordHasher.hash(any()))
+          .thenAnswer((_) async => 'hashed_password');
       when(
         () => mockRepo.login(
           email: any(named: 'email'),
@@ -95,9 +93,8 @@ void main() {
     });
 
     test('login_calls_repository_and_returns_failure_on_error', () async {
-      when(
-        () => mockPasswordHasher.hash(any()),
-      ).thenAnswer((_) async => 'hashed_password');
+      when(() => mockPasswordHasher.hash(any()))
+          .thenAnswer((_) async => 'hashed_password');
       when(
         () => mockRepo.login(
           email: any(named: 'email'),
@@ -165,9 +162,8 @@ void main() {
 
     test('login_returns_failure_when_save_session_fails', () async {
       stubLoginSuccess();
-      when(
-        () => mockSaveSessionUseCase(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockSaveSessionUseCase(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final result = await loginUseCase(
         LoginInput(email: 'test@example.com', password: 'password123'),
@@ -181,9 +177,8 @@ void main() {
     });
 
     test('login_returns_failure_when_hasher_throws', () async {
-      when(
-        () => mockPasswordHasher.hash(any()),
-      ).thenThrow(Exception('hasher down'));
+      when(() => mockPasswordHasher.hash(any()))
+          .thenThrow(Exception('hasher down'));
 
       final result = await loginUseCase(
         LoginInput(email: 'test@example.com', password: 'password123'),
@@ -216,9 +211,8 @@ void main() {
   group('RefreshTokenUseCase', () {
     test('refreshToken_calls_repository_and_returns_data_on_success', () async {
       const token = TokenEntity(key: 'newToken');
-      when(
-        () => mockRepo.refreshToken(token: any(named: 'token')),
-      ).thenAnswer((_) async => const Success(token));
+      when(() => mockRepo.refreshToken(token: any(named: 'token')))
+          .thenAnswer((_) async => const Success(token));
 
       final result = await refreshTokenUseCase(
         RefreshTokenInput(token: 'oldToken'),
@@ -234,9 +228,8 @@ void main() {
     test(
       'refreshToken_calls_repository_and_returns_failure_on_error',
       () async {
-        when(
-          () => mockRepo.refreshToken(token: any(named: 'token')),
-        ).thenAnswer((_) async => const Failure(ApiError()));
+        when(() => mockRepo.refreshToken(token: any(named: 'token')))
+            .thenAnswer((_) async => const Failure(ApiError()));
 
         final result = await refreshTokenUseCase(
           RefreshTokenInput(token: 'oldToken'),

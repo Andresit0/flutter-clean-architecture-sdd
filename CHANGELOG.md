@@ -9,6 +9,32 @@ Versions prior to 1.1.0 predate this changelog and are tracked in the git histor
 
 ## [Unreleased]
 
+## [1.1.4] - 2026-09-15
+
+### Maintenance
+
+- **Toolchain** — migrated the project from Flutter `3.44.0` to `3.47.4`
+  (Dart `3.13.3`). The SDK version is now pinned once in `pubspec.yaml`
+  (`environment.flutter`) and every CI job resolves it via `flutter-version-file`
+  (no hardcoded `flutter-version`); a new architecture gate in
+  `test/architecture/workflow_gates_test.dart` prevents drift.
+- **Dependencies** — `intl` is now `^0.20.3`, required by the Flutter 3.47.4
+  `flutter_localizations` constraint (`0.20.2` no longer resolves). Transitive
+  SDK pins moved to `test_api 0.7.12`, `matcher 0.12.20`, `meta 1.19.0` and
+  `vector_math 2.4.2`.
+- **Codegen toolchain** — adopted `analyzer 13` / `freezed 4` and raised the Dart
+  language version to 3.13 (`environment.sdk: ^3.13.0`); all freezed and
+  `json_serializable` outputs were regenerated. Value objects exposing only
+  static members no longer declare a private `._()` constructor, which freezed 4
+  turned into an invalid call. A new gate in
+  `test/architecture/workflow_gates_test.dart` enforces the toolchain floor.
+  Closes #62.
+- **Platforms** — applied the Flutter 3.47 migrations: iOS minimum `15.0`,
+  macOS minimum `12.0`, and `analysis_options.yaml` excludes the platform
+  directories via the official `AnalysisOptionsMigration`.
+- **Docs** — corrected the `go_router` version in the README (`^18.0.0`) and
+  aligned the dependency-policy documentation with the new SDK pins.
+
 ## [1.1.3] - 2026-08-31
 
 ### Maintenance & Stabilization

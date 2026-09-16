@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clinical_history_dto.dart';
@@ -9,6 +9,7 @@ part of 'clinical_history_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ClinicalHistoryDtoCopyWith<ClinicalHistoryDto> get copyWith => _$ClinicalHistor
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryDto&&(identical(other.id, id) || other.id == id)&&(identical(other.encounterNumber, encounterNumber) || other.encounterNumber == encounterNumber)&&(identical(other.service, service) || other.service == service)&&(identical(other.facility, facility) || other.facility == facility)&&(identical(other.professional, professional) || other.professional == professional)&&(identical(other.encounterDate, encounterDate) || other.encounterDate == encounterDate)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.diagnosis, diagnosis)&&const DeepCollectionEquality().equals(other.observations, observations)&&const DeepCollectionEquality().equals(other.attachments, attachments)&&(identical(other.state, state) || other.state == state));
+  final _this = this as ClinicalHistoryDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClinicalHistoryDto&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.encounterNumber, _this.encounterNumber) || other.encounterNumber == _this.encounterNumber)&&(identical(other.service, _this.service) || other.service == _this.service)&&(identical(other.facility, _this.facility) || other.facility == _this.facility)&&(identical(other.professional, _this.professional) || other.professional == _this.professional)&&(identical(other.encounterDate, _this.encounterDate) || other.encounterDate == _this.encounterDate)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt)&&(identical(other.publishedAt, _this.publishedAt) || other.publishedAt == _this.publishedAt)&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.description, _this.description) || other.description == _this.description)&&const DeepCollectionEquality().equals(other.diagnosis, _this.diagnosis)&&const DeepCollectionEquality().equals(other.observations, _this.observations)&&const DeepCollectionEquality().equals(other.attachments, _this.attachments)&&(identical(other.state, _this.state) || other.state == _this.state));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,encounterNumber,service,facility,professional,encounterDate,createdAt,updatedAt,publishedAt,summary,description,const DeepCollectionEquality().hash(diagnosis),const DeepCollectionEquality().hash(observations),const DeepCollectionEquality().hash(attachments),state);
+int get hashCode {
+  final _this = this as ClinicalHistoryDto;
+  return Object.hash(runtimeType,_this.id,_this.encounterNumber,_this.service,_this.facility,_this.professional,_this.encounterDate,_this.createdAt,_this.updatedAt,_this.publishedAt,_this.summary,_this.description,const DeepCollectionEquality().hash(_this.diagnosis),const DeepCollectionEquality().hash(_this.observations),const DeepCollectionEquality().hash(_this.attachments),_this.state);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryDto(id: $id, encounterNumber: $encounterNumber, service: $service, facility: $facility, professional: $professional, encounterDate: $encounterDate, createdAt: $createdAt, updatedAt: $updatedAt, publishedAt: $publishedAt, summary: $summary, description: $description, diagnosis: $diagnosis, observations: $observations, attachments: $attachments, state: $state)';
+  final _this = this as ClinicalHistoryDto;
+  return 'ClinicalHistoryDto(id: ${_this.id}, encounterNumber: ${_this.encounterNumber}, service: ${_this.service}, facility: ${_this.facility}, professional: ${_this.professional}, encounterDate: ${_this.encounterDate}, createdAt: ${_this.createdAt}, updatedAt: ${_this.updatedAt}, publishedAt: ${_this.publishedAt}, summary: ${_this.summary}, description: ${_this.description}, diagnosis: ${_this.diagnosis}, observations: ${_this.observations}, attachments: ${_this.attachments}, state: ${_this.state})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ClinicalHistoryDtoCopyWithImpl<$Res>
 /// Create a copy of ClinicalHistoryDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? encounterNumber = null,Object? service = null,Object? facility = null,Object? professional = freezed,Object? encounterDate = null,Object? createdAt = freezed,Object? updatedAt = freezed,Object? publishedAt = freezed,Object? summary = freezed,Object? description = freezed,Object? diagnosis = null,Object? observations = null,Object? attachments = null,Object? state = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ClinicalHistoryDto(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,encounterNumber: null == encounterNumber ? _self.encounterNumber : encounterNumber // ignore: cast_nullable_to_non_nullable
 as String,service: null == service ? _self.service : service // ignore: cast_nullable_to_non_nullable
@@ -265,7 +271,7 @@ return $default(_that.id,_that.encounterNumber,_that.service,_that.facility,_tha
 @JsonSerializable()
 
 class _ClinicalHistoryDto implements ClinicalHistoryDto {
-  const _ClinicalHistoryDto({required this.id, @JsonKey(name: 'encounter_number') required this.encounterNumber, required this.service, required this.facility, required this.professional, @JsonKey(name: 'encounter_date') required this.encounterDate, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'updated_at') required this.updatedAt, @JsonKey(name: 'published_at') required this.publishedAt, required this.summary, required this.description, final  List<ClinicalHistoryDiagnosisDto> diagnosis = const [], final  List<String> observations = const [], final  List<ClinicalHistoryAttachmentDto> attachments = const [], required this.state}): _diagnosis = diagnosis,_observations = observations,_attachments = attachments;
+  const _ClinicalHistoryDto({required this.id, @JsonKey(name: 'encounter_number') required this.encounterNumber, required this.service, required this.facility, required this.professional, @JsonKey(name: 'encounter_date') required this.encounterDate, @JsonKey(name: 'created_at') required this.createdAt, @JsonKey(name: 'updated_at') required this.updatedAt, @JsonKey(name: 'published_at') required this.publishedAt, required this.summary, required this.description,  List<ClinicalHistoryDiagnosisDto> diagnosis = const [],  List<String> observations = const [],  List<ClinicalHistoryAttachmentDto> attachments = const [], required this.state}): _diagnosis = diagnosis,_observations = observations,_attachments = attachments;
   factory _ClinicalHistoryDto.fromJson(Map<String, dynamic> json) => _$ClinicalHistoryDtoFromJson(json);
 
 @override final  String id;
@@ -315,16 +321,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryDto&&(identical(other.id, id) || other.id == id)&&(identical(other.encounterNumber, encounterNumber) || other.encounterNumber == encounterNumber)&&(identical(other.service, service) || other.service == service)&&(identical(other.facility, facility) || other.facility == facility)&&(identical(other.professional, professional) || other.professional == professional)&&(identical(other.encounterDate, encounterDate) || other.encounterDate == encounterDate)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other._diagnosis, _diagnosis)&&const DeepCollectionEquality().equals(other._observations, _observations)&&const DeepCollectionEquality().equals(other._attachments, _attachments)&&(identical(other.state, state) || other.state == state));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClinicalHistoryDto&&(identical(other.id, id) || other.id == id)&&(identical(other.encounterNumber, encounterNumber) || other.encounterNumber == encounterNumber)&&(identical(other.service, service) || other.service == service)&&(identical(other.facility, facility) || other.facility == facility)&&(identical(other.professional, professional) || other.professional == professional)&&(identical(other.encounterDate, encounterDate) || other.encounterDate == encounterDate)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.publishedAt, publishedAt) || other.publishedAt == publishedAt)&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.description, description) || other.description == description)&&const DeepCollectionEquality().equals(other.diagnosis, _diagnosis)&&const DeepCollectionEquality().equals(other.observations, _observations)&&const DeepCollectionEquality().equals(other.attachments, _attachments)&&(identical(other.state, state) || other.state == state));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,encounterNumber,service,facility,professional,encounterDate,createdAt,updatedAt,publishedAt,summary,description,const DeepCollectionEquality().hash(_diagnosis),const DeepCollectionEquality().hash(_observations),const DeepCollectionEquality().hash(_attachments),state);
+int get hashCode {
+    return Object.hash(runtimeType,id,encounterNumber,service,facility,professional,encounterDate,createdAt,updatedAt,publishedAt,summary,description,const DeepCollectionEquality().hash(_diagnosis),const DeepCollectionEquality().hash(_observations),const DeepCollectionEquality().hash(_attachments),state);
+}
 
 @override
 String toString() {
-  return 'ClinicalHistoryDto(id: $id, encounterNumber: $encounterNumber, service: $service, facility: $facility, professional: $professional, encounterDate: $encounterDate, createdAt: $createdAt, updatedAt: $updatedAt, publishedAt: $publishedAt, summary: $summary, description: $description, diagnosis: $diagnosis, observations: $observations, attachments: $attachments, state: $state)';
+    return 'ClinicalHistoryDto(id: $id, encounterNumber: $encounterNumber, service: $service, facility: $facility, professional: $professional, encounterDate: $encounterDate, createdAt: $createdAt, updatedAt: $updatedAt, publishedAt: $publishedAt, summary: $summary, description: $description, diagnosis: $diagnosis, observations: $observations, attachments: $attachments, state: $state)';
 }
 
 

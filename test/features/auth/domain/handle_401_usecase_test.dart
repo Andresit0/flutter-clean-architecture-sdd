@@ -9,6 +9,7 @@ import 'package:clean_architecture_sdd_harness/features/auth/domain/value_object
 import 'package:clean_architecture_sdd_harness/shared/models/patient/patient_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
 import '../../../helpers/mocks.dart';
 
 class _MockRefreshTokenUseCase extends Mock
@@ -60,9 +61,8 @@ void main() {
   test('returns_RetrySuccess_when_token_refreshed', () async {
     when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
     const tokenEntity = TokenEntity(key: 'new');
-    when(
-      () => mockRefreshTokenUseCase(any()),
-    ).thenAnswer((_) async => const Success(tokenEntity));
+    when(() => mockRefreshTokenUseCase(any()))
+        .thenAnswer((_) async => const Success(tokenEntity));
     when(() => mockTokenStore.save('new')).thenAnswer((_) async {});
 
     final result = await useCase(NoParams());
@@ -81,9 +81,8 @@ void main() {
     'returns_RetrySuccess_with_reLogin_when_refresh_fails_and_creds_exist',
     () async {
       when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
-      when(
-        () => mockRefreshTokenUseCase(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => mockRefreshTokenUseCase(any()))
+          .thenAnswer((_) async => const Failure(NetworkError()));
       const patient = PatientEntity(name: 'test', id: '1');
       const token = TokenEntity(key: 'reLoginToken');
       const loginResponse = LoginResponseEntity(
@@ -108,59 +107,46 @@ void main() {
     },
   );
 
-  test(
-    'returns_RetryNoConnection_when_refresh_fails_with_network_error_and_no_creds',
-    () async {
-      when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
-      when(
-        () => mockRefreshTokenUseCase(any()),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
-      when(
-        () => mockCredentialLoginUseCase(any()),
-      ).thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
+  test('returns_RetryNoConnection_when_refresh_fails_with_network_error_and_no_creds', () async {
+    when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
+    when(() => mockRefreshTokenUseCase(any()))
+        .thenAnswer((_) async => const Failure(NetworkError()));
+    when(() => mockCredentialLoginUseCase(any()))
+        .thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
 
-      final result = await useCase(NoParams());
+    final result = await useCase(NoParams());
 
-      final retryResult = switch (result) {
-        Success(data: final data) => data,
-        Failure() =>
-          throw 'Expected Success(RetryNoConnection) — no logout on network error',
-      };
-      expect(retryResult, isA<RetryNoConnection>());
-    },
-  );
+    final retryResult = switch (result) {
+      Success(data: final data) => data,
+      Failure() => throw 'Expected Success(RetryNoConnection) — no logout on network error',
+    };
+    expect(retryResult, isA<RetryNoConnection>());
+  });
 
-  test(
-    'returns_RetryNoConnection_when_refresh_fails_with_server_unreachable_and_no_creds',
-    () async {
-      when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
-      when(
-        () => mockRefreshTokenUseCase(any()),
-      ).thenAnswer((_) async => const Failure(ServerUnreachableError()));
-      when(
-        () => mockCredentialLoginUseCase(any()),
-      ).thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
+  test('returns_RetryNoConnection_when_refresh_fails_with_server_unreachable_and_no_creds', () async {
+    when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
+    when(() => mockRefreshTokenUseCase(any()))
+        .thenAnswer((_) async => const Failure(ServerUnreachableError()));
+    when(() => mockCredentialLoginUseCase(any()))
+        .thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
 
-      final result = await useCase(NoParams());
+    final result = await useCase(NoParams());
 
-      final retryResult = switch (result) {
-        Success(data: final data) => data,
-        Failure() => throw 'Expected Success(RetryNoConnection)',
-      };
-      expect(retryResult, isA<RetryNoConnection>());
-    },
-  );
+    final retryResult = switch (result) {
+      Success(data: final data) => data,
+      Failure() => throw 'Expected Success(RetryNoConnection)',
+    };
+    expect(retryResult, isA<RetryNoConnection>());
+  });
 
   test(
     'returns_RetryFailed_when_refresh_fails_with_api_error_and_no_creds',
     () async {
       when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
-      when(
-        () => mockRefreshTokenUseCase(any()),
-      ).thenAnswer((_) async => const Failure(ApiError()));
-      when(
-        () => mockCredentialLoginUseCase(any()),
-      ).thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
+      when(() => mockRefreshTokenUseCase(any()))
+          .thenAnswer((_) async => const Failure(ApiError()));
+      when(() => mockCredentialLoginUseCase(any()))
+          .thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
 
       final result = await useCase(NoParams());
 
@@ -199,9 +185,8 @@ void main() {
 
   test('returns_RetryFailed_when_no_token_and_no_creds', () async {
     when(() => mockTokenStore.read()).thenAnswer((_) async => null);
-    when(
-      () => mockCredentialLoginUseCase(any()),
-    ).thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
+    when(() => mockCredentialLoginUseCase(any()))
+        .thenAnswer((_) async => const Success<LoginResponseEntity?>(null));
 
     final result = await useCase(NoParams());
 
@@ -209,56 +194,50 @@ void main() {
   });
 
   test('returns_RetryNoConnection_when_connectivity_check_throws', () async {
-    when(
-      () => mockConnectivity.isConnected(),
-    ).thenThrow(Exception('connectivity down'));
+    when(() => mockConnectivity.isConnected())
+        .thenThrow(Exception('connectivity down'));
 
     final result = await useCase(NoParams());
 
     final retryResult = switch (result) {
       Success(data: final data) => data,
-      Failure() =>
-        throw 'Expected Success(RetryNoConnection) — no logout on connectivity failure',
+      Failure() => throw 'Expected Success(RetryNoConnection) — no logout on connectivity failure',
     };
     expect(retryResult, isA<RetryNoConnection>());
     verifyNever(() => mockTokenStore.read());
     verifyNever(() => mockTokenStore.save(any()));
   });
 
-  test(
-    'returns_RetrySuccess_when_token_store_read_throws_but_creds_login_succeeds',
-    () async {
-      when(() => mockTokenStore.read()).thenThrow(Exception('storage down'));
-      const patient = PatientEntity(name: 'test', id: '1');
-      const token = TokenEntity(key: 'reLoginToken');
-      const loginResponse = LoginResponseEntity(
-        patient: patient,
-        token: token,
-        clinicalHistory: [],
-      );
-      when(() => mockCredentialLoginUseCase(any())).thenAnswer(
-        (_) async => const Success<LoginResponseEntity?>(loginResponse),
-      );
-      when(() => mockTokenStore.save('reLoginToken')).thenAnswer((_) async {});
+  test('returns_RetrySuccess_when_token_store_read_throws_but_creds_login_succeeds', () async {
+    when(() => mockTokenStore.read()).thenThrow(Exception('storage down'));
+    const patient = PatientEntity(name: 'test', id: '1');
+    const token = TokenEntity(key: 'reLoginToken');
+    const loginResponse = LoginResponseEntity(
+      patient: patient,
+      token: token,
+      clinicalHistory: [],
+    );
+    when(() => mockCredentialLoginUseCase(any())).thenAnswer(
+      (_) async => const Success<LoginResponseEntity?>(loginResponse),
+    );
+    when(() => mockTokenStore.save('reLoginToken')).thenAnswer((_) async {});
 
-      final result = await useCase(NoParams());
+    final result = await useCase(NoParams());
 
-      final retryResult = switch (result) {
-        Success(data: final data) => data,
-        Failure() =>
-          throw 'Expected Success(RetrySuccess) via stored credentials',
-      };
-      expect(retryResult, isA<RetrySuccess>());
-      expect((retryResult as RetrySuccess).token, 'reLoginToken');
-    },
-  );
+    final retryResult = switch (result) {
+      Success(data: final data) => data,
+      Failure() =>
+        throw 'Expected Success(RetrySuccess) via stored credentials',
+    };
+    expect(retryResult, isA<RetrySuccess>());
+    expect((retryResult as RetrySuccess).token, 'reLoginToken');
+  });
 
   test('returns_RetrySuccess_when_token_save_throws_after_refresh', () async {
     when(() => mockTokenStore.read()).thenAnswer((_) async => 'old');
     const tokenEntity = TokenEntity(key: 'new');
-    when(
-      () => mockRefreshTokenUseCase(any()),
-    ).thenAnswer((_) async => const Success(tokenEntity));
+    when(() => mockRefreshTokenUseCase(any()))
+        .thenAnswer((_) async => const Success(tokenEntity));
     when(() => mockTokenStore.save('new')).thenThrow(Exception('storage down'));
 
     final result = await useCase(NoParams());

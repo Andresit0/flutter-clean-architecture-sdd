@@ -6,7 +6,6 @@ part 'password.freezed.dart';
 
 @freezed
 abstract class Password with _$Password {
-  const Password._();
   const factory Password.raw(String value) = _Password;
 
   static String? _validate(String value) {

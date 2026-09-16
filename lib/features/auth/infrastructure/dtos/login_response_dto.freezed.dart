@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'login_response_dto.dart';
@@ -9,6 +9,7 @@ part of 'login_response_dto.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LoginResponseDtoCopyWith<LoginResponseDto> get copyWith => _$LoginResponseDtoCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseDto&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.clinicalHistory, clinicalHistory));
+  final _this = this as LoginResponseDto;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginResponseDto&&(identical(other.patient, _this.patient) || other.patient == _this.patient)&&(identical(other.token, _this.token) || other.token == _this.token)&&const DeepCollectionEquality().equals(other.clinicalHistory, _this.clinicalHistory));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(clinicalHistory));
+int get hashCode {
+  final _this = this as LoginResponseDto;
+  return Object.hash(runtimeType,_this.patient,_this.token,const DeepCollectionEquality().hash(_this.clinicalHistory));
+}
 
 @override
 String toString() {
-  return 'LoginResponseDto(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
+  final _this = this as LoginResponseDto;
+  return 'LoginResponseDto(patient: ${_this.patient}, token: ${_this.token}, clinicalHistory: ${_this.clinicalHistory})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LoginResponseDtoCopyWithImpl<$Res>
 /// Create a copy of LoginResponseDto
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? patient = null,Object? token = null,Object? clinicalHistory = null,}) {
-  return _then(_self.copyWith(
+  return _then(LoginResponseDto(
 patient: null == patient ? _self.patient : patient // ignore: cast_nullable_to_non_nullable
 as PatientDto,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as TokenDto,clinicalHistory: null == clinicalHistory ? _self.clinicalHistory : clinicalHistory // ignore: cast_nullable_to_non_nullable
@@ -229,7 +235,7 @@ return $default(_that.patient,_that.token,_that.clinicalHistory);case _:
 @JsonSerializable()
 
 class _LoginResponseDto implements LoginResponseDto {
-  const _LoginResponseDto({required this.patient, required this.token, @JsonKey(name: 'clinical_history') final  List<ClinicalHistoryDto> clinicalHistory = const []}): _clinicalHistory = clinicalHistory;
+  const _LoginResponseDto({required this.patient, required this.token, @JsonKey(name: 'clinical_history')  List<ClinicalHistoryDto> clinicalHistory = const []}): _clinicalHistory = clinicalHistory;
   factory _LoginResponseDto.fromJson(Map<String, dynamic> json) => _$LoginResponseDtoFromJson(json);
 
 @override final  PatientDto patient;
@@ -255,16 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseDto&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other._clinicalHistory, _clinicalHistory));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginResponseDto&&(identical(other.patient, patient) || other.patient == patient)&&(identical(other.token, token) || other.token == token)&&const DeepCollectionEquality().equals(other.clinicalHistory, _clinicalHistory));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(_clinicalHistory));
+int get hashCode {
+    return Object.hash(runtimeType,patient,token,const DeepCollectionEquality().hash(_clinicalHistory));
+}
 
 @override
 String toString() {
-  return 'LoginResponseDto(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
+    return 'LoginResponseDto(patient: $patient, token: $token, clinicalHistory: $clinicalHistory)';
 }
 
 

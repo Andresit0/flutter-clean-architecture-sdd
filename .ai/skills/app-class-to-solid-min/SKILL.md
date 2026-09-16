@@ -145,7 +145,7 @@ I<Name>Service <name>Service(Ref ref) => <Name>Service();
 After creating the file, run:
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 Register the provider in its `core/` source file (e.g. `lib/core/services/<domain>/<name>_provider.dart`). `app/` y los tests importan el provider directamente desde `core/` (no hay barrel en `app/di/`). Feature DI imports core provider files DIRECTLY — never `app/` (one-way dependency, Rule 11).

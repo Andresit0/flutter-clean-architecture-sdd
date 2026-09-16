@@ -17,12 +17,10 @@ const _programmingErrors = <String, String>{
 
 void main() {
   group('Error mapping consistency', () {
-    final guardSource = File(
-      'lib/shared/error/result_guard.dart',
-    ).readAsStringSync();
-    final localizerSource = File(
-      'lib/l10n/error_localizer.dart',
-    ).readAsStringSync();
+    final guardSource = File('lib/shared/error/result_guard.dart')
+        .readAsStringSync();
+    final localizerSource = File('lib/l10n/error_localizer.dart')
+        .readAsStringSync();
 
     test('every exception in shared/exceptions is mapped in guard()', () {
       for (final exception in _canonicalMapping.keys) {
@@ -92,9 +90,8 @@ void main() {
                   '$className is a programming Error (fail-fast) — NOT '
                   'must be mapped in guard() or localizeError()',
             );
-            final source = File(
-              'lib/shared/exceptions/$fileName',
-            ).readAsStringSync();
+            final source = File('lib/shared/exceptions/$fileName')
+                .readAsStringSync();
             expect(
               source.contains('extends Error'),
               isTrue,
@@ -119,9 +116,8 @@ void main() {
     test(
       'every exception file is exported by the barrel _exceptions.lib.dart',
       () {
-        final barrelSource = File(
-          'lib/shared/exceptions/_exceptions.lib.dart',
-        ).readAsStringSync();
+        final barrelSource = File('lib/shared/exceptions/_exceptions.lib.dart')
+            .readAsStringSync();
         final exceptionFiles = Directory('lib/shared/exceptions')
             .listSync()
             .whereType<File>()

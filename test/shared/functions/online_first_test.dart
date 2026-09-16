@@ -39,22 +39,19 @@ void main() {
       },
     );
 
-    test(
-      'falls back to local cache on ServerUnreachableException with origin cache',
-      () async {
-        final r = await fetchOrFallback<String>(
-          remote: () async => throw const ServerUnreachableException(),
-          local: () async => 'local_data',
-        );
+    test('falls back to local cache on ServerUnreachableException with origin cache', () async {
+      final r = await fetchOrFallback<String>(
+        remote: () async => throw const ServerUnreachableException(),
+        local: () async => 'local_data',
+      );
 
-        expect(r.result.isSuccess, isTrue);
-        expect(r.origin, DataOrigin.cache);
-        r.result.fold(
-          onSuccess: (data) => expect(data, 'local_data'),
-          onFailure: (_) => fail('should be success'),
-        );
-      },
-    );
+      expect(r.result.isSuccess, isTrue);
+      expect(r.origin, DataOrigin.cache);
+      r.result.fold(
+        onSuccess: (data) => expect(data, 'local_data'),
+        onFailure: (_) => fail('should be success'),
+      );
+    });
 
     test(
       'does NOT fall back when remote fails with TimeoutException',

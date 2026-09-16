@@ -96,25 +96,22 @@ void main() {
       expect(formData.files[1].value.filename, 'b.txt');
     });
 
-    test(
-      'unpaired (fields length != fileList length) adds all fields first then files',
-      () async {
-        final file1 = MultipartFile.fromBytes([1, 2, 3], filename: 'a.txt');
-        final formData = await builder.build(
-          fields: [
-            {'key1': 'value1'},
-            {'key2': 'value2'},
-          ],
-          fileList: [file1],
-        );
+    test('unpaired (fields length != fileList length) adds all fields first then files', () async {
+      final file1 = MultipartFile.fromBytes([1, 2, 3], filename: 'a.txt');
+      final formData = await builder.build(
+        fields: [
+          {'key1': 'value1'},
+          {'key2': 'value2'},
+        ],
+        fileList: [file1],
+      );
 
-        expect(formData.fields.length, 2);
-        expect(formData.files.length, 1);
-        expect(formData.fields[0].value, 'value1');
-        expect(formData.fields[1].value, 'value2');
-        expect(formData.files[0].value.filename, 'a.txt');
-      },
-    );
+      expect(formData.fields.length, 2);
+      expect(formData.files.length, 1);
+      expect(formData.fields[0].value, 'value1');
+      expect(formData.fields[1].value, 'value2');
+      expect(formData.files[0].value.filename, 'a.txt');
+    });
 
     test('null fields with files attaches all files', () async {
       final file1 = MultipartFile.fromBytes([1, 2, 3], filename: 'a.txt');

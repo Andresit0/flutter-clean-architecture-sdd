@@ -25,10 +25,8 @@ void main() {
 
     test('returns true when the token is expired (exp in the past)', () async {
       final past = DateTime.now().subtract(const Duration(hours: 1));
-      final token = JWT({
-        'sub': '123',
-        'exp': epochSeconds(past),
-      }).sign(SecretKey(secret));
+      final token = JWT({'sub': '123', 'exp': epochSeconds(past)})
+          .sign(SecretKey(secret));
       expect(await checker.isExpired(token), isTrue);
     });
 
@@ -36,10 +34,8 @@ void main() {
       'returns false when the token is not expired (exp in the future)',
       () async {
         final future = DateTime.now().add(const Duration(hours: 1));
-        final token = JWT({
-          'sub': '123',
-          'exp': epochSeconds(future),
-        }).sign(SecretKey(secret));
+        final token = JWT({'sub': '123', 'exp': epochSeconds(future)})
+            .sign(SecretKey(secret));
         expect(await checker.isExpired(token), isFalse);
       },
     );

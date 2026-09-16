@@ -42,9 +42,8 @@ void main() {
   setUp(() {
     mockInternetService = MockInternetService();
     when(() => mockInternetService.isConnected()).thenAnswer((_) async => true);
-    when(
-      () => mockInternetService.isServerReachable(),
-    ).thenAnswer((_) async => true);
+    when(() => mockInternetService.isServerReachable())
+        .thenAnswer((_) async => true);
   });
 
   group('ErrorMapper.isBrowserNetworkFailure', () {
@@ -127,22 +126,19 @@ void main() {
   });
 
   group('DioWrapper web/CORS conditional fix', () {
-    test(
-      'unknown type with TypeError: Failed to fetch throws NoConnectionException',
-      () async {
-        final dio = Dio();
-        final wrapper = DioWrapper(mockInternetService, dio);
+    test('unknown type with TypeError: Failed to fetch throws NoConnectionException', () async {
+      final dio = Dio();
+      final wrapper = DioWrapper(mockInternetService, dio);
 
-        dio.interceptors.add(
-          _DioThrowWithErrorInterceptor(error: _FailedToFetchError()),
-        );
+      dio.interceptors.add(
+        _DioThrowWithErrorInterceptor(error: _FailedToFetchError()),
+      );
 
-        expect(
-          () => wrapper.get(Uri.parse('https://example.com')),
-          throwsA(isA<NoConnectionException>()),
-        );
-      },
-    );
+      expect(
+        () => wrapper.get(Uri.parse('https://example.com')),
+        throwsA(isA<NoConnectionException>()),
+      );
+    });
 
     test(
       'unknown type with Network Error message throws NoConnectionException',
@@ -176,22 +172,19 @@ void main() {
       },
     );
 
-    test(
-      'unknown type without browser signature throws UnexpectedResponseException',
-      () async {
-        final dio = Dio();
-        final wrapper = DioWrapper(mockInternetService, dio);
+    test('unknown type without browser signature throws UnexpectedResponseException', () async {
+      final dio = Dio();
+      final wrapper = DioWrapper(mockInternetService, dio);
 
-        dio.interceptors.add(
-          _DioThrowWithErrorInterceptor(error: _GenericError()),
-        );
+      dio.interceptors.add(
+        _DioThrowWithErrorInterceptor(error: _GenericError()),
+      );
 
-        expect(
-          () => wrapper.get(Uri.parse('https://example.com')),
-          throwsA(isA<UnexpectedResponseException>()),
-        );
-      },
-    );
+      expect(
+        () => wrapper.get(Uri.parse('https://example.com')),
+        throwsA(isA<UnexpectedResponseException>()),
+      );
+    });
 
     test(
       'unknown type with no error throws UnexpectedResponseException',

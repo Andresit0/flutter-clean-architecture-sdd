@@ -61,10 +61,12 @@ Default branch: `main` (production). Integration branch: `develop`. See README.m
 
 ### Dependency management
 
-- The Flutter SDK pinned in CI (`3.44.0`) pins `intl` (0.20.2), `test_api` (0.7.11), `matcher`, `meta`, `vector_math` to **exact** versions. `intl` is exact-pinned in `pubspec.yaml` (resists Dependabot grouped-update bumps). If a dependabot PR fails `flutter pub get` on `intl`/`test`, revert those constraint bumps — do not hand-edit the lock; regenerate with `flutter pub get`.
-- Never adopt prerelease-major codegen (e.g. `freezed 4.0.0-dev.x`) in production — the analyzer-13 toolchain has no stable freezed (issue #62).
-- Dependabot ignores `intl`, `test` and `freezed` (semver-major). Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**; the ignore rules are active since release v1.1.0 (issue #63 resolved).
-- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency updates** (dependabot-core #10122/#13213) — grouped PRs keep bundling `intl`/`test` with other deps (e.g. PR #113 bundled go_router+intl+test). The exact manifest pin (`intl: 0.20.2`) is the real guard: the pub solver refuses the bump, so such PRs fail `flutter pub get` and can never merge. A stored ignore (`@dependabot ignore this dependency`) was applied on PR #113 to stop future grouped proposals; the manual `go_router 18.0.0` bump was opened separately (PR #114). When a grouped dependabot PR touches `intl`/`test`, close it and reopen the valid dep as a manual PR.
+- The Flutter SDK version is pinned once in `pubspec.yaml` (`environment.flutter: 3.47.4`); CI reads it via `flutter-version-file` (`subosito/flutter-action`) — never hardcode `flutter-version` in workflows (enforced by `test/architecture/workflow_gates_test.dart`).
+- Flutter 3.47.4 requires `intl` `^0.20.3` (forced by `flutter_localizations`; `0.20.2` no longer resolves) and pins `test_api` 0.7.12, `matcher` 0.12.20, `meta` 1.19.0, `vector_math` 2.4.2. Never force-bump them — a constraint that excludes the SDK pin breaks `flutter pub get`; regenerate the lock with `flutter pub get`, never by hand.
+- The codegen toolchain is on analyzer 13 / freezed 4 with Dart language version 3.13 (`environment.sdk: ^3.13.0`): freezed 4 no longer emits the `final` parameters Dart 3.13 rejects. Value objects exposing only static members must not declare a private `._()` constructor. The floor is enforced by `test/architecture/workflow_gates_test.dart`.
+- Dependabot ignores `intl` and `test`. Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**.
+- **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency updates** (dependabot-core #10122/#13213) — the manifest constraints plus CI are the real guard: grouped PRs that rewrite `intl`/`test` fail `flutter pub get` and can never merge. When that happens, close the PR and reopen the valid dep as a manual PR.
+- Platform minimums follow the SDK: iOS `15.0` (`ios/Runner.xcodeproj`, `ios/Podfile`) and macOS `12.0` (`macos/Runner.xcodeproj`); `analysis_options.yaml` excludes the platform directories via the official `AnalysisOptionsMigration`.
 - Android `compileSdk`/`minSdk` are set explicitly when a plugin requires more than the Flutter default (e.g. `flutter_secure_storage 11` → `compileSdk 37`).
 
 

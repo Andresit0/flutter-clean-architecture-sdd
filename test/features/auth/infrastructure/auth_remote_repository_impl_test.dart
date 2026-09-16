@@ -103,9 +103,8 @@ void main() {
 
   group('refreshToken', () {
     test('refreshToken_success_returns_Success', () async {
-      when(
-        () => mockRemote.refreshToken(token: any(named: 'token')),
-      ).thenAnswer((_) async => _tokenEntity);
+      when(() => mockRemote.refreshToken(token: any(named: 'token')))
+          .thenAnswer((_) async => _tokenEntity);
 
       final result = await repository.refreshToken(token: 'old_token');
 
@@ -120,9 +119,8 @@ void main() {
     });
 
     test('refreshToken_failure_returns_Failure', () async {
-      when(
-        () => mockRemote.refreshToken(token: any(named: 'token')),
-      ).thenThrow(const ApiException(401));
+      when(() => mockRemote.refreshToken(token: any(named: 'token')))
+          .thenThrow(const ApiException(401));
 
       final result = await repository.refreshToken(token: 'old_token');
 

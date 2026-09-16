@@ -86,9 +86,8 @@ void main() {
       });
 
       test('stores clinical history list when present', () async {
-        when(
-          () => mockClinicalHistory.storeAll(any()),
-        ).thenAnswer((_) async {});
+        when(() => mockClinicalHistory.storeAll(any()))
+            .thenAnswer((_) async {});
 
         await datasource.saveSession(
           data: _loginResponse.copyWith(
@@ -128,9 +127,8 @@ void main() {
       });
 
       test('propagates exception from patientInfo', () async {
-        when(
-          () => mockPatientInfo.save(any()),
-        ).thenThrow(Exception('db error'));
+        when(() => mockPatientInfo.save(any()))
+            .thenThrow(Exception('db error'));
 
         expect(
           () => datasource.saveSession(
@@ -146,9 +144,8 @@ void main() {
     group('clearSession', () {
       test('clears token, credentials and all session stores', () async {
         when(() => mockTokenStore.delete()).thenAnswer((_) async {});
-        when(
-          () => mockCredentialStore.deleteCredentials(),
-        ).thenAnswer((_) async {});
+        when(() => mockCredentialStore.deleteCredentials())
+            .thenAnswer((_) async {});
         when(() => mockPatientInfo.delete()).thenAnswer((_) async {});
         when(() => mockClinicalHistory.deleteAll()).thenAnswer((_) async {});
 
@@ -161,9 +158,8 @@ void main() {
       });
 
       test('propagates exception from delete', () async {
-        when(
-          () => mockTokenStore.delete(),
-        ).thenThrow(Exception('storage error'));
+        when(() => mockTokenStore.delete())
+            .thenThrow(Exception('storage error'));
 
         expect(() => datasource.clearSession(), throwsA(isA<Exception>()));
       });
@@ -172,9 +168,8 @@ void main() {
     group('resetAccount', () {
       test('clears session and wipes the database', () async {
         when(() => mockTokenStore.delete()).thenAnswer((_) async {});
-        when(
-          () => mockCredentialStore.deleteCredentials(),
-        ).thenAnswer((_) async {});
+        when(() => mockCredentialStore.deleteCredentials())
+            .thenAnswer((_) async {});
         when(() => mockPatientInfo.delete()).thenAnswer((_) async {});
         when(() => mockClinicalHistory.deleteAll()).thenAnswer((_) async {});
         when(() => mockAppDatabase.resetDatabase()).thenAnswer((_) async {});
@@ -190,14 +185,12 @@ void main() {
 
       test('propagates exception from database wipe', () async {
         when(() => mockTokenStore.delete()).thenAnswer((_) async {});
-        when(
-          () => mockCredentialStore.deleteCredentials(),
-        ).thenAnswer((_) async {});
+        when(() => mockCredentialStore.deleteCredentials())
+            .thenAnswer((_) async {});
         when(() => mockPatientInfo.delete()).thenAnswer((_) async {});
         when(() => mockClinicalHistory.deleteAll()).thenAnswer((_) async {});
-        when(
-          () => mockAppDatabase.resetDatabase(),
-        ).thenThrow(Exception('db error'));
+        when(() => mockAppDatabase.resetDatabase())
+            .thenThrow(Exception('db error'));
 
         expect(() => datasource.resetAccount(), throwsA(isA<Exception>()));
       });
@@ -205,9 +198,8 @@ void main() {
 
     group('restoreSession', () {
       test('returns LoginResponseEntity when valid session exists', () async {
-        when(
-          () => mockPatientInfo.load(),
-        ).thenAnswer((_) async => _patientEntity);
+        when(() => mockPatientInfo.load())
+            .thenAnswer((_) async => _patientEntity);
         when(() => mockTokenStore.read()).thenAnswer((_) async => 'valid_jwt');
         when(() => mockClinicalHistory.loadAll()).thenAnswer((_) async => []);
 
@@ -245,9 +237,8 @@ void main() {
           attachments: [],
           state: null,
         );
-        when(
-          () => mockPatientInfo.load(),
-        ).thenAnswer((_) async => _patientEntity);
+        when(() => mockPatientInfo.load())
+            .thenAnswer((_) async => _patientEntity);
         when(() => mockTokenStore.read()).thenAnswer((_) async => 'valid_jwt');
         when(() => mockClinicalHistory.loadAll()).thenAnswer((_) async => [ch]);
 
@@ -267,9 +258,8 @@ void main() {
       });
 
       test('returns null when no token stored', () async {
-        when(
-          () => mockPatientInfo.load(),
-        ).thenAnswer((_) async => _patientEntity);
+        when(() => mockPatientInfo.load())
+            .thenAnswer((_) async => _patientEntity);
         when(() => mockTokenStore.read()).thenAnswer((_) async => null);
 
         final result = await datasource.restoreSession();
@@ -280,9 +270,8 @@ void main() {
       test(
         'returns session even when token is expired (no policy in datasource)',
         () async {
-          when(
-            () => mockPatientInfo.load(),
-          ).thenAnswer((_) async => _patientEntity);
+          when(() => mockPatientInfo.load())
+              .thenAnswer((_) async => _patientEntity);
           when(() => mockTokenStore.read()).thenAnswer((_) async => 'expired');
           when(() => mockClinicalHistory.loadAll()).thenAnswer((_) async => []);
 

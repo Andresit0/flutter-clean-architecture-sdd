@@ -10,7 +10,7 @@ flutter pub get
 flutter gen-l10n
 
 # 3. Regenerate Riverpod code (run whenever @riverpod files change)
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 
 # 4. Check formatting (CI "Enforce Dart formatting" runs the same scope — analyze does NOT catch it)
 dart format --output=none --set-exit-if-changed lib test integration_test
@@ -45,7 +45,7 @@ Use this sequence for any dependency bump (dependabot or manual PR):
 # 2. Regenerate the lock — this fixes spurious SDK-pinned bumps (intl/test):
 flutter pub get
 # 3. If codegen toolchain changed (freezed/json_serializable/@riverpod):
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 # 4. Regenerate localization if .arb changed:
 flutter gen-l10n
 # 5. Full battery (see below): format, analyze, tests, goldens, integration, builds
@@ -53,28 +53,28 @@ flutter gen-l10n
 
 Caveats:
 
-- **Never force-bump SDK-pinned packages.** Flutter 3.44.0 pins `intl`
-  (0.20.2, **exact-pinned in `pubspec.yaml`**), `test_api` (0.7.11), `matcher`,
-  `meta`, `vector_math` to exact versions. If
+- **SDK pin.** The Flutter version lives once in `pubspec.yaml`
+  (`environment.flutter: 3.47.4`); CI resolves it via `flutter-version-file`.
+- **Never force-bump SDK-pinned packages.** Flutter 3.47.4 requires `intl`
+  (`^0.20.3`, forced by `flutter_localizations`) and pins `test_api` (0.7.12),
+  `matcher` (0.12.20), `meta` (1.19.0), `vector_math` (2.4.2). If
   `flutter pub get` fails on `intl`/`test`, revert those constraints — do not
   resolve by hand.
-- **Never adopt prerelease-major codegen** (`freezed 4.0.0-dev.x`) in
-  production — deferred until stable (issue #62). The analyzer-13 toolchain has
-  no stable freezed.
+- **Codegen toolchain.** On analyzer 13 / freezed 4 with Dart language version
+  3.13 (`environment.sdk: ^3.13.0`); freezed 4 no longer emits the `final`
+  parameters Dart 3.13 rejects. Value objects exposing only static members must
+  not declare a private `._()` constructor.
 - **Android platform**: if a plugin requires a higher SDK than the Flutter
   default, set `compileSdk`/`minSdk` explicitly in
   `android/app/build.gradle.kts` (e.g. `flutter_secure_storage 11` →
   `compileSdk 37`).
 - Dependabot reads `.github/dependabot.yml` from the **default branch (`main`)**;
-  its ignore rules (intl/test/freezed) are active since release v1.1.0 (issue #63 resolved).
+  its ignore rules (intl/test) are active since release v1.1.0 (issue #63 resolved).
 - **Dependabot does NOT honor `ignore` rules inside grouped/multi-dependency
-  updates** (dependabot-core #10122/#13213) — e.g. PR #113 bundled
-  go_router+intl+test despite the ignore entries. The exact pin `intl: 0.20.2`
-  is the real guard (pub solver refuses the bump → `flutter pub get` fails →
-  PR can never merge). To stop future broken grouped PRs, apply a **stored
-  ignore**: comment `@dependabot ignore this dependency` on the PR (honored even
-  in grouped updates), close it, and reopen the valid dep (e.g. go_router) as a
-  manual PR (PR #114).
+  updates** (dependabot-core #10122/#13213). The manifest constraints plus CI
+  are the real guard: grouped PRs that rewrite `intl`/`test` fail
+  `flutter pub get` and can never merge. When that happens, close the PR and
+  reopen the valid dep as a manual PR.
 - Regenerated `.g.dart`/`.freezed.dart` files must be committed with their
   source (Rule 29).
 

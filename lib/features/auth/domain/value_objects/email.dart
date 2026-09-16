@@ -6,7 +6,6 @@ part 'email.freezed.dart';
 
 @freezed
 abstract class Email with _$Email {
-  const Email._();
   const factory Email.raw(String value) = _Email;
 
   static final RegExp _emailRegExp = RegExp(

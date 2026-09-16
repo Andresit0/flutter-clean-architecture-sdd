@@ -386,7 +386,7 @@ abstract class <EntityName> with _$<EntityName> {
 
 ```bash
 # From project root
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 Verify that `.freezed.dart` and `.g.dart` are generated for each entity file.
@@ -696,7 +696,7 @@ I<Name>Repository <name>Repository(<Name>RepositoryRef ref) =>
 ### 6.4 Run build_runner for state + notifier + providers
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 Verify `.freezed.dart` for state and `.g.dart` for notifier and providers are generated.
@@ -800,7 +800,7 @@ Create one file per widget from `tasks.md` → Presentation section.
 ### 8.4 Run full build_runner + presentation tests
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 flutter test test/features/<feature_name>/presentation/
 ```
 
@@ -980,7 +980,7 @@ All analyze errors must be resolved before proceeding.
 ### 11.1 Full build_runner
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 ### 11.2 Flutter analyze

@@ -1534,7 +1534,7 @@ class AuthNotifier extends _$AuthNotifier {
 }
 ```
 
-> The generated file is `auth_provider.g.dart` / `auth_notifier.g.dart`. After adding/changing annotated providers, run `dart run build_runner build --delete-conflicting-outputs`.
+> The generated file is `auth_provider.g.dart` / `auth_notifier.g.dart`. After adding/changing annotated providers, run `dart run build_runner build`.
 
 #### 3. How to Use It (Step-by-Step)
 
@@ -1585,7 +1585,7 @@ sealed class AuthState with _$AuthState {
 
 - ✅ Feature code accesses global providers by name (e.g. `ref.watch(authDioProvider)`), imported directly from the `core/` source file (never from `app/`).
 - ✅ Use `@riverpod` annotation for functional providers and `@Riverpod` for Notifiers.
-- ✅ Run `dart run build_runner build --delete-conflicting-outputs` after adding/changing annotated providers.
+- ✅ Run `dart run build_runner build` after adding/changing annotated providers.
 - 🚫 Never import provider files directly from another feature. Import from `core/` source files.
 - 🚫 Never use `ref.watch` inside callbacks or async methods — use `ref.read`.
 
@@ -1682,7 +1682,7 @@ switch (state) {
 - ✅ Use `@freezed` for entities, value objects, DTOs and state classes.
 - ✅ DTOs carry `fromJson`/`toJson` (via `json_serializable`); domain entities stay pure.
 - ✅ Mappers use constructors named (e.g. `TokenEntity(key: dto.key)`), NEVER `Entity.fromJson`.
-- ✅ Run `dart run build_runner build --delete-conflicting-outputs` after adding/changing `@freezed` files.
+- ✅ Run `dart run build_runner build` after adding/changing `@freezed` files.
 
 ---
 
@@ -1808,7 +1808,7 @@ DTOs use `@freezed` with `fromJson`/`toJson` generated. Mappers in `infrastructu
 - ✅ DTOs in `infrastructure/dtos/` use `@freezed` with `fromJson`/`toJson`.
 - ✅ Domain entities use `@freezed` ONLY — NO `fromJson`/`toJson`.
 - ✅ Mappers use constructors named (e.g. `TokenEntity(key: dto.key)`), NEVER `Entity.fromJson`.
-- ✅ Code generation via `dart run build_runner build --delete-conflicting-outputs`.
+- ✅ Code generation via `dart run build_runner build`.
 
 ---
 
@@ -2125,7 +2125,7 @@ This project uses code generation for:
 
 ```bash
 # Run after modifying any @freezed or @riverpod annotated file:
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 `build.yaml` in the repo root configures the builders. All other code is written by hand.
@@ -2246,7 +2246,7 @@ Future<void> _testFunction() async {
 
 | Package | Description | How to Use | Where It's Used |
 | :--- | :--- | :--- | :--- |
-| **build_runner** | Code generation runner | `dart run build_runner build --delete-conflicting-outputs` | Regenerates `.g.dart` / `.freezed.dart` files |
+| **build_runner** | Code generation runner | `dart run build_runner build` | Regenerates `.g.dart` / `.freezed.dart` files |
 | **freezed** | Code-gen for immutable classes/unions | `@freezed` annotations | All entities, DTOs, states, value objects |
 | **json_serializable** | Code-gen for JSON | `fromJson`/`toJson` on DTOs | DTOs in `infrastructure/dtos/` |
 | **riverpod_generator** | Code-gen for Riverpod | `@riverpod` / `@Riverpod` annotations | All `features/*/di/` and notifiers |
@@ -2922,7 +2922,7 @@ The project **does** use code generation, but only for three concerns:
 - `riverpod_generator` — Riverpod providers/notifiers.
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+dart run build_runner build
 ```
 
 Everything else (repository logic, datasources, mappers, use cases, wiring decisions) is written by hand. This keeps the generated surface small and predictable.
@@ -3043,7 +3043,7 @@ Key design decisions:
 - **Caching:** all jobs enable `cache: true` on `subosito/flutter-action@v2`; `Build iOS` additionally caches CocoaPods (`actions/cache@v6`, `ios/Pods`).
 - **Least privilege:** `permissions: contents: read` on the whole workflow.
 - **Concurrency:** `concurrency: ci-${{ github.ref }}` with `cancel-in-progress: true` cancels superseded runs, saving minutes and avoiding races.
-- **Pinned Flutter version:** All jobs pin `flutter-version: '3.44.0'`.
+- **Pinned Flutter version:** The version lives once in `environment.flutter` (`pubspec.yaml`); all jobs resolve it via `flutter-version-file`, so no workflow hardcodes `flutter-version`.
 
 ### Golden tests
 

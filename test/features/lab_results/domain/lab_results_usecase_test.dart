@@ -44,9 +44,8 @@ void main() {
 
   group('LoadLabResultsUseCase', () {
     test('load_delegates_to_repository_and_returns_result_unchanged', () async {
-      when(
-        () => repository.loadLabResults(),
-      ).thenAnswer((_) async => Success(_tList));
+      when(() => repository.loadLabResults())
+          .thenAnswer((_) async => Success(_tList));
 
       final result = await loadUseCase(NoParams());
 
@@ -59,9 +58,8 @@ void main() {
     });
 
     test('load_returns_failure_when_repository_fails', () async {
-      when(
-        () => repository.loadLabResults(),
-      ).thenAnswer((_) async => const Failure(NetworkError()));
+      when(() => repository.loadLabResults())
+          .thenAnswer((_) async => const Failure(NetworkError()));
 
       final result = await loadUseCase(NoParams());
 
@@ -77,9 +75,8 @@ void main() {
     test(
       'refresh_delegates_to_repository_and_returns_result_unchanged',
       () async {
-        when(
-          () => repository.refreshLabResults(),
-        ).thenAnswer((_) async => Success(_tList));
+        when(() => repository.refreshLabResults())
+            .thenAnswer((_) async => Success(_tList));
 
         final result = await refreshUseCase(NoParams());
 
@@ -93,9 +90,8 @@ void main() {
     );
 
     test('refresh_returns_failure_when_repository_fails', () async {
-      when(
-        () => repository.refreshLabResults(),
-      ).thenAnswer((_) async => const Failure(ApiError()));
+      when(() => repository.refreshLabResults())
+          .thenAnswer((_) async => const Failure(ApiError()));
 
       final result = await refreshUseCase(NoParams());
 
