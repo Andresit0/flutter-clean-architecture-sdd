@@ -178,7 +178,7 @@ This repository is also a working AI development harness:
 
 - **Orchestrator** — [Spec-Local Orchestrator v3](.ai/orchestrators/Spec-Local-Orchestrator.md): spec definition → phase gate → all-tests-first TDD → verification.
 - **Skills** — 33 app skills (spec definition, TDD, test writers, fixers, nav-wiring, class-to-solid). Reference: [MD/APP_SKILLS.md](MD/APP_SKILLS.md)
-- **Commands** — `super-commit`, `super-md-update`, `spec-local`, `super-pull-request*` in [.ai/commands](.ai/commands/)
+- **Commands** — `super-commit`, `super-md-update`, `spec-local`, `super-pull-request*`, `super-one-pull-request` in [.ai/commands](.ai/commands/)
 - **Agent rules** — [AGENTS.md](AGENTS.md) (repo orientation for AI agents) and [MD/](MD/) reference docs (architecture, barrel pattern, package wrappers, providers, exceptions, dartz, tree).
 - **Learning material** — [LEARN.md](LEARN.md)
 - **Team rules** — 25 non-negotiable conventions (code, config, barrels, git, quality): [MD/APP_IMPORTANT_INFO.md](MD/APP_IMPORTANT_INFO.md)
