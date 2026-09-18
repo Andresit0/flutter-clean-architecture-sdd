@@ -12,6 +12,7 @@
 .swiftpm/
 .env
 .pi-subagents/
+.opencode/plans/
 migrate_working_dir/
 
 # Golden test failure artifacts (regenerated on mismatch)
