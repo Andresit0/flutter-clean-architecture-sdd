@@ -69,7 +69,7 @@ Each phase has a checklist. Before moving to the next phase, ALL items must be c
 
 [ ] 1.3  Create DTOs (infrastructure/dtos/)
 
-[ ] 1.3b Shared wire contracts → core/network/contracts/ (no infra/dtos); borrar generados de origen al mover (Rule 29)
+[ ] 1.3b Shared wire contracts → core/network/contracts/ (no infra/dtos); delete the generated files from the source when moving (Rule 29)
 
 [ ] 1.4  Verify .freezed.dart and .g.dart exist for each entity
 

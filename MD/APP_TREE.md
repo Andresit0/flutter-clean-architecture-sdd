@@ -265,7 +265,7 @@
 │       │   │   └── lab_value_formatter.dart
 │       │   └── widgets                     ← standalone files, explicit imports (no barrel)
 │       │       ├── lab_results_card.dart
-│       │       ├── lab_results_chart_pane.dart   ← ITrendChart via trendChartProvider (nunca package:fl_chart)
+│       │       ├── lab_results_chart_pane.dart   ← ITrendChart via trendChartProvider (never package:fl_chart)
 │       │       ├── lab_results_non_numeric_list.dart
 │       │       ├── lab_results_period_filter.dart
 │       │       └── lab_results_test_selector.dart

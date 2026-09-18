@@ -186,7 +186,7 @@ class FlChartWrapper implements IFlChartWrapper {
 
 The wrapper file (`<package>_wrapper.dart`) is a standalone file. It has its own `import` statements for the package it wraps.
 
-Wrappers are accessed via Riverpod providers. Register the provider in a dedicated `*_providers.dart` file in `core/` (e.g. `core/services/<domain>/<name>_provider.dart`) — there is no app-level barrel (Rule 20: DI separado de la implementación). Consumer files access via:
+Wrappers are accessed via Riverpod providers. Register the provider in a dedicated `*_providers.dart` file in `core/` (e.g. `core/services/<domain>/<name>_provider.dart`) — there is no app-level barrel (Rule 20: DI separated from the implementation). Consumer files access via:
 ```dart
 ref.watch(<pkg>Provider)
 ```
@@ -222,7 +222,7 @@ Re-run `flutter analyze lib/core/services/` after each fix.
 
 ```
 mem_save(
-  title: "Wrapper creado: <package>_wrapper",
+  title: "Wrapper created: <package>_wrapper",
   type: "decision",
   content: """
     **What**: Created <package>_wrapper.dart wrapper

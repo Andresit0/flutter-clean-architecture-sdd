@@ -37,7 +37,7 @@ lib/
 │   │   │   ├── auth_interceptor_impl.dart
 │   │   │   └── dio_overrides.dart           ← dioOverrides(): binds authInterceptorProvider seam
 │   │   └── router/
-│   │       ├── go_router_navigator.dart     ← GoRouterNavigator (única impl de IAppNavigator)
+│   │       ├── go_router_navigator.dart     ← GoRouterNavigator (only impl of IAppNavigator)
 │   │       ├── router_overrides.dart        ← routerOverrides(): binds appNavigatorProvider seam
 │   │       └── router_provider.dart         ← goRouterProvider
 │   └── router/
@@ -92,7 +92,7 @@ lib/
     │   └── online_first.dart
     ├── interfaces/
     │   ├── _interfaces.lib.dart
-    │   ├── i_app_navigator.dart       ← IAppNavigator (seam tipado, sin go_router)
+    │   ├── i_app_navigator.dart       ← IAppNavigator (typed seam, without go_router)
     │   ├── i_connectivity_checker.dart
     │   ├── i_token_store.dart
     │   └── ...
@@ -103,7 +103,7 @@ lib/
     │   ├── patient/
     │   └── clinical_history/
     ├── router/
-    │   └── app_route.dart             ← AppRoute (registro tipado de rutas, pure Dart)
+    │   └── app_route.dart             ← AppRoute (typed route registry, pure Dart)
     └── error/                         ← ✅ BARREL
         ├── _error.lib.dart
         ├── app_error.dart             ← sealed AppError hierarchy
@@ -119,9 +119,9 @@ lib/
 | Layer | Location | Rule |
 |---|---|---|
 | **Domain** | `features/<f>/domain/` | No Flutter imports. Pure Dart: interfaces (`i_*.dart`), entities, usecases, value_objects. Can import from `shared/` only. |
-| **DI (feature)** | `features/<f>/di/` | Feature-specific Riverpod providers (auth_provider) — migrated from `presentation/providers/`. UI-state providers (p. ej. `remember_me_provider`) viven en `presentation/notifiers/`. |
-| **Infrastructure** | `features/<f>/infrastructure/` | Implements domain interfaces. HTTP calls use `IDioWrapper` via constructor injection. DTOs de un solo feature → `infrastructure/dtos/`; **shared wire contracts → `core/network/contracts/`** (barrel `_contracts.lib.dart`). |
-| **Presentation** | `features/<f>/presentation/` | Riverpod notifiers, screens, widgets. Providers are in `features/<f>/di/`. Subfolders on-demand: `mappers/` (UI view-model builders) y `utils/` (formatters). |
+| **DI (feature)** | `features/<f>/di/` | Feature-specific Riverpod providers (auth_provider) — migrated from `presentation/providers/`. UI-state providers (e.g. `remember_me_provider`) live in `presentation/notifiers/`. |
+| **Infrastructure** | `features/<f>/infrastructure/` | Implements domain interfaces. HTTP calls use `IDioWrapper` via constructor injection. Single-feature DTOs → `infrastructure/dtos/`; **shared wire contracts → `core/network/contracts/`** (barrel `_contracts.lib.dart`). |
+| **Presentation** | `features/<f>/presentation/` | Riverpod notifiers, screens, widgets. Providers are in `features/<f>/di/`. Subfolders on-demand: `mappers/` (UI view-model builders) and `utils/` (formatters). |
 | **core/** | `core/` | Infrastructure wrappers, database, error types, network, api_endpoints. Domain must NEVER import from `core/`. |
 | **shared/** | `shared/` | Domain abstractions (interfaces, exceptions, models) + utilities (router, functions). Domain-safe; can be imported by any layer. |
 | **app/** | `app/` | Composition root: GoRouter setup (`goRouterProvider`), `routerOverrides()` (IAppNavigator seam), `dioOverrides()`. Orchestrates `core/` services. |
@@ -134,7 +134,7 @@ lib/
 
 | Facade class | File | Exposes |
 |---|---|---|
-| *(sin barrel)* | `app/di/` | App-level DI seams (`dio_overrides.dart`, `router_overrides.dart`, `auth_observer_provider.dart`) — NO provider barrel. Los providers viven en `core/` source files; feature DI imports providers DIRECTLY from `core/` (e.g. `core/network/dio/dio_providers.dart`) — never from `app/` (Rule 11) |
+| *(no barrel)* | `app/di/` | App-level DI seams (`dio_overrides.dart`, `router_overrides.dart`, `auth_observer_provider.dart`) — NO provider barrel. Providers live in `core/` source files; feature DI imports providers DIRECTLY from `core/` (e.g. `core/network/dio/dio_providers.dart`) — never from `app/` (Rule 11) |
 | *(removed)* | *(jsons/ directory deleted)* | mock data now in per-feature FakeDatasource |
 | — | `design_system/components/loading_indicator.dart` | `LoadingIndicator` widget |
 
@@ -144,7 +144,7 @@ lib/
 
 - **New feature**: create `lib/features/<feature>/` mirroring `auth/` (include `di/` folder for feature providers).
 - **New pub package**: create wrapper in `lib/core/services/<domain>/<package>_wrapper.dart`. Use the `app-cp-package` skill, then apply `class_to_solid_min` to add the abstract interface and Riverpod provider. The provider lives in its `core/` source file (features import it directly).
-- **New shared service in core/**: use the `class_to_solid_min` skill → interface → impl → Riverpod provider in un archivo `*_providers.dart` dedicado (p. ej. `token_providers.dart`), nunca embebido en la clase de servicio (Rule 20). En `core/database/tables/` los providers viven en `*_providers.dart` separados de las impl.
+- **New shared service in core/**: use the `class_to_solid_min` skill → interface → impl → Riverpod provider in a dedicated `*_providers.dart` file (e.g. `token_providers.dart`), never embedded in the service class (Rule 20). In `core/database/tables/` the providers live in separate `*_providers.dart` files, decoupled from the impls.
 - **New barrel**: use the `app-barrel` skill.
 
 ---

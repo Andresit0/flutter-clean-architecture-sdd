@@ -312,7 +312,7 @@ void main() {
       }
     });
 
-    test('Rule 13: no implementation_imports (package:.../src/) fuera de allowlist', () {
+    test('Rule 13: no implementation_imports (package:.../src/) outside the allowlist', () {
       const allowlist = <String>[];
       final root = Directory.current.path;
 

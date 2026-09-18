@@ -67,7 +67,7 @@ void main() {
             isA<UnexpectedResponseException>().having(
               (e) => e.details,
               'details',
-              allOf(isNot(contains('Respuesta')), contains('String')),
+              allOf(isNot(contains('Response')), contains('String')),
             ),
           ),
         );

@@ -75,12 +75,12 @@ void main() {
             routePaths,
             contains(appRoute.path),
             reason:
-                'falta GoRoute para ${appRoute.name} (path ${appRoute.path})',
+                'missing GoRoute for ${appRoute.name} (path ${appRoute.path})',
           );
           expect(
             routeNames,
             contains(appRoute.name),
-            reason: 'falta nombre go_router para ${appRoute.name}',
+            reason: 'missing go_router name for ${appRoute.name}',
           );
         }
       },

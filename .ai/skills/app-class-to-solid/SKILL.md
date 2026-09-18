@@ -93,8 +93,8 @@ class <Feature>UseCase implements IUseCase<<Feature>Input, <Feature>Entity> {
 }
 ```
 
-> **UseCase → UseCase (Rule 18):** si este usecase orquesta OTRO usecase, el parámetro es `IUseCase<In, Out>` (nunca la clase concreta), y el provider concreto se inyecta solo en `features/<name>/di/`.
-> **1 clase = 1 contrato (Rule 19b):** el repository impl implementa UNA sola interfaz de dominio. Si el feature necesita roles remote/local, se crean dos interfaces (`I<Feature>RemoteRepository`/`I<Feature>LocalRepository`) y dos impls separados.
+> **UseCase → UseCase (Rule 18):** if this usecase orchestrates ANOTHER usecase, the parameter is `IUseCase<In, Out>` (never the concrete class), and the concrete provider is injected only in `features/<name>/di/`.
+> **1 class = 1 contract (Rule 19b):** the repository impl implements a SINGLE domain interface. If the feature needs remote/local roles, two interfaces are created (`I<Feature>RemoteRepository`/`I<Feature>LocalRepository`) and two separate impls.
 
 #### `infrastructure/datasources/<feature>_datasource_impl.dart`
 ```dart
@@ -217,7 +217,7 @@ After generating all files, verify each principle:
 | **O** Open/Closed | New behaviour via new implementations, not by modifying existing ones. Interfaces are extension points. |
 | **L** Liskov Substitution | `Impl` classes are substitutable for their abstract types. No method throws `UnimplementedError`. |
 | **I** Interface Segregation | Each interface declares only the methods that its consumers actually use. No fat interfaces. |
-| **D** Dependency Inversion | High-level classes (`UseCase`, `RepositoryImpl`) depend on abstractions (`I*`), never on concretions. Riverpod providers wire concretions at the edge. Un usecase que orquesta otro usecase depende de `IUseCase<In, Out>`, nunca de la clase concreta (Rule 18). |
+| **D** Dependency Inversion | High-level classes (`UseCase`, `RepositoryImpl`) depend on abstractions (`I*`), never on concretions. Riverpod providers wire concretions at the edge. A usecase that orchestrates another usecase depends on `IUseCase<In, Out>`, never on the concrete class (Rule 18). |
 
 If a violation is found, fix it before moving on.
 
