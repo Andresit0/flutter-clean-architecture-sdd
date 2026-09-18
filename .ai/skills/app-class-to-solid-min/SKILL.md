@@ -40,7 +40,7 @@ lib/core/services/<domain>/<name>_provider.dart   ← check if a provider alread
 
 Rename the existing file to `i_<name>_service.dart` for the interface and create or keep `<name>_service.dart` for the implementation. The interface and impl may also live in the same file (convention: `<domain>/<name>_wrapper.dart`).
 
-> **Separación DI/implementación (Rule 20):** los Riverpod providers van en un archivo `*_providers.dart` dedicado (p. ej. `core/services/auth/token_providers.dart`), nunca embebidos en la clase de servicio/impl.
+> **DI/implementation separation (Rule 20):** Riverpod providers go in a dedicated `*_providers.dart` file (e.g. `core/services/auth/token_providers.dart`), never embedded in the service/impl class.
 
 **Pattern**:
 
@@ -148,7 +148,7 @@ After creating the file, run:
 dart run build_runner build
 ```
 
-Register the provider in its `core/` source file (e.g. `lib/core/services/<domain>/<name>_provider.dart`). `app/` y los tests importan el provider directamente desde `core/` (no hay barrel en `app/di/`). Feature DI imports core provider files DIRECTLY — never `app/` (one-way dependency, Rule 11).
+Register the provider in its `core/` source file (e.g. `lib/core/services/<domain>/<name>_provider.dart`). `app/` and the tests import the provider directly from `core/` (there is no barrel in `app/di/`). Feature DI imports core provider files DIRECTLY — never `app/` (one-way dependency, Rule 11).
 
 For pure utilities, create a simple provider without a dedicated facade:
 
@@ -274,7 +274,7 @@ After `flutter analyze` returns clean, output this table:
 
 | Principle | ✓/✗ | Justification |
 |---|---|---|
-| **S** Single Responsibility | ✅ | `I<Name>Service` defines the contract; `<Name>Service` implements it; el provider vive en `core/services/<domain>/<name>_provider.dart` (Rule 20: DI separado de la implementación). |
+| **S** Single Responsibility | ✅ | `I<Name>Service` defines the contract; `<Name>Service` implements it; the provider lives in `core/services/<domain>/<name>_provider.dart` (Rule 20: DI separated from the implementation). |
 | **O** Open/Closed | ✅ | You can create `Mock<Name>Service implements I<Name>Service` without touching existing code. |
 | **L** Liskov Substitution | ✅ | Any implementation of `I<Name>Service` is interchangeable where the provider is used. |
 | **I** Interface Segregation | ✅ | The interface declares only the methods its consumers actually need. |

@@ -82,7 +82,7 @@ Usage example (user request)
 Mandatory next step
 After executing this skill, always apply the `class_to_solid_min` skill (SKILL.md at `.ai/skills/app-class-to-solid-min/SKILL.md`) to:
 - Add the abstract interface `I<Package>` to the wrapper.
-- Create the Riverpod provider in `lib/core/services/<domain>/<name>_provider.dart` (Rule 20 — DI en archivos `*_providers.dart` separados de la implementación, sin barrel de app) if the service needs injection (category "Injectable service").
+- Create the Riverpod provider in `lib/core/services/<domain>/<name>_provider.dart` (Rule 20 — DI in separate `*_providers.dart` files, decoupled from the implementation, with no app barrel) if the service needs injection (category "Injectable service").
 
 ---
 

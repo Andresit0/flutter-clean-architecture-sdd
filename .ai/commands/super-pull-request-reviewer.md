@@ -167,9 +167,9 @@ Result: `PASS` / `FAIL`
 Validate clean architecture rules (matrix per MD/APP_ARCHITECTURE.md, Rules 1-28):
 
 ```
-shared              -> solo shared / Dart puro
-core                -> shared y core; nunca features ni app
-features/domain     -> shared y anotaciones permitidas
+shared              -> shared only / pure Dart
+core                -> shared and core; never features nor app
+features/domain     -> shared and allowed annotations
 features/infra      -> own domain + shared + core
 features/presentation -> own di + domain + shared + design_system + l10n
 app                 -> composition root
