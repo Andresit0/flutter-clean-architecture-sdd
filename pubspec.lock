@@ -523,10 +523,10 @@ packages:
     dependency: transitive
     description:
       name: idb_shim
-      sha256: "6a478bf0928fa954512f2a1e7e56f09e2fb2e3e7d183eb051a59b5d6b39ec16f"
+      sha256: "507d8f3154fa4e41165941c5aa8509c6bf155bb30f76ba25a00d1e7ba1dd64c9"
       url: "https://pub.dev"
     source: hosted
-    version: "2.9.9"
+    version: "2.11.3"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -888,10 +888,10 @@ packages:
     dependency: "direct main"
     description:
       name: sembast_web
-      sha256: "0dc954ffa88ae75958f4750892e86b29289bb1d0cb16b8f5b27b9fdb84d5d2ee"
+      sha256: "46e3a5512d0e53f5a01d15b0ba199260273de7b00d646d6c7012ef999a5201e2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.4.7"
   shelf:
     dependency: transitive
     description:
